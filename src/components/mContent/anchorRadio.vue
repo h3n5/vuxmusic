@@ -1,0 +1,141 @@
+<template>
+  <div class="mContent">
+      <swiper  :show-dots="false" :aspect-ratio='0.5' :auto="true">
+        <swiper-item v-for="(item, index) in imgList" :key="index">
+          <img :src="item.picUrl" :key="index" class="bannerImg">
+        </swiper-item>
+      </swiper>
+      <div class="songList">
+        <button-tab class="tag">
+            <button-tab-item @on-item-click="tagChange"><x-icon type="ios-keypad" size="14" class="icon"  fill="#999"></x-icon>电台分类</button-tab-item>
+            <button-tab-item @on-item-click="tagChange"><x-icon type="ios-list" size="14" class="icon" fill="#999"></x-icon>电台排行</button-tab-item>
+        </button-tab>
+        <div class="listItem">
+            <div class="title">
+                <p class="title-word">今日优选</p>
+                <p class="random"><x-icon type="ios-refresh" fill="#999"></x-icon></p>
+            </div>
+
+            <radioList
+                v-for="(item, index) in songs" :key="index"
+                class="content"
+                :song=item
+            ></radioList>
+        </div>
+      </div>
+  </div>
+</template>
+<script>
+import {
+  getBanner,
+  getpersonalized,
+  getSongListByOrder,
+  getAllTag
+} from "@/api/api";
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import radioList from "@/components/radioList";
+import { Swiper, SwiperItem } from "vux";
+import { ButtonTab, ButtonTabItem } from 'vux'
+
+export default {
+  name: "mContentSongList",
+  props: {
+    pullingDown:Boolean,
+    pullingUp:Boolean
+  },
+  data() {
+    return {
+      imgList: [],
+      songs: [],
+    };
+  },
+  components: {
+    radioList,
+    Swiper,
+    SwiperItem,
+    ButtonTab,
+    ButtonTabItem
+  },
+  computed: {
+    ...mapGetters("menu", ["mainContentTab", "mainTag"])
+  },
+  methods: {
+    ...mapActions("menu", ["action_getAllTag"]),
+    tagChange(object) {
+      console.log(object);
+    },
+    async getTag(params = {}) {
+      this.action_getAllTag(params)
+    },
+    async getBannerData() {
+      let res = await getBanner();
+      this.imgList = res.data.banners;
+    },
+    async getpersonalizedDate() {
+      let res = await getpersonalized();
+      this.songs = this.sortRandom(res.data.result).splice(0, 6);
+    },
+    async getSongList(data={}) {
+      let res = await getSongListByOrder(data);
+      this.songs = this.sortRandom(res.data.playlists).splice(0, 6);
+    },
+    sortRandom(arr = []) {
+      return arr.sort(v => {
+        return Math.random() > 0.5 ? true : false;
+      });
+    }
+  },
+  created() {
+    this.getBannerData();
+    this.getSongList();
+    this.getTag();
+  }
+};
+</script>
+
+<style lang='less' scoped>
+.mContent {
+    .mr10{
+        margin: 10px;
+    }
+  .bannerImg {
+    height: 100%;
+  }
+  .tabselected {
+    color: #000;
+  }
+  .songList {
+    padding: 5px 5px;
+    .tag {
+        padding: 15px 40px;
+        .icon{
+            height: 100%;
+            vertical-align: top;
+            margin-right: 5px;
+        }
+    }
+
+    .listItem {
+      display: flex;
+      flex-flow: row wrap;
+      padding: 3px;
+      .title{
+          padding-bottom: 15px;
+          display: flex;
+          .title-word{
+            padding-left: 10px;
+            flex: 1;
+          }
+          .random{
+              flex:1;
+              text-align: right
+          }
+      }
+      > div {
+        flex-basis: 100%;
+        padding: 0 3px;
+      }
+    }
+  }
+}
+</style>
