@@ -34,7 +34,6 @@ import songList from "@/components/mContent/songList";
 import anchorRadio from '@/components/mContent/anchorRadio';
 import ranking from '@/components/mContent/ranking';
 import scroll from "@/components/scroll";
-import { setTimeout } from "timers";
 export default {
   name: "index",
   components: {

@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-	    <card>
+        <card>
             <div slot="content" class="card-demo-flex card-demo-content01">
                 <div class="vux-1px-r">
                     <p>动态</p>
@@ -33,17 +33,6 @@
             </div>
         </card>
         <accoutList></accoutList>
-        <button @click="add" class="add-btn">+</button>
-        <transition-group name="slide" tag="ul" class="list-wrapper">
-            <v-touch v-on:swipeleft="showBtn(index)"  v-on:swiperight="hideBtn(index)" v-for="(item, index) in lists" :key="index" class="list"  tag="li">
-          
-                <span class="text">{{index}}-{{item.text}}</span>
-                <transition name="move">
-                    <button class="del-btn" @click="delList(index)" v-show="item.show">删除</button>
-                </transition>
-          
-            </v-touch>
-        </transition-group>
   </div>
 </template>
 
@@ -51,6 +40,7 @@
 import { Card } from "vux";
 import mHead from "@/components/header-2";
 import accoutList from "@/components/mAccout/mAccoutList";
+
 export default {
   name: "",
   components: { mHead, Card, accoutList },
@@ -89,60 +79,6 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
-.add-btn {
-  height: 50px;
-  width: 50px;
-  margin: 10px;
-}
-.list {
-  display: flex;
-  width: 100%;
-  height: 40px;
-  line-height: 40px;
-  margin-bottom: 10px;
-  color: #666;
-  font-size: 14px;
-  background: #eee;
-  transition: all 0.4s;
-  &.slide-move {
-    transition: transform 2s;
-  }
-  &.slide-enter {
-    transform: translate3d(-100%, 0, 0);
-  }
-  &.slide-leave-active {
-    position: absolute;
-    transform: translate3d(100%, 0, 0);
-  }
-  &:last-child {
-    margin-bottom: 0;
-    flex: 0 0 60px;
-    border: none;
-    outline: none;
-    color: #fff;
-    background: red;
-    transition: all 0.4s;
-  }
-  .del-btn {
-    flex: 0 0 60px;
-    border: none;
-    outline: none;
-    color: #fff;
-    background: red;
-    transition: all 0.4s;
-    &.move-enter,
-    &.move-leave-active {
-      transform: translate3d(70px, 0, 0);
-    }
-  }
-  .text {
-    flex: 1;
-    padding-left: 20px;
-  }
-}
-</style>
-
 <style lang='less' scoped>
 @import "~vux/src/styles/1px.less";
 .card-demo-flex {

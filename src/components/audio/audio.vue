@@ -1,0 +1,56 @@
+<template>
+  <div>
+    <audio ref="audio" :src="audio.location" @timeupdate="updateTime" @canplay="canPlaySong"  @ended="next" id="audioPlay"></audio>
+  </div>
+</template>
+
+<script>
+import { mapState, mapMutations } from "vuex";
+export default {
+  name: "",
+  components: {},
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState("music", [
+      "audio",
+      "lyricTxt",
+      "change",
+      "playing",
+      "loading",
+      "songList",
+      "playType",
+      "currentTime",
+      "currentIndex",
+      "prBufferedTime",
+      "tmpCurrentTime",
+      "durationTime",
+      "prCurrentTime"
+    ])
+  },
+
+  methods: {
+    ...mapMutations("music", [
+      "play",
+      "pause",
+      "setcurrentTime",
+      "setdurationTime"
+    ]),
+    updateTime(e) {
+      this.setcurrentTime(Math.round(e.target.currentTime));
+
+
+    },
+    canPlaySong(e) {
+      this.play();
+      this.setdurationTime(Math.round(e.target.duration));
+      document.querySelector("#audioPlay").play();
+    },
+    next() {},
+  }
+};
+</script>
+
+<style lang='less' scoped>
+</style>

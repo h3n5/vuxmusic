@@ -1,14 +1,21 @@
 <template>
   <div class="head">
-    <div class="micro" ></div>
+    <div class="micro">
+      <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-micnone"></use>
+      </svg>
+    </div>
     <div class="search">
       <input type="text"  @click="goToSearch">
     </div>
-    <div class="play" ></div>
+    <div class="play" @click="gotoPlay">
+        <linescroll></linescroll>
+    </div>
   </div>
 </template>
 <script>
 import { XHeader } from "vux";
+import linescroll from '@/components/anime/linescroll';
 export default {
   name: "tabbar",
   props:{
@@ -18,11 +25,14 @@ export default {
     }
   },
   components: {
-    XHeader
+    XHeader,linescroll
   },
   methods:{
     goToSearch(){
       this.$router.push("/search")
+    },
+    gotoPlay(){
+      this.$router.push("/play")
     }
   }
 };
@@ -41,7 +51,11 @@ export default {
   .micro {
     flex: 0 0 50px;
     height: 32px;
-    background: url("../assets/microphone-o.png") center no-repeat;
+    .icon{
+      height: 100%;
+      width: 100%;
+      color:#fff;
+    }
   }
   .search {
     flex: auto;
@@ -52,7 +66,7 @@ export default {
       border: none;
       outline: none;
       background-color: #dddddd;
-      border-radius: 5px;
+      border-radius: 15px;
       padding: 0 5px;
       color: #999999;
     }
@@ -60,7 +74,8 @@ export default {
   .play {
     flex: 0 0 50px;
     height: 32px;
-    background: url("../assets/lines.png") center no-repeat;
+    // background: url("../assets/lines.png") center no-repeat;
+    position: relative;
   }
 }
 </style>

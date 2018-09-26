@@ -14,11 +14,14 @@ export default {
   props: {
     song: {
       type: Object,
-      default: {
-        name: "",
-        playCount: 0,
-        picUrl: ""
+      default: ()=>{
+        return {
+          name: "",
+          playCount: 0,
+          picUrl: ""
+        }
       }
+
     }
   },
   data() {

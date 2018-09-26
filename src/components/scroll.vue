@@ -4,7 +4,7 @@
       <div ref="listWrapper">
         <slot>
           <ul class="list-content">
-            <li @click="clickItem($event,item)" class="list-item" v-for="item in data">{{item.name}}</li>
+            <li @click="clickItem($event,item)" class="list-item" v-for="item in data" :key="item.name">{{item.name}}</li>
           </ul>
         </slot>
       </div>
@@ -231,7 +231,7 @@
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       },
       clickItem(e, item) {
-        console.log(e)
+        //console.log(e)
         this.$emit('click', item)
       },
       destroy() {

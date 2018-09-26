@@ -1,14 +1,14 @@
 <template>
   <div>
-    <ul class="music">
-        <li class="item" v-for="(item, index) in songs" :key="index">
+    <ul class="music vux-1px-t">
+        <li class="item vux-1px-b" v-for="(item, index) in songs" :key="index">
             <div class="left">
                 <p class="top">{{item.name}}</p>
-                <p class="bottom"><span v-for="(v, i) in item.artists">{{v.name}} / </span> - <span class="blue">{{item.album.name}}</span></p>
+                <p class="bottom"><span v-for="(v, i) in item.artists" :key="i">{{v.name}} / </span> - <span class="blue">{{item.album.name}}</span></p>
             </div>
             <div class="right" @click="play(item)">
                 <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-bofang"></use>
+                    <use xlink:href="#icon-playcircleoutline"></use>
                 </svg>
             </div>
         </li>
@@ -17,19 +17,16 @@
 </template>
 
 <script>
-import {mapMutations,mapActions} from 'vuex';
+import {mapActions} from 'vuex';
 export default {
   name: "sl",
   props: {
-    songs: {
-      type: Array,
-      default: []
-    }
+    songs: Array
   },
   methods: {
     ...mapActions("music",["AddAndPlay"]),
     play(v) {
-      console.log(v);
+      //console.log(v);
       let song ={
             id: v.id,
             name: v.name,
@@ -54,15 +51,14 @@ export default {
 }
 .music {
   margin: 0px 10px;
-  border-top: 1px solid #999;
   .item {
-    margin: 5px 0;
-    border-bottom: 1px solid #999;
+    margin-bottom: 5px;
     display: flex;
     .left{
         flex: 1 1 auto;
         .top {
         padding: 5px 0;
+        font-size: 14px;
         .ellipsis(1);
         }
         .bottom {

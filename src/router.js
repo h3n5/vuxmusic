@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from "./vuex"
+
+
 Vue.use(Router)
 let router = new Router({
   mode: 'history',
@@ -7,6 +10,9 @@ let router = new Router({
   routes: [{
       path: '/',
       name: 'index',
+      meta: {
+        sort: 1
+      },
       component: () =>
         import('./views/index.vue')
     },
@@ -23,16 +29,25 @@ let router = new Router({
     {
       path: '/music',
       name: 'music',
+      meta: {
+        sort: 2
+      },
       component: (resolve) => require(['./views/music.vue'], resolve)
     },
     {
       path: '/friend',
+      meta: {
+        sort: 3
+      },
       name: 'friend',
       component: (resolve) => require(['./views/friend.vue'], resolve)
     },
     {
       path: '/accout',
       name: 'accout',
+      meta: {
+        sort: 4
+      },
       component: (resolve) => require(['./views/accout.vue'], resolve)
     },
     {
@@ -54,6 +69,11 @@ let router = new Router({
   ]
 })
 router.beforeEach((to, from, next) => {
+  if (to.fullPath.includes("/play")) {
+    store.commit("menu/toggleFoot", false)
+  } else {
+    store.commit("menu/toggleFoot", true)
+  }
   next()
 })
 export default router

@@ -4,7 +4,7 @@
         <section class="songBg u-height" >
             <div class="bg" :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"></div>
             <!-- 标题 -->
-            <div class="title">
+            <div class="title vux-1px-b">
                 <div class="left" @click="back">
                             <svg class="icon" aria-hidden="true">
                                 <use xlink:href="#icon-left"></use>
@@ -12,7 +12,6 @@
                 </div>
                 <div class="middle">
                     <p>{{audio.name}}</p>
-                    <p>{{audio.singer}}</p>
                 </div>
                 <div class="right">
                             <svg class="icon" aria-hidden="true">
@@ -23,35 +22,33 @@
             <!-- 模糊背景 -->
             <div class="song">
                 <!-- 播放 -->
-                <div class="img" v-show="!showLyric">
-                    <div class="circle" @click="toggleStatus">
+                <div class="img" v-show="!showLyric" @click="toggleStatus">
+                    <div class="circle" >
                         <div class="pic" :class="{circling:playing}" :style="{backgroundImage: 'url(' + audio.albumPic + ')'}" >
                             <span class="block" :class="{pause:!playing}" ></span>
                         </div>
                     </div>
-                    <div class="audio">
-                        <audio :src="audio.location" @timeupdate="updateTime" @canplay="canPlaySong"  @ended="next" id="audioPlay"></audio>
-                    </div>
+                    <canvasCircle ref="canvas" class="canvas"></canvasCircle>
                 </div>
                 <div class="userdo" v-show="!showLyric">
                     <div class="item">
                             <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-custom-tolove-copy"></use>
+                                <use xlink:href="#icon-favorite"></use>
                             </svg>
                     </div>
                     <div class="item">
                             <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-41download"></use>
+                                <use xlink:href="#icon-filedownload"></use>
                             </svg>
                     </div>
                     <div class="item">
                             <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-message"></use>
+                                <use xlink:href="#icon-modecomment"></use>
                             </svg>
                     </div>
                     <div class="item">
                             <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-list"></use>
+                                <use xlink:href="#icon-unfoldmore"></use>
                             </svg>
                     </div>
                 </div>
@@ -64,7 +61,6 @@
                         :pullUpLoad="pullUpLoadObj"     
                         :startY="parseInt(startY)"
                         >
-                
                     <div class="lrc-content content">
                         <div class="lrc-box">
                             <p class="lrc-list" :class="{'lrc-select':item.show}" v-for="(item, index) in lycObj.lines" :key="index">{{item.txt}}</p>
@@ -74,28 +70,17 @@
                  </div>
             </div>
             <div class="playBar">
-                    <div class="progress-bar-group">
-                        <div class="progress-bar">
-                          <div class="time-indicater">
-                            <span>{{currentTime | dateFormat }}</span>
-                          </div>
-                          <div class="progress" :style="{width:indicatorPosition+'%'}"></div>
-                           <div class="time-indicater">
-                          <span>{{durationTime | dateFormat }}</span>
-                           </div>
-                          <div class="indicater" :style="{left:indicatorPosition+'%'}"></div>
-                        </div>
-
-                    </div>
+                    <musicProgress></musicProgress>
+                    <!-- 操作区域 -->
                     <div class="playitem">
                         <div class="child">   
                             <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-MP"></use>
+                                <use xlink:href="#icon-swaphoriz"></use>
                             </svg>
                         </div>
                         <div class="child">   
                             <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-xiayishou"></use>
+                                <use xlink:href="#icon-skipprevious"></use>
                             </svg>
                         </div>
                         <div class="child" @click="togglePlay">   
@@ -105,36 +90,32 @@
                         </div>
                         <div class="child">   
                             <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-xiayishou"></use>
+                                <use xlink:href="#icon-skipnext"></use>
                             </svg>
                         </div>
                         <div class="child">   
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-liushengji"></use>
+                            <svg class="icon" aria-hidden="true" @click="showList = true">
+                                <use xlink:href="#icon-formatlistbulleted"></use>
                             </svg>
                         </div>
                     </div>
+                    <songlistModal
+                      v-model="showList"
+                      @cb="showList = false"
+                    ></songlistModal>
             </div>
         </section>
     </view-box>
     </div>
 </template>
 <script>
-// import api from "@/api/index";
 import { mapMutations, mapState } from "vuex";
-import { ViewBox } from "vux";
+import { ViewBox,Actionsheet } from "vux";
 import Lyric from "lyric-parser";
 import scroll from "@/components/scroll";
-let audio = {
-  id: 449824917,
-  name: "WHITE ALBUM",
-  singer: "冬馬かずさ",
-  albumPic:
-    "http://p1.music.126.net/xS5fvWgXpN0pawnAi012zA==/18587244069265999.jpg",
-  location:
-    "http://m10.music.126.net/20180914121021/9ddee6b95a49212668be0846bcaf6015/ymusic/35dc/ccbc/c7e9/5fe13de96ac98c1a5f15dae8d66287d7.mp3",
-  album: "WHITE ALBUM2 ORIGINAL SOUNDTRACK～kazusa～"
-};
+import canvasCircle from '@/components/anime/canvasCircle';
+import musicProgress from '@/components/audio/progress';
+import songlistModal from './songlistModal';
 export default {
   name: "play",
   data() {
@@ -149,7 +130,14 @@ export default {
       scrollbarObj: false,
       startY: 200,
       pullDownRefreshObj: false,
-      pullUpLoadObj: false
+      pullUpLoadObj: false,
+      //modal
+      showList:false,
+      menus1:[
+        {menu1: '删除'},
+        {menu1: '删除'},
+        {menu1: '删除'}
+      ]
     };
   },
   props: {
@@ -158,21 +146,20 @@ export default {
       default: 449824917
     }
   },
-  filters: {
-    dateFormat(value) {
-      let left =
-        parseInt(value / 60) < 10
-          ? "0" + parseInt(value / 60)
-          : parseInt(value / 60);
-      let right = value % 60 < 10 ? "0" + value % 60 : value % 60;
-      return left + ":" + right;
-    }
-  },
   watch: {
     currentTime(v) {
+      //canvas
+      let currentTime = v;
+      let duration = this.durationTime;
+      let percent = currentTime / duration;
+      if (percent == 1) {
+        percent = 0; //当播放完成，进度条跳到开始
+      }
+      this.$refs.canvas.drawMain(percent, "#bd2523", "#888", 130, currentTime);
+      //lyric
       let Lyric = this.lycObj.lines;
-      if(Lyric === undefined){
-        return
+      if (Lyric === undefined) {
+        return;
       }
       try {
         for (let [i, line] of new Map(Lyric.map((item, i) => [i, item]))) {
@@ -184,17 +171,14 @@ export default {
           }
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
-    }
-  },
-  components: { ViewBox, scroll },
-  computed: {
-    indicatorPosition() {
-      return this.currentTime / this.duration * 100;
     },
+  },
+  components: { ViewBox, scroll,canvasCircle,musicProgress,Actionsheet ,songlistModal},
+  computed: {
     PlayOrPause() {
-      return this.playing ? "#icon-bofang" : "#icon-zanting";
+      return this.playing ? "#icon-playarrow" : "#icon-pause";
     },
     ...mapState("music", [
       "audio",
@@ -210,32 +194,33 @@ export default {
       "tmpCurrentTime",
       "durationTime",
       "prCurrentTime"
-    ])
+    ]),
+    ...mapState("menu",["showFoot"])
   },
-  created() {},
+  created() {
+
+  },
   mounted() {
     this.init();
     setTimeout(() => {
       this.lycObj = new Lyric(this.lyricTxt, ({ lineNum, txt }) => {
-        console.log(lineNum, txt);
+        //console.log(lineNum, txt);
+        this.txt = lineNum + txt;
       });
-      console.log(this.lycObj);
+      //console.log(this.lycObj);
     }, 1000);
-
-    this.toggleFoot();
     this.$root.$el.style.paddingBottom = 0;
   },
   methods: {
-    back() {
-      this.$router.go(-1);
-    },
     ...mapMutations("music", [
       "play",
       "pause",
       "setcurrentTime",
       "setdurationTime"
     ]),
-    ...mapMutations("menu", ["toggleFoot"]),
+    click (key) {
+      console.log(key)
+    },
     toggleStatus() {
       this.showLyric = !this.showLyric;
     },
@@ -248,22 +233,12 @@ export default {
         this.play();
       }
     },
-    updateTime(e) {
-      this.setcurrentTime(Math.round(e.target.currentTime));
-    },
-    canPlaySong(e) {
-      // console.log(Math.floor(e.target.duration));
-      this.play();
-      this.setdurationTime(Math.round(e.target.duration));
-      document.querySelector("#audioPlay").play();
-    },
-    next() {},
     back() {
       this.$router.push("/search");
     },
     init() {
       const play = document.querySelector("#audioPlay");
-      play.addEventListener("timeupdate", e => {});
+      play.addEventListener("timeupdate", () => {});
     }
   }
 };
@@ -285,7 +260,7 @@ export default {
     flex-flow: row nowrap;
     padding: 5px 5px;
     color: #fff;
-    border-bottom: 1px solid #fff;
+    border-color: #fff;
     > div {
       display: flex;
       justify-content: center;
@@ -304,6 +279,7 @@ export default {
       flex: 1 1 auto;
       display: flex;
       flex-flow: column wrap;
+      padding: 0;
       p {
         height: 20px;
         line-height: 20px;
@@ -363,18 +339,28 @@ export default {
     }
     .img {
       width: 60%;
-      overflow: hidden;
+      //overflow: hidden;
       position: relative;
       margin: 0 auto;
       flex: 1 1 auto;
+
+      .canvas {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        left: 50%;
+        top: 0px;
+        z-index: 999;
+        transform: translateX(-50%);
+      }
       &:after {
         display: block;
         position: absolute;
         left: 55%;
-        top: -10px;
+        top: 0px;
         content: "";
         width: 100px;
-        height: 150px;
+        height: 120px;
         background: url("../../assets/play/needle-ip6.png") center/contain
           no-repeat;
       }
@@ -430,6 +416,7 @@ export default {
         justify-content: center;
         align-items: center;
         padding: 10px 0;
+        color: #ffffff;
       }
     }
     .lrc {
@@ -479,52 +466,12 @@ export default {
         flex: 1;
         font-size: 30px;
         padding: 10px 0;
-        &:nth-child(2) {
-          transform: rotate(180deg);
-        }
         &:nth-child(3) {
           font-size: 50px;
         }
       }
     }
-    .progress-bar-group {
-      height: 30px;
-      width: 100%;
-    }
-    .progress-bar-group .progress-bar {
-      height: 4px;
-      // background: #cccccc;
-      position: relative;
-      display: flex;
-      flex-flow: row nowrap;
-      align-items: center;
-    }
-    .progress-bar-group .progress-bar .progress {
-      height: 100%;
-      background: #7f7f7f;
-      flex: 1 1 auto;
-      /*width: 20%;*/
-    }
-    .progress-bar-group .progress-bar .indicater {
-      position: absolute;
-      width: 2px;
-      height: 12px;
-      background: #ff2d55;
-      top: -3px;
-      margin: 0 50px;
-      /*left: 20%;*/
-    }
-    .progress-bar-group .time-indicater {
-      line-height: 16px;
-      height: 16px;
-      font-size: 12px;
-      flex-basis: 50px;
-    }
-    .progress-bar-group .time-indicater span {
-      padding: 0 10px;
-    }
-    .progress-bar-group .time-indicater span:last-child {
-    }
+
   }
 }
 </style>

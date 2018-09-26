@@ -29,10 +29,9 @@
 import {
   getBanner,
   getpersonalized,
-  getSongListByOrder,
-  getAllTag
+  getSongListByOrder
 } from "@/api/api";
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import radioList from "@/components/radioList";
 import { Swiper, SwiperItem } from "vux";
 import { ButtonTab, ButtonTabItem } from 'vux'
@@ -61,8 +60,8 @@ export default {
   },
   methods: {
     ...mapActions("menu", ["action_getAllTag"]),
-    tagChange(object) {
-      console.log(object);
+    tagChange() {
+      
     },
     async getTag(params = {}) {
       this.action_getAllTag(params)
@@ -80,7 +79,7 @@ export default {
       this.songs = this.sortRandom(res.data.playlists).splice(0, 6);
     },
     sortRandom(arr = []) {
-      return arr.sort(v => {
+      return arr.sort(() => {
         return Math.random() > 0.5 ? true : false;
       });
     }

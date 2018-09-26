@@ -37,8 +37,8 @@ export default {
         GET_TAG_SUCCESS(state, tags) {
             state.mainTag = tags
         },
-        toggleFoot(state) {
-            state.showFoot = !state.showFoot
+        toggleFoot(state, value) {
+            state.showFoot = value
         }
     },
     actions: {
@@ -56,17 +56,7 @@ export default {
 }
 
 function sortRandom(arr = []) {
-    return arr.sort(v => {
+    return arr.sort(() => {
         return Math.random() > 0.5 ? true : false;
     });
-}
-
-function getRandomArr(arr = [], num) {
-    let len = arr.length
-    let result = []
-    for (let i = 0; i < num; i++) {
-        let index = Math.floor(Math.random() + len - 1)
-        result.push(arr[index])
-    }
-    return result
 }

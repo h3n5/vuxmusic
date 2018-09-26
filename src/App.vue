@@ -1,21 +1,23 @@
 <template>
   <div id="app" ref="app"  @touchstart.self="touchstart">
-      <v-touch  v-on:swiperight="onSwipeRight"  tag="div">
+      <v-touch  v-on:swiperight="onSwipeRight"  tag="div" style="height:100%">
         <transition :name="transitionName">
             <keep-alive>
-             <router-view class="router"/>
+             <router-view class="router" style="height:100%"/>
             </keep-alive>
             </transition>
        </v-touch>
+    <musicplayer></musicplayer>
     <mfoot v-if="showFoot"></mfoot>
   </div>
 </template>
 <script>
 import mfoot from "@/components/footer.vue";
+import musicplayer from '@/components/audio/audio.vue';
 import { mapState } from "vuex";
 export default {
   components: {
-    mfoot
+    mfoot,musicplayer
   },
   computed: {
     ...mapState("menu", ["showFoot"])
@@ -33,17 +35,24 @@ export default {
     $route(to, from) {
       const toDepth = to.path.split("/").length;
       const fromDepth = from.path.split("/").length;
-      this.transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
+      const toSort = to.meta.sort;
+      const fromSort = from.meta.sort;
+      if( toSort && fromSort){
+        this.transitionName = toSort < fromSort ? "slide-right" : "slide-left";
+      }else{
+        this.transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
+      }
+      
         
     }
   },
   methods:{
     // 开始滑动
     touchstart (e) {
-      if (true) {
+      //if (true) {
         this.vueTouches = { x: e.changedTouches[0].pageX, y: e.changedTouches[0].pageY }
-        console.log(this.vueTouches );
-      }
+        //console.log(this.vueTouches );
+      //}
     },
     onSwipeRight(){
       //this.$router.go(-1)
@@ -52,6 +61,7 @@ export default {
 };
 </script>
 <style lang="less">
+@import '~vux/src/styles/1px.less';
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -94,14 +104,12 @@ a {
   fill: currentColor;
   overflow: hidden;
 }
+.router{
+  transition: all .5s;
+  position: absolute;
+  width: 100%;
+}
 /* 左滑 */
-.slide-left-enter-active, .slide-left-leave-active {
-  transition: all .3s;
-}
-.slide-left-enter, .slide-left-leave-active {
-  // opacity: 0;
-  background: #2c3e50;
-}
 .slide-left-enter {
   transform: translateX(375px);
   // transform: translate3d(100%, 0, 0);
@@ -111,12 +119,6 @@ a {
   // transform: translate3d(-100%, 0, 0);
 }
 /* 右滑 */
-.slide-right-enter-active, .slide-right-leave-active {
-  transition: all .3s;
-}
-.slide-right-enter, .slide-right-leave-active {
-  // opacity: 0;
-}
 .slide-right-enter {
   transform: translateX(-375px);
 }

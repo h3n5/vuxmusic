@@ -1,7 +1,7 @@
 <template>
   <div class="mContent">
       <swiper  :show-dots="false" :aspect-ratio='0.5' :auto="true">
-        <swiper-item v-for="(item, index) in imgList" :key="item.id">
+        <swiper-item v-for="(item) in imgList" :key="item.id">
           <img v-lazy="item.picUrl" alt="img" class="bannerImg">
         </swiper-item>
       </swiper>
@@ -15,7 +15,7 @@
         <p>推荐歌单</p>
         <div class="listItem">
           <songList
-            v-for="(item, index) in songs" :key="item.id"
+            v-for="(item) in songs" :key="item.id"
             class="content"
             :song=item
           ></songList>
@@ -29,7 +29,6 @@ import { getBanner,getpersonalized } from "@/api/api"
 import { mapGetters, mapState } from 'vuex';
 import songList from "@/components/songList";
 import {  Swiper, SwiperItem , Toast} from "vux";
-import { setTimeout } from 'timers';
 export default {
   name: 'mContentRecommend',
   props:{
@@ -92,7 +91,7 @@ export default {
       this.songs = this.songs.concat(random.splice(0,6))
     },
     sortRandom(arr){
-      return arr.sort(v => {
+      return arr.sort(() => {
         return Math.random() > 0.5 ? true :false
       })
     }

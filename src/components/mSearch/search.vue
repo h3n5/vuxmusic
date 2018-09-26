@@ -39,9 +39,9 @@ export default {
       this.$store.commit('music/updateMessage', e.target.value)
     },
     async searchClick(){
-      console.log(this.search);
+      //console.log(this.search);
       let res = await searchMusic(this.search);
-      console.log(res.data.result.songs);
+      //console.log(res.data.result.songs);
       this.songs = res.data.result.songs
     },
     back(){

@@ -1,6 +1,6 @@
 import axios from 'axios'
 class HttpRequest {
-    constructor(baseUrl = baseURL) {
+    constructor(baseUrl = "") {
         this.baseUrl = baseUrl
         this.queue = {}
     }
@@ -16,7 +16,7 @@ class HttpRequest {
     }
     distroy(url) {
         delete this.queue[url]
-        if (!Object.keys(this.queue).length) {}
+        //if (!Object.keys(this.queue).length) {}
     }
     interceptors(instance, url) {
         // 请求拦截
