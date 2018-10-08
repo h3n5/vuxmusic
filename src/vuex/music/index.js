@@ -63,28 +63,35 @@ export default {
         setAlbumUrl(state, value) {
             state.audio.albumPic = value;
         },
-        PlayAndAddTolist(state, song) {
+        //私有方法
+        _PlayAndAddTolist(state, song) {
             if (state.songList.length === 0) {
                 state.songList.push(song);
             }
-            state.songList.forEach((v, i) => {
-                // 检测歌曲重复
+            // 检测歌曲重复
+            let flag = true;
+            for (let i = 0; i < state.songList.length; i++) {
+                const v = state.songList[i];
                 if (v.id === song.id) {
                     state.currentIndex = i + 1;
-                } else {
-                    state.songList.push(song);
-                    state.currentIndex = state.songList.length;
+                    flag = false;
+                    break;
                 }
-            });
+            }
+            if (flag) {
+                state.songList.push(song);
+                state.currentIndex = state.songList.length;
+            }
         }
+
     },
     actions: {
         async AddAndPlay({
             commit,
             dispatch
         }, song) {
-            commit("PlayAndAddTolist", song); //添加到列表
-            commit('setAudio') //添加到播放对象
+            await commit("_PlayAndAddTolist", song); //添加到列表
+            await commit('setAudio') //添加到播放对象
             Promise.all([dispatch("getSong", song.id), dispatch("getLrc", song.id), dispatch("getAlbum", song.album.id)])
         },
         async getSong({
