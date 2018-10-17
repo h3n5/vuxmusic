@@ -8,16 +8,17 @@
             </transition>
        </v-touch>
     <musicplayer></musicplayer>
-    <mfoot v-if="showFoot"></mfoot>
+    <!-- <mfoot v-if="showFoot"></mfoot> -->
   </div>
 </template>
 <script>
 import mfoot from "@/components/footer.vue";
-import musicplayer from '@/components/audio/audio.vue';
+import musicplayer from "@/components/audio/audio.vue";
 import { mapState } from "vuex";
 export default {
   components: {
-    mfoot,musicplayer
+    mfoot,
+    musicplayer
   },
   computed: {
     ...mapState("menu", ["showFoot"])
@@ -26,9 +27,9 @@ export default {
     return {
       transitionName: "",
       vueTouches: {
-        x: '',
-        y: ''
-      },
+        x: "",
+        y: ""
+      }
     };
   },
   watch: {
@@ -37,38 +38,40 @@ export default {
       const fromDepth = from.path.split("/").length;
       const toSort = to.meta.sort;
       const fromSort = from.meta.sort;
-      if( toSort && fromSort){
+      if (toSort && fromSort) {
         this.transitionName = toSort < fromSort ? "slide-right" : "slide-left";
-      }else{
-        this.transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
+      } else {
+        this.transitionName =
+          toDepth < fromDepth ? "slide-right" : "slide-left";
       }
-      
-        
     }
   },
-  methods:{
+  methods: {
     // 开始滑动
-    touchstart (e) {
+    touchstart(e) {
       //if (true) {
-        this.vueTouches = { x: e.changedTouches[0].pageX, y: e.changedTouches[0].pageY }
-        //console.log(this.vueTouches );
+      this.vueTouches = {
+        x: e.changedTouches[0].pageX,
+        y: e.changedTouches[0].pageY
+      };
+      //console.log(this.vueTouches );
       //}
     },
-    onSwipeRight(){
+    onSwipeRight() {
       //this.$router.go(-1)
     }
   }
 };
 </script>
 <style lang="less">
-@import '~vux/src/styles/1px.less';
+@import "~vux/src/styles/1px.less";
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   // color: #2c3e50;
   height: 100%;
-  padding-bottom: 53px;
+  // padding-bottom: 53px;
 }
 html,
 body {
@@ -104,8 +107,8 @@ a {
   fill: currentColor;
   overflow: hidden;
 }
-.router{
-  transition: all .5s;
+.router {
+  transition: all 0.5s;
   position: absolute;
   width: 100%;
 }

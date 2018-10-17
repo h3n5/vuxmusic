@@ -2,10 +2,12 @@
   <div>
       <mHead title="账号" ></mHead>
         <div class="songList" >
-            <div class="imgBox"></div>
+            <div class="imgBox">
+              <img :src="user.avatarUrl" alt="头像">
+            </div>
             <div class="wordBox">
                 <div class="left">
-                    <p class="top">XXXXXXXXX</p>
+                    <p class="top">{{user.nickname}}</p>
                     <p class="level">Lv.5</p>
                 </div>
                 <div class="right">
@@ -40,7 +42,7 @@
 import { Card } from "vux";
 import mHead from "@/components/header-2";
 import accoutList from "@/components/mAccout/mAccoutList";
-
+import { mapState } from "vuex";
 export default {
   name: "",
   components: { mHead, Card, accoutList },
@@ -48,6 +50,9 @@ export default {
     return {
       lists: [{ text: 1234, show: false }]
     };
+  },
+  computed: {
+    ...mapState("user", ["user"])
   },
   mounted() {
     this.add();
@@ -116,13 +121,17 @@ export default {
   flex-flow: row nowrap;
   margin-bottom: 10px;
   padding: 10px;
+  border-bottom: 1px dashed #dddee1;
   .imgBox {
     margin: 10px;
     position: relative;
     flex-basis: 60px;
-    border-radius: 60px;
     height: 60px;
-    background: url("../assets/logo.png") center no-repeat;
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 100%;
+    }
   }
   .wordBox {
     flex: 7;

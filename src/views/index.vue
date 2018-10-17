@@ -31,8 +31,8 @@ import { mapGetters, mapMutations } from "vuex";
 import mHead from "@/components/TabBar";
 import commend from "@/components/mContent/commend";
 import songList from "@/components/mContent/songList";
-import anchorRadio from '@/components/mContent/anchorRadio';
-import ranking from '@/components/mContent/ranking';
+import anchorRadio from "@/components/mContent/anchorRadio";
+import ranking from "@/components/mContent/ranking";
 import scroll from "@/components/scroll";
 export default {
   name: "index",
@@ -44,7 +44,7 @@ export default {
     songList,
     anchorRadio,
     ranking,
-    scroll,
+    scroll
   },
   data() {
     return {
@@ -90,3 +90,12 @@ export default {
   }
 };
 </script>
+<style lang="less" scoped>
+.main {
+  display: flex;
+  flex-flow: column nowrap;
+  .wrapper {
+    flex: 1;
+  }
+}
+</style>

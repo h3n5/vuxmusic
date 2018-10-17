@@ -1,8 +1,4 @@
 const vuxLoader = require("vux-loader");
-const path = require("path");
-const merge = require("webpack-merge");
-const SkeletonWebpackPlugin = require("vue-skeleton-webpack-plugin");
-
 module.exports = {
     configureWebpack: config => {
         vuxLoader.merge(config, {
@@ -22,13 +18,5 @@ module.exports = {
                 }
             ]
         });
-        merge(config, {
-            plugins: [
-                new SkeletonWebpackPlugin({
-                    webpackConfig: require("./src/skeleton/webpack.skeleton.conf"),
-                    quiet: true
-                })
-            ]
-        })
     }
 };

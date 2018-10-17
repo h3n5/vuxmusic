@@ -1,5 +1,4 @@
 const apiMusic = {
-    // loginCellphone: '/login/cellphone', // 手机登陆
     // userPlaylist: '/user/playlist', // 获取用户歌单
     // playlistDetail: '/playlist/detail', // 获取歌单详情
     // comment: '/comment', // 获取评论
@@ -34,6 +33,8 @@ const apiMusic = {
     personalized: '/personalized', //  推荐歌单
     banner: '/banner', //banner pic
     allTag: '/playlist/catlist',
-    hotSearch: '/search/hot' //热搜建议
+    hotSearch: '/search/hot', //热搜建议
+    loginEmail: "/login", // 邮箱登陆
+    loginCellphone: '/login/cellphone', // 手机登陆
 };
 export default apiMusic

@@ -19,12 +19,14 @@ let router = new Router({
     {
       path: '/home',
       name: 'home',
-      component: (resolve) => require(['./views/index.vue'], resolve),
+      component: () =>
+        import('./views/index.vue')
     },
     {
       path: '/video',
       name: 'video',
-      component: (resolve) => require(['./views/index.vue'], resolve)
+      component: () =>
+        import('./views/index.vue')
     },
     {
       path: '/music',
@@ -32,7 +34,8 @@ let router = new Router({
       meta: {
         sort: 2
       },
-      component: (resolve) => require(['./views/music.vue'], resolve)
+      component: () =>
+        import('./views/music.vue')
     },
     {
       path: '/friend',
@@ -40,7 +43,8 @@ let router = new Router({
         sort: 3
       },
       name: 'friend',
-      component: (resolve) => require(['./views/friend.vue'], resolve)
+      component: () =>
+        import('./views/friend.vue')
     },
     {
       path: '/accout',
@@ -48,7 +52,8 @@ let router = new Router({
       meta: {
         sort: 4
       },
-      component: (resolve) => require(['./views/accout.vue'], resolve)
+      component: () =>
+        import('./views/accout.vue')
     },
     {
       path: '/search',

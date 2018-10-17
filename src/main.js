@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './vuex'
 import VueLazyload from 'vue-lazyload'
+
+
 Vue.use(VueLazyload, {
   lazyComponent: true,
   preLoad: 1.3,
@@ -21,6 +23,9 @@ VueTouch.config.swipe = {
   threshold: 100 //手指左右滑动距离
 
 }
+
+
+
 Vue.config.productionTip = false
 new Vue({
   router,

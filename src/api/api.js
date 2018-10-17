@@ -79,3 +79,23 @@ export const getsongAlbum = (id) => {
         }
     })
 }
+export const loginCellphone = (params = {
+    phone: "",
+    password: ""
+}) => {
+    return axios.request({
+        url: apiMusic.loginCellphone,
+        method: 'get',
+        params: params
+    })
+}
+export const loginEmail = (params = {
+    email: "",
+    password: ""
+}) => {
+    return axios.request({
+        url: apiMusic.loginEmail,
+        method: 'get',
+        params: params
+    })
+}

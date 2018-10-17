@@ -1,38 +1,39 @@
 <template>
   <div class="head">
     <div class="micro">
-      <svg class="icon" aria-hidden="true">
+      <!-- <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-micnone"></use>
-      </svg>
+      </svg> -->
+      <div class="avatar" @click="goto('/accout')">
+        <img src="@/assets/123.jpg" alt="" srcset="">
+      </div>
     </div>
     <div class="search">
-      <input type="text"  @click="goToSearch">
+      <input type="text"  @click="goto('/search')">
     </div>
-    <div class="play" @click="gotoPlay">
+    <div class="play" @click="goto('/play')">
         <linescroll></linescroll>
     </div>
   </div>
 </template>
 <script>
 import { XHeader } from "vux";
-import linescroll from '@/components/anime/linescroll';
+import linescroll from "@/components/anime/linescroll";
 export default {
   name: "tabbar",
-  props:{
-    showMicro:{
-      type:Boolean,
-      default:true
+  props: {
+    showMicro: {
+      type: Boolean,
+      default: true
     }
   },
   components: {
-    XHeader,linescroll
+    XHeader,
+    linescroll
   },
-  methods:{
-    goToSearch(){
-      this.$router.push("/search")
-    },
-    gotoPlay(){
-      this.$router.push("/play")
+  methods: {
+    goto(url) {
+      this.$router.push(url);
     }
   }
 };
@@ -50,11 +51,22 @@ export default {
   }
   .micro {
     flex: 0 0 50px;
-    height: 32px;
-    .icon{
+    height: 40px;
+    width: 40px;
+    padding: 0 5px;
+    .icon {
       height: 100%;
       width: 100%;
-      color:#fff;
+      color: #fff;
+    }
+    .avatar {
+      height: 100%;
+      width: 100%;
+      img {
+        height: 100%;
+        width: 100%;
+        border-radius: 100%;
+      }
     }
   }
   .search {
