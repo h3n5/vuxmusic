@@ -1,11 +1,8 @@
 <template>
   <div class="head">
     <div class="micro">
-      <!-- <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-micnone"></use>
-      </svg> -->
       <div class="avatar" @click="goto('/accout')">
-        <img src="@/assets/123.jpg" alt="" srcset="">
+        <img :src="imgurl" alt="avatar" >
       </div>
     </div>
     <div class="search">
@@ -19,6 +16,7 @@
 <script>
 import { XHeader } from "vux";
 import linescroll from "@/components/anime/linescroll";
+import { mapState } from "vuex";
 export default {
   name: "tabbar",
   props: {
@@ -30,6 +28,12 @@ export default {
   components: {
     XHeader,
     linescroll
+  },
+  computed: {
+    ...mapState("user", ["user"]),
+    imgurl() {
+      return this.user.avatarUrl ? this.user.avatarUrl : "@/assets/123.jpg";
+    }
   },
   methods: {
     goto(url) {

@@ -1,78 +1,94 @@
 <template>
-<div>
-      <div class="head">
-        <div class="micro"></div>
-        <div class="search">
-          <div class="headtitle">
-            <p class="left"  :class="{'select':selected}"  @click="selected = true">动态</p>
-            <p class="right" :class="{'select':!selected}"  @click="selected = false">附近</p>
-          </div>
-        </div>
-        <div class="play"></div>
-      </div>
-      <div class="nav">
-        <p class="left"><i class="iconfont icon-jita pr"></i>发动态</p>
-        <p class="right" ><i class="iconfont icon-dianshiji pr"></i>发短视频</p>
-      </div>
-</div>
+  <div class="head">
+    <div class="micro" @click="back">
+      <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-navigatebefore"></use>
+      </svg>
+    </div>
+    <div class="search">
+      <p>{{title}}</p>
+    </div>
+    <div class="play" @click="show = true"></div>
+  </div>
 </template>
 <script>
-import { XHeader } from "vux";
+import { XHeader, XDialog, XInput, Group, XButton, Toast } from "vux";
+import { mapMutations } from "vuex";
 export default {
   name: "tabbar",
   components: {
-    XHeader
+    XHeader,
+    XDialog,
+    XInput,
+    Group,
+    XButton,
+    Toast
   },
-  props:{
-    title:String
+  props: {
+    title: String,
+    showMicro: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
-      selected:true
+      show: false
     };
   },
-  watch:{
-    selected(){
-      this.$emit("left",this.selected)
-    }
+  methods: {
+    back() {
+      this.$router.go(-1);
+    },
+    ...mapMutations("user", ["_user"])
   }
 };
 </script>
 <style lang="less" scoped>
+.dialog {
+  .input {
+    margin-bottom: 10px;
+  }
+  .btn {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-bottom: 10px;
+    .btn-item {
+      margin-top: 0;
+    }
+  }
+}
 .head {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 8px;
   background: #db2523;
+  position: sticky;
+  top: 0;
+  height: 48px;
+  z-index: 1111;
   > div {
     padding: 0 10px;
   }
   .micro {
     flex: 0 0 50px;
     height: 32px;
-    background: url("../assets/microphone-o.png") center no-repeat;
+    font-size: 28px;
+    color: #fff;
+    // background: url("../assets/microphone-o.png") center no-repeat;
   }
   .search {
     flex: auto;
     height: 100%;
-    .headtitle{
-      padding: 0px 40px;
-      display: flex;
-      p {
-        text-align: center;
-        padding: 5px 10px;
-        color: #fff;
-        flex: 1;
-        border: 1px solid #999;
-      }
-      .left{
-        border-right: none;
-      }
-      .select{
-        background-color: #222;
-        color: #fff;
-      }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+      text-align: center;
+      height: 20px;
+      line-height: 20px;
+      color: #fff;
     }
   }
   .play {
@@ -81,17 +97,5 @@ export default {
     background: url("../assets/lines.png") center no-repeat;
   }
 }
-    .nav{
-      display: flex;
-      padding: 10px 0;
-      p {
-        text-align: center;
-        flex: 1;
-      }
-      .pr{
-        padding-right: 5px;
-      }
-
-    }
 </style>
 

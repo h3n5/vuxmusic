@@ -99,3 +99,38 @@ export const loginEmail = (params = {
         params: params
     })
 }
+export const logout = (params = {}) => {
+    return axios.request({
+        url: apiMusic.logout,
+        method: 'get',
+        params: params
+    })
+}
+export const userPlaylist = (params = {
+    uid: "",
+}) => {
+    return axios.request({
+        url: apiMusic.userPlaylist,
+        method: 'get',
+        params: params
+    })
+}
+export const userRecord = (params = {
+    uid: "",
+    type: 1
+}) => {
+    return axios.request({
+        url: apiMusic.userRecord,
+        method: 'get',
+        params: params
+    })
+}
+export const playlistDetail = (params = {
+    id: ""
+}) => {
+    return axios.request({
+        url: apiMusic.playlistDetail,
+        method: 'get',
+        params: params
+    })
+}

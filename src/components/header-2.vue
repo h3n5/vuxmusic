@@ -98,6 +98,7 @@ export default {
   align-items: center;
   padding: 8px;
   background: #db2523;
+
   > div {
     padding: 0 10px;
   }

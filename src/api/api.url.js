@@ -1,6 +1,5 @@
 const apiMusic = {
-    // userPlaylist: '/user/playlist', // 获取用户歌单
-    // playlistDetail: '/playlist/detail', // 获取歌单详情
+
     // comment: '/comment', // 获取评论
     // artists: '/artists', // 获取歌手单曲列表
     // artistAlbum: '/artist/album', // 获取歌手专辑列表
@@ -11,7 +10,7 @@ const apiMusic = {
     // dailySignin: '/daily_signin', // 签到(用户级)
     // likeMusic: '/like', // 添加喜欢的音乐(用户级)
     // fmTrash: '/fm_trash', // 将音乐从私人FM中移除至垃圾桶
-    // topPlaylist: '/top/playlist', //  歌单(网友精选歌单)
+
     // newAlbum: '/top/albums', // 新碟上架
     // topArtists: '/top/artists', //  热门歌手
     // topList: '/top/list', //  音乐排行榜
@@ -25,6 +24,8 @@ const apiMusic = {
     // playlistComment: '/comment/playlist', // 获取歌单评论
     // albumComment: '/comment/album', // 获取专辑评论
     // artistMv: '/artist/mv', // 获取歌手MV
+    playlistDetail: '/playlist/detail', // 获取歌单详情
+    topPlaylist: '/top/playlist', //  歌单(网友精选歌单)
     album: '/album', //  获取专辑内容
     search: '/search', // 搜素音乐
     lyric: '/lyric', // 获取歌词
@@ -36,5 +37,8 @@ const apiMusic = {
     hotSearch: '/search/hot', //热搜建议
     loginEmail: "/login", // 邮箱登陆
     loginCellphone: '/login/cellphone', // 手机登陆
+    logout: "/logout",
+    userPlaylist: '/user/playlist', // 获取用户歌单
+    userRecord: "/user/record" //history
 };
 export default apiMusic

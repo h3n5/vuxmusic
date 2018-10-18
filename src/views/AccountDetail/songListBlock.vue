@@ -2,7 +2,7 @@
   <div class="page">
     <p class="itemTitle"><x-icon type="ios-arrow-down" size="16" class="itemNum-icon"></x-icon><span class="word">我创建的歌单</span></p>
         <group style="margin:0">
-            <cell-box  class="pr" v-for="(item) in myplaylist" :key="item.id" >
+            <cell-box  class="pr" v-for="(item) in myplaylist" :key="item.id" @click.native="gotoList(item.id)">
                 <img :src="item.coverImgUrl" alt="pic" class="icon">
                 <div class="mbox">
                     <p class="itemName">{{item.name}}</p>
@@ -12,7 +12,7 @@
         </group>
     <p class="itemTitle"><x-icon type="ios-arrow-down" size="16" class="itemNum-icon"></x-icon><span class="word">我收藏的歌单</span></p>
         <group style="margin:0">
-            <cell-box  class="pr" v-for="(item) in otherplaylist" :key="item.id">
+            <cell-box  class="pr" v-for="(item) in otherplaylist" :key="item.id" @click.native="gotoList(item.id)">
                 <img :src="item.coverImgUrl" alt="pic" class="icon">
                 <div class="mbox">
                     <p class="itemName">{{item.name}}</p>
@@ -45,6 +45,11 @@ export default {
   },
   data() {
     return {};
+  },
+  methods: {
+    gotoList(id) {
+      this.$router.push("/SongListDetail/" + id);
+    }
   }
 };
 </script>

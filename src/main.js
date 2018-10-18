@@ -4,7 +4,6 @@ import router from './router'
 import store from './vuex'
 import VueLazyload from 'vue-lazyload'
 
-
 Vue.use(VueLazyload, {
   lazyComponent: true,
   preLoad: 1.3,

@@ -68,6 +68,12 @@ let router = new Router({
         import('./components/dPlay/play.vue')
     },
     {
+      path: '/SongListDetail/:id',
+      name: 'SongListDetail',
+      component: () =>
+        import('./views/SongListDetail')
+    },
+    {
       path: '*',
       redirect: '/'
     }

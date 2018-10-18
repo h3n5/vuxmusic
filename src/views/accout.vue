@@ -11,7 +11,7 @@
                     <p class="level">Lv.5</p>
                 </div>
                 <div class="right">
-                    <p class="botton">签到</p>
+                    <x-button   :disabled="isSign" :class="{'isSign':isSign,'botton':!isSign}" :mini="true" @click.native="isSign = true" v-text="isSign?'已签到':'签到'"></x-button>
                 </div>
             </div>
         </div>
@@ -39,16 +39,17 @@
 </template>
 
 <script>
-import { Card } from "vux";
+import { Card, XButton } from "vux";
 import mHead from "@/components/header-2";
-import accoutList from "@/components/mAccout/mAccoutList";
+import accoutList from "./AccountDetail/AccountList";
 import { mapState } from "vuex";
 export default {
   name: "",
-  components: { mHead, Card, accoutList },
+  components: { mHead, Card, accoutList, XButton },
   data() {
     return {
-      lists: [{ text: 1234, show: false }]
+      lists: [{ text: 1234, show: false }],
+      isSign: false
     };
   },
   computed: {
@@ -167,7 +168,10 @@ export default {
       align-items: center;
       flex-basis: 100px;
       .botton {
-        padding: 10px 20px;
+        color: #fe615c;
+      }
+      .sign {
+        color: #999;
       }
     }
   }

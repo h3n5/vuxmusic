@@ -3,7 +3,7 @@
       <v-touch  v-on:swiperight="onSwipeRight"  tag="div" style="height:100%">
         <transition :name="transitionName">
             <keep-alive>
-             <router-view class="router" style="height:100%"/>
+              <router-view class="router uheight" />
             </keep-alive>
             </transition>
        </v-touch>
@@ -77,7 +77,7 @@ html,
 body {
   height: 100%;
   width: 100%;
-  overflow-x: hidden;
+  // overflow-x: hidden;
 }
 #nav {
   padding: 30px;
@@ -111,6 +111,9 @@ a {
   transition: all 0.5s;
   position: absolute;
   width: 100%;
+}
+.uheight {
+  height: 100%;
 }
 /* 左滑 */
 .slide-left-enter {
