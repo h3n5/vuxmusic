@@ -64,12 +64,14 @@ let router = new Router({
     {
       path: '/play/:id',
       name: 'play',
+      props: true,
       component: () =>
         import('./components/dPlay/play.vue')
     },
     {
       path: '/SongListDetail/:id',
       name: 'SongListDetail',
+      props: true,
       component: () =>
         import('./views/SongListDetail')
     },

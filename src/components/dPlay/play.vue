@@ -138,7 +138,6 @@ export default {
   },
   props: {
     id: {
-      type: Number,
       default: 449824917
     }
   },

@@ -14,7 +14,7 @@
     <div class="songList">
       <p>推荐歌单</p>
       <div class="listItem">
-        <songList v-for="(item) in songs" :key="item.id" class="content" :song="item"></songList>
+        <songList v-for="(item) in songs" :key="item.id" class="content" :song="item" @click.native="$router.push('/SongListDetail/'+item.id)"></songList>
       </div>
     </div>
     <toast v-model="show" type="text" position="top">推荐已经更新</toast>

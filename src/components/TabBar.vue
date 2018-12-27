@@ -5,8 +5,12 @@
         <img :src="imgurl" alt="avatar" >
       </div>
     </div>
-    <div class="search">
-      <input type="text"  @click="goto('/search')">
+    <div class="search" @click="goto('/search')">
+      <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-search"></use>
+      </svg>
+      {{search}}
+      <!-- <input type="text"  > -->
     </div>
     <div class="play" @click="$router.push(`/play/${audio.id}`)">
         <linescroll></linescroll>
@@ -31,7 +35,7 @@ export default {
   },
   computed: {
     ...mapState("user", ["user"]),
-    ...mapState('music',['audio']),
+    ...mapState('music',['audio','search']),
     imgurl() {
       return this.user.avatarUrl ? this.user.avatarUrl : "@/assets/123.jpg";
     }
@@ -75,8 +79,20 @@ export default {
     }
   }
   .search {
+    display: flex;
     flex: auto;
     height: 100%;
+    align-items: center;
+    background-color:rgba(221, 221, 221, 0.37);
+    border-radius: 15px;
+    padding: 0 30px;
+    margin: 0 10px;
+    color: #ddd;
+    .icon{
+      margin: 0 5px;
+      color: #fff;
+      opacity: 0.37;
+    }
     input {
       width: 100%;
       height: 100%;

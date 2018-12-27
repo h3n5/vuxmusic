@@ -19,7 +19,8 @@ export default {
         }],
         mainContentTab: ["私人FM", "每日歌曲推荐", "云音乐热歌榜"],
         mainTag: [],
-        showFoot: true
+        showFoot: true,
+        alive: ['search', 'Search']
     },
     getters: {
         mainTab: state => {

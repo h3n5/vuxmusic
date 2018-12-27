@@ -37,7 +37,7 @@ import { Swiper, SwiperItem } from "vux";
 import { ButtonTab, ButtonTabItem } from 'vux'
 
 export default {
-  name: "mContentSongList",
+  name: "mContentRadioList",
   props: {
     pullingDown:Boolean,
     pullingUp:Boolean

@@ -15,6 +15,7 @@
         <div class="listItem">
           <songListSp
             v-for="(item, index) in songs" :key="index"
+            @click.native="$router.push('/SongListDetail/'+item.id)"
             class="content"
             :song=item
           ></songListSp>
@@ -28,7 +29,7 @@ import {
   getpersonalized,
   getSongListByOrder
 } from "@/api/api";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions,mapState } from "vuex";
 import songListSp from "@/components/songListSp";//url 不同
 import { Swiper, SwiperItem } from "vux";
 export default {
@@ -49,7 +50,26 @@ export default {
     SwiperItem
   },
   computed: {
-    ...mapGetters("menu", ["mainContentTab", "mainTag"])
+    ...mapGetters("menu", ["mainContentTab", "mainTag"]),
+     ...mapState("scroll", ["tabIndex", "pullingDownFlag", "pullingUpFlag"])
+  },
+  watch: {
+    pullingDownFlag(v) {
+      if (v) {
+        if (this.tabIndex === "songList") {
+          this.getSongList();
+          this.$emit("pulldowncallback");
+        }
+      }
+    },
+    pullingUpFlag(v) {
+      if (v) {
+        if (this.tabIndex === "songList") {
+          this.getSongList();
+          this.$emit("pullupcallback");
+        }
+      }
+    }
   },
   methods: {
     ...mapActions("menu", ["action_getAllTag"]),
@@ -63,10 +83,6 @@ export default {
     async getBannerData() {
       let res = await getBanner();
       this.imgList = res.data.banners;
-    },
-    async getpersonalizedDate() {
-      let res = await getpersonalized();
-      this.songs = this.sortRandom(res.data.result).splice(0, 6);
     },
     async getSongList(data={}) {
       let res = await getSongListByOrder(data);

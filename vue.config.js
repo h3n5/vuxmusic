@@ -1,5 +1,9 @@
 const vuxLoader = require("vux-loader");
 module.exports = {
+    devServer: {
+        host: '0.0.0.0',
+        // disableHostCheck: true,
+    },
     configureWebpack: config => {
         vuxLoader.merge(config, {
             plugins: [

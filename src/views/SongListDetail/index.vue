@@ -18,6 +18,11 @@ export default {
     SongList,
     SongListInfo
   },
+  props: {
+    id: {
+      require: true
+    }
+  },
   data() {
     return {
       playlist: {},
@@ -25,12 +30,10 @@ export default {
       tracks: []
     };
   },
-  //   watch:{
-  //       "$route.params.id"
-  //   },
-  //   created() {
-  //     this.getplaylistDetail();
-  //   },
+  created() {
+    console.log(123);
+    this.getplaylistDetail(this.id);
+  },
   methods: {
     getplaylistDetail(id) {
       playlistDetail({ id: id }).then(res => {
@@ -43,14 +46,15 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.getplaylistDetail(to.params.id);
-      document.querySelector(".uheight") && document.querySelector(".uheight").classList.remove("uheight");
+    next(() => {
+      document.querySelector(".uheight") &&
+        document.querySelector(".uheight").classList.remove("uheight");
     });
   },
   beforeRouteLeave(to, from, next) {
-    next(vm => {
-     document.querySelector(".uheight") &&  document.querySelector(".router").classList.add("uheight");
+    next(() => {
+      document.querySelector(".uheight") &&
+        document.querySelector(".router").classList.add("uheight");
     });
   }
 };

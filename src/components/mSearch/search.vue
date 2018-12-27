@@ -2,9 +2,18 @@
   <div>
     <div class="head">
       <div class="search">
-        <input type="text" :value="search"  @input='updatesearch' ref="searchinput" @click.enter="searchClick">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-search"></use>
+        </svg>
+        <input
+          type="text"
+          :value="search"
+          @input="updatesearch"
+          ref="searchinput"
+          @click.enter="searchClick"
+        >
       </div>
-      <div  style="color:#fff" @click="back">取消</div>
+      <div style="color:#fff" @click="back">取消</div>
     </div>
     <!-- 热门搜索 -->
     <hotsearch @goSearch="searchClick"></hotsearch>
@@ -14,38 +23,39 @@
 </template>
 
 <script>
-import hotsearch from '@/components/mSearch/hot-search.vue';
-import searchlist from '@/components/mSearch/search-list.vue';
-import {searchMusic} from '@/api/api';
-import {mapState} from 'vuex';
+import hotsearch from "@/components/mSearch/hot-search.vue";
+import searchlist from "@/components/mSearch/search-list.vue";
+import { searchMusic } from "@/api/api";
+import { mapState } from "vuex";
 export default {
   name: "search",
   components: {
-    searchlist,hotsearch
+    searchlist,
+    hotsearch
   },
-  computed:{
-    ...mapState("music",['search']),
+  computed: {
+    ...mapState("music", ["search"])
   },
-  mounted(){
-    this.$refs.searchinput.focus()
+  mounted() {
+    this.$refs.searchinput.focus();
   },
   data() {
     return {
-      songs:[]
+      songs: []
     };
   },
   methods: {
-    updatesearch(e){
-      this.$store.commit('music/updateMessage', e.target.value)
+    updatesearch(e) {
+      this.$store.commit("music/updateMessage", e.target.value);
     },
-    async searchClick(){
+    async searchClick() {
       //console.log(this.search);
       let res = await searchMusic(this.search);
       //console.log(res.data.result.songs);
-      this.songs = res.data.result.songs
+      this.songs = res.data.result.songs;
     },
-    back(){
-      this.$router.push("/index")
+    back() {
+      this.$router.push("/index");
     }
   }
 };
@@ -70,15 +80,22 @@ export default {
   .search {
     flex: auto;
     height: 100%;
+    position: relative;
+    .icon {
+      position: absolute;
+      color: #ddd;
+      left: 20px;
+      top: 8px;
+    }
     input {
       width: 100%;
       height: 100%;
       border: none;
       outline: none;
-      background-color: #dddddd;
+      background-color: rgba(221, 221, 221, 0.37);
       border-radius: 15px;
-      padding: 0 15px;
-      color: #999999;
+      padding: 0 30px;
+      color: #ddd;
     }
   }
   .play {

@@ -6,12 +6,11 @@
                 <p class="title-word">云音乐官方版</p>
                 <p class="random"></p>
             </div>
-            <!-- <rankingList
+            <rankingList
                 v-for="(item, index) in songs" :key="index"
                 class="content"
                 :song=item
-            ></rankingList> -->
-            <test></test>
+            ></rankingList>
         </div>
       </div>
   </div>

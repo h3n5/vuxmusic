@@ -2,7 +2,7 @@
   <div id="app" ref="app"  @touchstart.self="touchstart">
       <v-touch  v-on:swiperight="onSwipeRight"  tag="div" style="height:100%">
         <transition :name="transitionName">
-            <keep-alive>
+            <keep-alive :include='alive'>
               <router-view class="router uheight" />
             </keep-alive>
             </transition>
@@ -21,7 +21,7 @@ export default {
     musicplayer
   },
   computed: {
-    ...mapState("menu", ["showFoot"])
+    ...mapState("menu", ["showFoot",'alive'])
   },
   data() {
     return {
@@ -111,6 +111,7 @@ a {
   transition: all 0.5s;
   position: absolute;
   width: 100%;
+  overflow-x: hidden;
 }
 .uheight {
   height: 100%;

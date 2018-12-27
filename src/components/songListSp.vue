@@ -2,7 +2,10 @@
   <div class="songList" >
     <div class="imgBox">
         <img v-lazy="song.coverImgUrl">
-        <span>{{song.playCount}}</span>
+        <span>
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-earPhone"></use>
+        </svg>{{countNumber(song.playCount)}}</span>
     </div>
     <p>{{song.name}}</p>
   </div>
@@ -28,7 +31,15 @@ export default {
     return {};
   },
 
-  methods: {}
+  methods: {
+    countNumber(number){
+      if(number > 100000){
+        return parseInt(number).toString().slice(0,-4)+'万'
+      }else{
+        return ~~number
+      }
+    }
+  }
 };
 </script>
 
@@ -55,6 +66,8 @@ export default {
       position: absolute;
       top: 5px;
       right: 5px;
+      color: #ddd;
+      font-size: 12px;
     }
     img {
       position: absolute;
