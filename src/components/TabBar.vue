@@ -8,7 +8,7 @@
     <div class="search">
       <input type="text"  @click="goto('/search')">
     </div>
-    <div class="play" @click="goto('/play')">
+    <div class="play" @click="$router.push(`/play/${audio.id}`)">
         <linescroll></linescroll>
     </div>
   </div>
@@ -31,6 +31,7 @@ export default {
   },
   computed: {
     ...mapState("user", ["user"]),
+    ...mapState('music',['audio']),
     imgurl() {
       return this.user.avatarUrl ? this.user.avatarUrl : "@/assets/123.jpg";
     }

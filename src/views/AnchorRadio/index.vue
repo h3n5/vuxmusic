@@ -1,31 +1,47 @@
 <template>
   <div class="mContent">
+      <swiper  :show-dots="false" :aspect-ratio='0.5' :auto="true">
+        <swiper-item v-for="(item, index) in imgList" :key="index">
+          <img :src="item.imageUrl" :key="index" class="bannerImg">
+        </swiper-item>
+      </swiper>
       <div class="songList">
+        <button-tab class="tag">
+            <button-tab-item @on-item-click="tagChange"><x-icon type="ios-keypad" size="14" class="icon"  fill="#999"></x-icon>电台分类</button-tab-item>
+            <button-tab-item @on-item-click="tagChange"><x-icon type="ios-list" size="14" class="icon" fill="#999"></x-icon>电台排行</button-tab-item>
+        </button-tab>
         <div class="listItem">
             <div class="title">
-                <p class="title-word">云音乐官方版</p>
-                <p class="random"></p>
+                <p class="title-word">今日优选</p>
+                <p class="random"><x-icon type="ios-refresh" fill="#999"></x-icon></p>
             </div>
-            <rankingList
+
+            <radioList
                 v-for="(item, index) in songs" :key="index"
                 class="content"
                 :song=item
-            ></rankingList>
+            ></radioList>
         </div>
       </div>
   </div>
 </template>
 <script>
 import {
+  getBanner,
   getpersonalized,
   getSongListByOrder
 } from "@/api/api";
 import { mapGetters, mapActions } from "vuex";
-import rankingList from "@/components/rankingList";
+import radioList from "@/components/radioList";
+import { Swiper, SwiperItem } from "vux";
 import { ButtonTab, ButtonTabItem } from 'vux'
 
 export default {
-  name: "mContentRanking",
+  name: "mContentSongList",
+  props: {
+    pullingDown:Boolean,
+    pullingUp:Boolean
+  },
   data() {
     return {
       imgList: [],
@@ -33,7 +49,9 @@ export default {
     };
   },
   components: {
-    rankingList,
+    radioList,
+    Swiper,
+    SwiperItem,
     ButtonTab,
     ButtonTabItem
   },
@@ -43,10 +61,14 @@ export default {
   methods: {
     ...mapActions("menu", ["action_getAllTag"]),
     tagChange() {
-      //console.log(object);
+      
     },
     async getTag(params = {}) {
       this.action_getAllTag(params)
+    },
+    async getBannerData() {
+      let res = await getBanner();
+      this.imgList = res.data.banners;
     },
     async getpersonalizedDate() {
       let res = await getpersonalized();
@@ -63,6 +85,7 @@ export default {
     }
   },
   created() {
+    this.getBannerData();
     this.getSongList();
     this.getTag();
   }
@@ -71,6 +94,9 @@ export default {
 
 <style lang='less' scoped>
 .mContent {
+    .mr10{
+        margin: 10px;
+    }
   .bannerImg {
     height: 100%;
   }

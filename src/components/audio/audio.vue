@@ -1,6 +1,6 @@
 <template>
   <div>
-    <audio ref="audio" :src="audio.location" @timeupdate="updateTime" @canplay="canPlaySong"  @ended="next" id="audioPlay"></audio>
+    <audio ref="audio" :src="audio.location" @timeupdate="updateTime" @canplay="canPlaySong"  @ended="next" id="audioPlay" :loop="playType === 3"></audio>
   </div>
 </template>
 
@@ -45,7 +45,6 @@ export default {
     canPlaySong(e) {
       this.play();
       this.setdurationTime(Math.round(e.target.duration));
-      document.querySelector("#audioPlay").play();
     },
     next() {},
   }

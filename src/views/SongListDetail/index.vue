@@ -45,12 +45,12 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.getplaylistDetail(to.params.id);
-      document.querySelector(".uheight").classList.remove("uheight");
+      document.querySelector(".uheight") && document.querySelector(".uheight").classList.remove("uheight");
     });
   },
   beforeRouteLeave(to, from, next) {
     next(vm => {
-      document.querySelector(".router").classList.add("uheight");
+     document.querySelector(".uheight") &&  document.querySelector(".router").classList.add("uheight");
     });
   }
 };

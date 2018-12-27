@@ -21,7 +21,7 @@ export default {
         @circleWidth:width
         */
       var drawing_elem = document.querySelector("#canvasgraph");
-      if(!drawing_elem.getContext){return}
+      if(!drawing_elem){return}
       var context = drawing_elem.getContext("2d");
       var center_x = drawing_elem.width / 2;
       var center_y = drawing_elem.height / 2;

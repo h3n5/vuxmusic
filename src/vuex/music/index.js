@@ -38,9 +38,11 @@ export default {
         },
         play(state) {
             state.playing = true
+            document.querySelector("#audioPlay").play();
         },
         pause(state) {
             state.playing = false
+            document.querySelector("#audioPlay").pause();
         },
         togglePlay(state) {
             state.playing = !state.playing

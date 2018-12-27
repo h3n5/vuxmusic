@@ -30,7 +30,7 @@ const apiMusic = {
     search: '/search', // 搜素音乐
     lyric: '/lyric', // 获取歌词
     songDetail: "/song/detail", //获取歌曲详情
-    musicUrl: '/music/url', // 获取音乐url
+    musicUrl: '/song/url', // 获取音乐url
     personalized: '/personalized', //  推荐歌单
     banner: '/banner', //banner pic
     allTag: '/playlist/catlist',

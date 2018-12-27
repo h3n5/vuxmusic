@@ -10,11 +10,17 @@ export default {
 
     },
     mutations: {
-        pullingDownFlagChange(state, payload) {
-            state.pullingDownFlag = payload
+        pullingDownFlagChange(state) {
+            state.pullingDownFlag = true
+            setTimeout(() => {
+                state.pullingDownFlag = false
+            }, 20)
         },
-        pullingUpFlagChange(state, payload) {
-            state.pullingUpFlag = payload
+        pullingUpFlagChange(state) {
+            state.pullingUpFlag = true
+            setTimeout(() => {
+                state.pullingUpFlag = false
+            }, 20)
         },
         tabIndexChange(state, value) {
             state.tabIndex = value

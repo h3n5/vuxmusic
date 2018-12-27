@@ -2,25 +2,22 @@
   <div class="mContent">
       <swiper  :show-dots="false" :aspect-ratio='0.5' :auto="true">
         <swiper-item v-for="(item, index) in imgList" :key="index">
-          <img :src="item.picUrl" :key="index" class="bannerImg">
+          <img :src="item.imageUrl" :key="index" class="bannerImg">
         </swiper-item>
       </swiper>
       <div class="songList">
-        <button-tab class="tag">
-            <button-tab-item @on-item-click="tagChange"><x-icon type="ios-keypad" size="14" class="icon"  fill="#999"></x-icon>电台分类</button-tab-item>
-            <button-tab-item @on-item-click="tagChange"><x-icon type="ios-list" size="14" class="icon" fill="#999"></x-icon>电台排行</button-tab-item>
-        </button-tab>
+        <div class="titlte">
+          <p class="left" @click="tagChange({name:'全部歌单'})">全部歌单</p>
+          <p class="right">
+            <span class="tag" v-for="(item, index) in mainTag" :key="index" @click="tagChange(item)">{{item.name}} | </span>
+          </p>
+        </div> 
         <div class="listItem">
-            <div class="title">
-                <p class="title-word">今日优选</p>
-                <p class="random"><x-icon type="ios-refresh" fill="#999"></x-icon></p>
-            </div>
-
-            <radioList
-                v-for="(item, index) in songs" :key="index"
-                class="content"
-                :song=item
-            ></radioList>
+          <songListSp
+            v-for="(item, index) in songs" :key="index"
+            class="content"
+            :song=item
+          ></songListSp>
         </div>
       </div>
   </div>
@@ -32,10 +29,8 @@ import {
   getSongListByOrder
 } from "@/api/api";
 import { mapGetters, mapActions } from "vuex";
-import radioList from "@/components/radioList";
+import songListSp from "@/components/songListSp";//url 不同
 import { Swiper, SwiperItem } from "vux";
-import { ButtonTab, ButtonTabItem } from 'vux'
-
 export default {
   name: "mContentSongList",
   props: {
@@ -49,19 +44,18 @@ export default {
     };
   },
   components: {
-    radioList,
+    songListSp,
     Swiper,
-    SwiperItem,
-    ButtonTab,
-    ButtonTabItem
+    SwiperItem
   },
   computed: {
     ...mapGetters("menu", ["mainContentTab", "mainTag"])
   },
   methods: {
     ...mapActions("menu", ["action_getAllTag"]),
-    tagChange() {
-      
+    tagChange(object) {
+      let data = { cat: object.name };
+      this.getSongList(data);
     },
     async getTag(params = {}) {
       this.action_getAllTag(params)
@@ -93,10 +87,26 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.mixin() {
+  &::before {
+    content: "|";
+    color: @maincolor;
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-right: 5px;
+  }
+  &::after {
+    content: "";
+    font-size: 0;
+    vertical-align: baseline;
+    padding-left: 5px;
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    background: url("../../assets/ARROW.png") center no-repeat;
+  }
+}
 .mContent {
-    .mr10{
-        margin: 10px;
-    }
   .bannerImg {
     height: 100%;
   }
@@ -105,33 +115,29 @@ export default {
   }
   .songList {
     padding: 5px 5px;
-    .tag {
-        padding: 15px 40px;
-        .icon{
-            height: 100%;
-            vertical-align: top;
-            margin-right: 5px;
+    .titlte {
+      display: flex;
+      justify-content: space-between;
+      p {
+        position: relative;
+        padding: 5px 10px;
+      }
+      .left {
+        .mixin();
+      }
+      .right {
+        .tag {
+          font-size: 14px;
         }
+      }
     }
 
     .listItem {
       display: flex;
       flex-flow: row wrap;
       padding: 3px;
-      .title{
-          padding-bottom: 15px;
-          display: flex;
-          .title-word{
-            padding-left: 10px;
-            flex: 1;
-          }
-          .random{
-              flex:1;
-              text-align: right
-          }
-      }
       > div {
-        flex-basis: 100%;
+        flex-basis: calc(100% / 2);
         padding: 0 3px;
       }
     }

@@ -4,14 +4,16 @@
       <div ref="listWrapper">
         <slot>
           <ul class="list-content">
-            <li @click="clickItem($event,item)" class="list-item" v-for="item in data" :key="item.name">{{item.name}}</li>
+            <li
+              @click="clickItem($event,item)"
+              class="list-item"
+              v-for="item in data"
+              :key="item.name"
+            >{{item.name}}</li>
           </ul>
         </slot>
       </div>
-      <slot name="pullup"
-            :pullUpLoad="pullUpLoad"
-            :isPullUpLoad="isPullUpLoad"
-      >
+      <slot name="pullup" :pullUpLoad="pullUpLoad" :isPullUpLoad="isPullUpLoad">
         <div class="pullup-wrapper" v-if="pullUpLoad">
           <div class="before-trigger" v-if="!isPullUpLoad">
             <span>{{pullUpTxt}}</span>
@@ -22,12 +24,13 @@
         </div>
       </slot>
     </div>
-    <slot name="pulldown"
-          :pullDownRefresh="pullDownRefresh"
-          :pullDownStyle="pullDownStyle"
-          :beforePullDown="beforePullDown"
-          :isPullingDown="isPullingDown"
-          :bubbleY="bubbleY"
+    <slot
+      name="pulldown"
+      :pullDownRefresh="pullDownRefresh"
+      :pullDownStyle="pullDownStyle"
+      :beforePullDown="beforePullDown"
+      :isPullingDown="isPullingDown"
+      :bubbleY="bubbleY"
     >
       <div ref="pulldown" class="pulldown-wrapper" :style="pullDownStyle" v-if="pullDownRefresh">
         <div class="before-trigger" v-if="beforePullDown">
@@ -37,7 +40,9 @@
           <div v-if="isPullingDown" class="loading">
             <loading></loading>
           </div>
-          <div v-else><span>{{refreshTxt}}</span></div>
+          <div v-else>
+            <span>{{refreshTxt}}</span>
+          </div>
         </div>
       </div>
     </slot>
@@ -74,9 +79,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: function() {
-        return [];
-      }
+      default: () => []
     },
     probeType: {
       type: Number,
@@ -103,16 +106,25 @@ export default {
       default: DIRECTION_V
     },
     scrollbar: {
-      type: null,
-      default: false
+      type: Object,
+      default: () => {
+        return { fade: true, interactive: true }
+      }
     },
     pullDownRefresh: {
-      type: null,
-      default: false
+      type: Object,
+      default: () => {
+        return {
+          threshold: 50,
+          stop: 20
+        };
+      }
     },
     pullUpLoad: {
-      type: null,
-      default: false
+      type: Object,
+      default: () => {
+        return { threshold: 50 };
+      }
     },
     startY: {
       type: Number,

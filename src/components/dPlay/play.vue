@@ -56,10 +56,6 @@
                 <div class="lrc" @click="toggleStatus" v-show="showLyric">
                 <scroll class="wrapper"
                         ref="scroll"
-                        :scrollbar="scrollbarObj"
-                        :pullDownRefresh="pullDownRefreshObj"
-                        :pullUpLoad="pullUpLoadObj"     
-                        :startY="parseInt(startY)"
                         >
                     <div class="lrc-content content">
                         <div class="lrc-box">
@@ -194,8 +190,7 @@ export default {
       "tmpCurrentTime",
       "durationTime",
       "prCurrentTime"
-    ]),
-    ...mapState("menu",["showFoot"])
+    ])
   },
   created() {
 
@@ -226,15 +221,13 @@ export default {
     },
     togglePlay() {
       if (this.playing) {
-        document.getElementById("audioPlay").pause();
         this.pause();
       } else {
-        document.getElementById("audioPlay").play();
         this.play();
       }
     },
     back() {
-      this.$router.push("/search");
+      this.$router.back();
     },
     init() {
       const play = document.querySelector("#audioPlay");
