@@ -2,7 +2,7 @@
   <div class="page">
     <group>
       <cell-box is-link class="pr">
-        <img src="../../assets/music.png" alt="pic" class="icon">
+        <img src="assets/music.png" alt="pic" class="icon">
         <p class="itemName">最近播放</p>
         <span class="itemNum">{{this.history.length}}</span>
       </cell-box>
@@ -31,7 +31,7 @@
 import { Group, CellBox, Confirm, TransferDom, Toast } from "vux";
 import songListBlock from "./songListBlock";
 import { userPlaylist, userRecord, logout } from "@/api/api";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations } from "vuex"
 export default {
   components: {
     Group,

@@ -17,49 +17,28 @@ let router = new Router({
         import('./views/index.vue')
     },
     {
-      path: '/home',
-      name: 'home',
-      component: () =>
-        import('./views/index.vue')
-    },
-    {
-      path: '/video',
-      name: 'video',
-      component: () =>
-        import('./views/index.vue')
-    },
-    {
       path: '/music',
       name: 'music',
       meta: {
         sort: 2
       },
       component: () =>
-        import('./views/music.vue')
-    },
-    {
-      path: '/friend',
-      meta: {
-        sort: 3
-      },
-      name: 'friend',
-      component: () =>
-        import('./views/friend.vue')
+        import('./views/Pages/music.vue')
     },
     {
       path: '/accout',
       name: 'accout',
       meta: {
-        sort: 4
+        sort: 3
       },
       component: () =>
-        import('./views/accout.vue')
+        import('./views/Pages/accout.vue')
     },
     {
       path: '/search',
       name: 'search',
       component: () =>
-        import('./components/mSearch/search.vue')
+        import('./views/Pages/mSearch/search.vue')
     },
     {
       path: '/play/:id',
@@ -73,7 +52,7 @@ let router = new Router({
       name: 'SongListDetail',
       props: true,
       component: () =>
-        import('./views/SongListDetail')
+        import('./views/Pages/SongListDetail')
     },
     {
       path: '*',

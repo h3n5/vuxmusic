@@ -1,10 +1,6 @@
 <template>
   <div class="mContent">
-      <swiper  :show-dots="false" :aspect-ratio='0.5' :auto="true">
-        <swiper-item v-for="(item, index) in imgList" :key="index">
-          <img :src="item.imageUrl" :key="index" class="bannerImg">
-        </swiper-item>
-      </swiper>
+      <Banner></Banner>
       <div class="songList">
         <div class="titlte">
           <p class="left" @click="tagChange({name:'全部歌单'})">全部歌单</p>
@@ -13,24 +9,25 @@
           </p>
         </div> 
         <div class="listItem">
-          <songListSp
-            v-for="(item, index) in songs" :key="index"
-            @click.native="$router.push('/SongListDetail/'+item.id)"
-            class="content"
-            :song=item
-          ></songListSp>
+          <PicBlock 
+          v-for="(item, index) in songs" 
+          :key="index"
+          :picUrl="item.coverImgUrl"
+          :playCount="item.playCount"
+          :name="item.name"
+          @click.native="$router.push('/SongListDetail/'+item.id)"
+          ></PicBlock>
         </div>
       </div>
   </div>
 </template>
 <script>
 import {
-  getBanner,
-  getpersonalized,
   getSongListByOrder
 } from "@/api/api";
 import { mapGetters, mapActions,mapState } from "vuex";
-import songListSp from "@/components/songListSp";//url 不同
+import PicBlock from '@/components/PicBlock';
+import Banner from '@/components/Banner';
 import { Swiper, SwiperItem } from "vux";
 export default {
   name: "mContentSongList",
@@ -45,9 +42,10 @@ export default {
     };
   },
   components: {
-    songListSp,
     Swiper,
-    SwiperItem
+    SwiperItem,
+    Banner,
+    PicBlock
   },
   computed: {
     ...mapGetters("menu", ["mainContentTab", "mainTag"]),
@@ -80,10 +78,6 @@ export default {
     async getTag(params = {}) {
       this.action_getAllTag(params)
     },
-    async getBannerData() {
-      let res = await getBanner();
-      this.imgList = res.data.banners;
-    },
     async getSongList(data={}) {
       let res = await getSongListByOrder(data);
       this.songs = this.sortRandom(res.data.playlists).splice(0, 6);
@@ -95,7 +89,6 @@ export default {
     }
   },
   created() {
-    this.getBannerData();
     this.getSongList();
     this.getTag();
   }

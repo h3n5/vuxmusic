@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import hotsearch from "@/components/mSearch/hot-search.vue";
-import searchlist from "@/components/mSearch/search-list.vue";
+import hotsearch from "./hot-search.vue";
+import searchlist from "./search-list.vue";
 import { searchMusic } from "@/api/api";
 import { mapState } from "vuex";
 export default {
@@ -37,7 +37,7 @@ export default {
     ...mapState("music", ["search"])
   },
   mounted() {
-    this.$refs.searchinput.focus();
+    //this.$refs.searchinput.focus();
   },
   data() {
     return {
@@ -75,7 +75,7 @@ export default {
   .micro {
     flex: 0 0 50px;
     height: 32px;
-    background: url("../../assets/microphone-o.png") center no-repeat;
+    background: url("/assets/microphone-o.png") center no-repeat;
   }
   .search {
     flex: auto;
@@ -101,7 +101,7 @@ export default {
   .play {
     flex: 0 0 50px;
     height: 32px;
-    background: url("../../assets/lines.png") center no-repeat;
+    background: url("/assets/lines.png") center no-repeat;
   }
 }
 </style>

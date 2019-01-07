@@ -1,10 +1,6 @@
 <template>
   <div class="mContent">
-      <swiper  :show-dots="false" :aspect-ratio='0.5' :auto="true">
-        <swiper-item v-for="(item, index) in imgList" :key="index">
-          <img :src="item.imageUrl" :key="index" class="bannerImg">
-        </swiper-item>
-      </swiper>
+      <Banner></Banner>
       <div class="songList">
         <button-tab class="tag">
             <button-tab-item @on-item-click="tagChange"><x-icon type="ios-keypad" size="14" class="icon"  fill="#999"></x-icon>电台分类</button-tab-item>
@@ -33,9 +29,8 @@ import {
 } from "@/api/api";
 import { mapGetters, mapActions } from "vuex";
 import radioList from "@/components/radioList";
-import { Swiper, SwiperItem } from "vux";
 import { ButtonTab, ButtonTabItem } from 'vux'
-
+import Banner from '@/components/Banner';
 export default {
   name: "mContentRadioList",
   props: {
@@ -50,10 +45,9 @@ export default {
   },
   components: {
     radioList,
-    Swiper,
-    SwiperItem,
     ButtonTab,
-    ButtonTabItem
+    ButtonTabItem,
+    Banner
   },
   computed: {
     ...mapGetters("menu", ["mainContentTab", "mainTag"])

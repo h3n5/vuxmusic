@@ -44,7 +44,7 @@ import mHead from "@/components/header-2";
 import accoutList from "./AccountDetail/AccountList";
 import { mapState } from "vuex";
 export default {
-  name: "",
+  name: "accout",
   components: { mHead, Card, accoutList, XButton },
   data() {
     return {

@@ -1,12 +1,12 @@
 <template>
   <div id="app" ref="app"  @touchstart.self="touchstart">
-      <v-touch  v-on:swiperight="onSwipeRight"  tag="div" style="height:100%">
+      <!-- <v-touch  v-on:swiperight="onSwipeRight"  tag="div" style="height:100%"> -->
         <transition :name="transitionName">
             <keep-alive :include='alive'>
               <router-view class="router uheight" />
             </keep-alive>
             </transition>
-       </v-touch>
+       <!-- </v-touch> -->
     <musicplayer></musicplayer>
     <!-- <mfoot v-if="showFoot"></mfoot> -->
   </div>

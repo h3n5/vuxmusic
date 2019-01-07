@@ -27,10 +27,8 @@
                         <div class="pic" :class="{circling:playing}" :style="{backgroundImage: 'url(' + audio.albumPic + ')'}" >
                             <span class="block" :class="{pause:!playing}" ></span>
                         </div>
-                        <canvas class="canvas" :style="{'top':top}"></canvas>
                     </div>
-                    
-                    <canvasCircle ref="canvas" class="canvas" v-if="false"></canvasCircle>
+                    <canvasCircle ref="canvas" class="canvas"></canvasCircle>
                 </div>
                 <div class="userdo" v-show="!showLyric">
                     <div class="item">
@@ -114,8 +112,6 @@ import scroll from "@/components/scroll";
 import canvasCircle from '@/components/anime/canvasCircle';
 import musicProgress from '@/components/audio/progress';
 import songlistModal from './songlistModal';
-import Circle from '@/components/anime/circle';
-import { setInterval, clearInterval } from 'timers';
 export default {
   name: "play",
   data() {
@@ -154,7 +150,7 @@ export default {
       if (percent == 1) {
         percent = 0; //当播放完成，进度条跳到开始
       }
-      //this.$refs.canvas.drawMain(percent, "#bd2523", "#888", 130, currentTime);
+      this.$refs.canvas.drawMain(percent, "#bd2523", "#888", 130, currentTime);
       //lyric
       let Lyric = this.lycObj.lines;
       if (Lyric === undefined) {
@@ -176,9 +172,6 @@ export default {
   },
   components: { ViewBox, scroll,canvasCircle,musicProgress,Actionsheet ,songlistModal},
   computed: {
-    top(){
-      return (417 - 375)/2 + 'px'
-    },
     PlayOrPause() {
       return this.playing ? "#icon-playarrow" : "#icon-pause";
     },
@@ -211,7 +204,6 @@ export default {
       //console.log(this.lycObj);
     }, 1000);
     this.$root.$el.style.paddingBottom = 0;
-    this.createCanvas()
   },
   methods: {
     ...mapMutations("music", [
@@ -220,17 +212,8 @@ export default {
       "setcurrentTime",
       "setdurationTime"
     ]),
-    createCanvas () {
-      
-        this.time = setInterval(()=>{
-          if(document.querySelector(".canvas")){
-            let canvas = new Circle('.canvas')
-            clearInterval(this.time)
-          }
-        },1000)
-      
-      
-      
+    click (key) {
+      console.log(key)
     },
     toggleStatus() {
       this.showLyric = !this.showLyric;
@@ -347,36 +330,35 @@ export default {
       border-radius: 24px;
     }
     .img {
-      width: 100%;
+      width: 60%;
       //overflow: hidden;
       position: relative;
       margin: 0 auto;
       flex: 1 1 auto;
-      display: flex;
-      align-items: center;
+
       .canvas {
         position: absolute;
-        width: 375px;
-        height: 375px;
+        width: 300px;
+        height: 300px;
         left: 50%;
-        top: 0;
+        top: 0px;
         z-index: 999;
         transform: translateX(-50%);
       }
-      // &:after {
-      //   display: block;
-      //   position: absolute;
-      //   left: 55%;
-      //   top: 0px;
-      //   content: "";
-      //   width: 100px;
-      //   height: 120px;
-      //   background: url("../../assets/play/needle-ip6.png") center/contain
-      //     no-repeat;
-      // }
+      &:after {
+        display: block;
+        position: absolute;
+        left: 55%;
+        top: 0px;
+        content: "";
+        width: 100px;
+        height: 120px;
+        background: url("/assets/play/needle-ip6.png") center/contain
+          no-repeat;
+      }
       .circle {
         height: 300px;
-        //background: url("../../assets/play/disc-ip6.png") center/contain no-repeat;
+        background: url("/assets/play/disc-ip6.png") center/contain no-repeat;
         width: 100%;
         display: flex;
         justify-content: center;
@@ -393,13 +375,11 @@ export default {
           }
         }
         .pic {
-          flex: 0 0 60%;
-          height: 60%;
-          padding-bottom: 60%;
+          flex: 0 0 65%;
+          height: 43%;
           background-repeat: no-repeat;
           background-position: center;
           background-size: cover;
-          border-radius: 100%;
           z-index: -1;
           .block {
             position: absolute;
@@ -410,7 +390,7 @@ export default {
             height: 60px;
           }
           .pause {
-            background: url(/img/play/play2.png) center/contain no-repeat;
+            background: url('/img/play/play2.png') center/contain no-repeat;
           }
         }
       }

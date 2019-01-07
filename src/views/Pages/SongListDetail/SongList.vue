@@ -71,7 +71,7 @@ export default {
   .list-item {
     display: flex;
     color: #666;
-    background: url("../../assets/PLAY.png") right center no-repeat;
+    background: url("/assets/PLAY.png") right center no-repeat;
     .left {
       display: flex;
       align-items: center;

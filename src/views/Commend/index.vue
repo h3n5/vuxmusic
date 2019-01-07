@@ -1,10 +1,6 @@
 <template>
   <div class="mContent">
-    <swiper :show-dots="false" :aspect-ratio="0.5" :auto="true">
-      <swiper-item v-for="(item) in imgList" :key="item.id">
-        <img v-lazy="item.imageUrl" alt="img" class="bannerImg">
-      </swiper-item>
-    </swiper>
+    <Banner></Banner>
     <div class="menu">
       <div class="menuList" v-for="(item, index) in mainContentTab" :key="index">
         <div class="imgfm"></div>
@@ -14,16 +10,24 @@
     <div class="songList">
       <p>推荐歌单</p>
       <div class="listItem">
-        <songList v-for="(item) in songs" :key="item.id" class="content" :song="item" @click.native="$router.push('/SongListDetail/'+item.id)"></songList>
+        <PicBlock 
+        v-for="(item, index) in songs" 
+        :key="index"
+        :picUrl="item.picUrl"
+        :playCount="item.playCount"
+        :name="item.name"
+        @click.native="$router.push('/SongListDetail/'+item.id)"
+        ></PicBlock>
       </div>
     </div>
     <toast v-model="show" type="text" position="top">推荐已经更新</toast>
   </div>
 </template>
 <script>
-import { getBanner, getpersonalized } from "@/api/api";
+import { getpersonalized } from "@/api/api";
 import { mapGetters, mapState } from "vuex";
-import songList from "@/components/songList";
+import Banner from '@/components/Banner';
+import PicBlock from '@/components/PicBlock';
 import { Swiper, SwiperItem, Toast } from "vux";
 export default {
   name: "mContentRecommend",
@@ -39,10 +43,11 @@ export default {
     };
   },
   components: {
-    songList,
+    PicBlock,
     Swiper,
     SwiperItem,
-    Toast
+    Toast,
+    Banner
   },
   computed: {
     ...mapGetters("menu", ["mainContentTab"]),
@@ -68,10 +73,6 @@ export default {
     }
   },
   methods: {
-    async getBannerData() {
-      let res = await getBanner();
-      this.imgList = res.data.banners;
-    },
     async getpersonalizedDate() {
       let res = await getpersonalized();
       let random = this.sortRandom(res.data.result);
@@ -98,7 +99,6 @@ export default {
     }
   },
   created() {
-    this.getBannerData();
     this.getpersonalizedDate();
   }
 };
