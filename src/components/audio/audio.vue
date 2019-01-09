@@ -29,13 +29,18 @@ export default {
       "prCurrentTime"
     ])
   },
-
+  watch:{
+    currentIndex(){
+      this.setAudio()
+    }
+  },
   methods: {
     ...mapMutations("music", [
       "play",
       "pause",
       "setcurrentTime",
-      "setdurationTime"
+      "setdurationTime",
+      'setAudio'
     ]),
     updateTime(e) {
       this.setcurrentTime(Math.round(e.target.currentTime));
@@ -46,7 +51,9 @@ export default {
       this.play();
       this.setdurationTime(Math.round(e.target.duration));
     },
-    next() {},
+    next(e) {
+      console.log(e);
+    },
   }
 };
 </script>

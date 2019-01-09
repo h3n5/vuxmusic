@@ -33,6 +33,12 @@ export default {
 
     },
     mutations: {
+        prev(state) {
+            state.currentIndex === 0 ? state.currentIndex = state.songList.length - 1 : state.currentIndex--
+        },
+        next(state) {
+            state.currentIndex === state.songList.length - 1 ? state.currentIndex = 0 : state.currentIndex++
+        },
         updateMessage(state, value) {
             state.search = value
         },
@@ -54,7 +60,7 @@ export default {
             state.lyricTxt = value
         },
         setAudio(state) {
-            state.audio = state.songList[state.currentIndex - 1];
+            state.audio = state.songList[state.currentIndex];
         },
         setcurrentTime(state, value) {
             state.currentTime = value
@@ -75,14 +81,14 @@ export default {
             for (let i = 0; i < state.songList.length; i++) {
                 const v = state.songList[i];
                 if (v.id === song.id) {
-                    state.currentIndex = i + 1;
+                    state.currentIndex = i;
                     flag = false;
                     break;
                 }
             }
             if (flag) {
                 state.songList.push(song);
-                state.currentIndex = state.songList.length;
+                state.currentIndex = state.songList.length - 1;
             }
         }
 
@@ -92,6 +98,7 @@ export default {
             commit,
             dispatch
         }, song) {
+            console.log(song);
             await commit("_PlayAndAddTolist", song); //添加到列表
             await commit('setAudio') //添加到播放对象
             Promise.all([dispatch("getSong", song.id), dispatch("getLrc", song.id), dispatch("getAlbum", song.album.id)])
