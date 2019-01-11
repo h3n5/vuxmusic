@@ -1,27 +1,29 @@
 <template>
-    <div class="progress-bar-group">
-        <div class="time-indicater">
-            <span>{{currentTime | dateFormat }}</span>
-        </div>
-        <div class="progress" :style="{width:indicatorPosition+'%'}">
-          <div class="indicater" :style="{left:indicatorPosition+'%'}"></div>
-        </div>
-        <div class="time-indicater">
-          <span>{{durationTime | dateFormat }}</span>
-        </div>
+  <div class="progress-bar-group">
+    <div class="time-indicater">
+      <span>{{currentTime | dateFormat }}</span>
     </div>
+    <div class="progress" :style="{width:indicatorPosition+'%'}">
+      <div class="indicater" :style="{left:indicatorPosition+'%'}"></div>
+    </div>
+    <div class="time-indicater">
+      <span>{{durationTime | dateFormat }}</span>
+    </div>
+  </div>
 </template>
 
 <script>
-import {  mapState } from "vuex";
+import { mapState } from "vuex";
+import Drag from "./drag.js";
 export default {
-name: 'indicater',
-components:{},
-data () {
+  name: "indicater",
+  components: {},
+  data() {
     return {
-    }
+      drag: {}
+    };
   },
-computed:{
+  computed: {
     ...mapState("music", [
       "audio",
       "lyricTxt",
@@ -39,21 +41,26 @@ computed:{
     ]),
     indicatorPosition() {
       return (this.currentTime / this.durationTime) * 100;
-    },
-},
-filters: {
-  dateFormat(value) {
-    let left =
-      parseInt(value / 60) < 10
-        ? "0" + parseInt(value / 60)
-        : parseInt(value / 60);
-    let right = value % 60 < 10 ? "0" + (value % 60) : value % 60;
-    return left + ":" + right;
-  }
-},
-methods: {
-}
-}
+    }
+  },
+  filters: {
+    dateFormat(value) {
+      let left =
+        parseInt(value / 60) < 10
+          ? "0" + parseInt(value / 60)
+          : parseInt(value / 60);
+      let right = value % 60 < 10 ? "0" + (value % 60) : value % 60;
+      return left + ":" + right;
+    }
+  },
+  mounted() {
+    this.drag = new Drag(".indicater", ".progress");
+    this.drag.on("end", percent => {
+      this.currentTime = this.durationTime * percent;
+    });
+  },
+  methods: {}
+};
 </script>
 
 <style lang='less' scoped>
@@ -63,31 +70,31 @@ methods: {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  .time-indicater{
+  .time-indicater {
     line-height: 30px;
     height: 30px;
     font-size: 12px;
     flex-basis: 50px;
     color: #fff;
-    span{
+    span {
       padding: 0 10px;
     }
   }
-  .progress{
+  .progress {
     height: 2px;
     background: #f1f1f1;
     flex: 1 1 auto;
     position: relative;
     box-sizing: border-box;
-    .indicater{
+    .indicater {
       position: absolute;
       width: 16px;
       height: 16px;
       border-radius: 16px;
       background: #f1f1f1;
       top: -7px;
-      &::after{
-        content: '';
+      &::after {
+        content: "";
         width: 4px;
         height: 4px;
         border-radius: 4px;

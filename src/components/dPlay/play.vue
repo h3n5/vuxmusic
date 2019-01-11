@@ -71,6 +71,8 @@
                   >{{item.txt}}</p>
                 </div>
               </div>
+              <div slot="pullup"></div>
+              <div slot="pulldown"></div>
             </scroll>
           </div>
         </div>
@@ -111,7 +113,7 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState, mapActions } from "vuex";
 import { ViewBox, Actionsheet } from "vux";
 import Lyric from "lyric-parser";
 import scroll from "@/components/scroll";
@@ -136,13 +138,12 @@ export default {
       pullDownRefreshObj: false,
       pullUpLoadObj: false,
       //modal
-      showList: false,
-      menus1: [{ menu1: "删除" }, { menu1: "删除" }, { menu1: "删除" }]
+      showList: false
     };
   },
   props: {
     id: {
-      default: 449824917
+      default: ''
     }
   },
   watch: {
@@ -154,8 +155,6 @@ export default {
       if (percent == 1) {
         percent = 0; //当播放完成，进度条跳到开始
       }
-      //this.$refs.canvas.drawMain(percent, "#bd2523", "#888", 130, currentTime);
-      //lyric
       let Lyric = this.lycObj.lines;
       if (Lyric === undefined) {
         return;
@@ -213,18 +212,18 @@ export default {
       "prCurrentTime"
     ])
   },
-  created() {},
+  created() {
+        // this.id && this.init();
+  },
   mounted() {
-    this.init();
-    setTimeout(() => {
+    this.$nextTick(()=>{
       this.lycObj = new Lyric(this.lyricTxt, ({ lineNum, txt }) => {
         //console.log(lineNum, txt);
         this.txt = lineNum + txt;
       });
-      //console.log(this.lycObj);
-    }, 1000);
-    this.$root.$el.style.paddingBottom = 0;
-    this.createCanvas();
+      this.canvas = new Circle(".canvas");
+      this.$root.$el.style.paddingBottom = 0;
+    })
   },
   beforeDestroy() {
     this.canvas = null;
@@ -239,14 +238,7 @@ export default {
       "next",
       'switchType'
     ]),
-    createCanvas() {
-      this.time = setInterval(() => {
-        if (document.querySelector(".canvas")) {
-          this.canvas = new Circle(".canvas");
-          clearInterval(this.time);
-        }
-      }, 1000);
-    },
+    ...mapActions('music',['getSong','','getAlbum','getLrc']),
     toggleStatus() {
       this.showLyric = !this.showLyric;
     },
@@ -262,8 +254,7 @@ export default {
       this.$router.back();
     },
     init() {
-      const play = document.querySelector("#audioPlay");
-      play.addEventListener("timeupdate", () => {});
+       Promise.all([this.getSong(this.id), this.getLrc(id)])
     }
   }
 };

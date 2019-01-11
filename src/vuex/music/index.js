@@ -91,6 +91,9 @@ export default {
                 state.songList.push(song);
             }
             // 检测歌曲重复
+            // if(state.songList.map(v => v.id).includes(song.id)){
+            //     return
+            // }
             let flag = true;
             for (let i = 0; i < state.songList.length; i++) {
                 const v = state.songList[i];
@@ -124,6 +127,15 @@ export default {
         }
     },
     actions: {
+        async getListPlay({
+            state,
+            commit,
+            dispatch
+        }) {
+            await commit('setAudio') //添加到播放对象
+            let song = state.songList[state.currentIndex]
+            Promise.all([dispatch("getSong", song.id), dispatch("getLrc", song.id), dispatch("getAlbum", song.album.id)])
+        },
         async AddAndPlay({
             commit,
             dispatch

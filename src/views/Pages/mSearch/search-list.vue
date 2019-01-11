@@ -26,7 +26,6 @@ export default {
   methods: {
     ...mapActions("music",["AddAndPlay"]),
     play(v) {
-      //console.log(v);
       let song ={
             id: v.id,
             name: v.name,
