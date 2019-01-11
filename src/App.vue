@@ -66,7 +66,7 @@ export default {
 <style lang="less">
 @import "~vux/src/styles/1px.less";
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'PingFang SC','STHeitiSC-Light','Helvetica-Light',arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   // color: #2c3e50;

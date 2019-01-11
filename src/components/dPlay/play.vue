@@ -79,8 +79,8 @@
           <!-- 操作区域 -->
           <div class="playitem">
             <div class="child" >
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-swaphoriz"></use>
+              <svg class="icon" aria-hidden="true" @click="switchType">
+                <use :xlink:href="playtype"></use>
               </svg>
             </div>
             <div class="child" @click="prev">
@@ -90,7 +90,7 @@
             </div>
             <div class="child" @click="togglePlay">
               <svg class="icon" aria-hidden="true">
-                <use xlink:href="PlayOrPause"></use>
+                <use :xlink:href="PlayOrPause"></use>
               </svg>
             </div>
             <div class="child" @click="next">
@@ -186,6 +186,14 @@ export default {
     top() {
       return (417 - 375) / 2 + "px";
     },
+    playtype(){
+      const obj = {
+        1:'#icon-repeatone',
+        2:'#icon-repeat',
+        3:'#icon-swaphoriz'
+      }
+      return obj[this.playType]
+    },
     PlayOrPause() {
       return this.playing ? "#icon-playarrow" : "#icon-pause";
     },
@@ -228,7 +236,8 @@ export default {
       "setcurrentTime",
       "setdurationTime",
       "prev",
-      "next"
+      "next",
+      'switchType'
     ]),
     createCanvas() {
       this.time = setInterval(() => {
@@ -484,6 +493,7 @@ export default {
         flex: 1;
         font-size: 30px;
         padding: 10px 0;
+        color: #fff;
         &:nth-child(3) {
           font-size: 50px;
         }

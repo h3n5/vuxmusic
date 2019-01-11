@@ -11,8 +11,8 @@
       <p>推荐歌单</p>
       <div class="listItem">
         <PicBlock 
-        v-for="(item, index) in songs" 
-        :key="index"
+        v-for="item in songs" 
+        :key="item.id"
         :picUrl="item.picUrl"
         :playCount="item.playCount"
         :name="item.name"
@@ -172,7 +172,8 @@ export default {
       flex-flow: row wrap;
       padding: 3px;
       > div {
-        flex-basis:calc(100%/3);
+        flex:0 0 calc(100%/3);
+        width: calc(100%/3);
         padding: 0 3px;
         }
     }

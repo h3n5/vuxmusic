@@ -1,26 +1,31 @@
 <template>
   <div>
-    <div class="sticky">
-        <div class="img">
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-playcircleoutline"></use>
-            </svg>
-        </div>
-        <div class="playall vux-1px-b">播放全部<span>(共{{tracks.length}}首)</span></div>
+    <div class="sticky" @click="playall">
+      <div class="img">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-playcircleoutline"></use>
+        </svg>
+      </div>
+      <div class="playall vux-1px-b">播放全部
+        <span>(共{{tracks.length}}首)</span>
+      </div>
     </div>
     <ul class="songList">
-        <li class="list-item" v-for="(item, index) in tracks"  :key="item.id">
-            <div class="left">{{index+1}}</div>
-            <div class="right vux-1px-b">
-                <p class="title">{{item.name}}</p>
-                <p class="name"><x-icon type="ios-checkmark" size="14" class="itemNum-icon"></x-icon><span class="alname">{{item.al.name}}</span></p>
-            </div>
-        </li>
+      <li class="list-item" v-for="(item, index) in tracks" :key="item.id" @click="AddAndPlay(item)">
+        <div class="left">{{index+1}}</div>
+        <div class="right vux-1px-b">
+          <p class="title">{{item.name}}</p>
+          <p class="name">
+            <x-icon type="ios-checkmark" size="14" class="itemNum-icon"></x-icon>
+            <span class="alname">{{item.al.name}}</span>
+          </p>
+        </div>
+      </li>
     </ul>
   </div>
 </template>
-
 <script>
+import { mapActions } from "vuex"
 export default {
   name: "songlist",
   props: {
@@ -28,12 +33,13 @@ export default {
       type: Array
     }
   },
-  components: {},
-  data() {
-    return {};
-  },
-
-  methods: {}
+  methods: {
+    ...mapActions("music", ["AddAndPalyAll",'AddAndPlay']),
+    playall(){
+      this.AddAndPalyAll(this.tracks)
+      this.$router.push('/play/'+this.tracks[0].id)
+    }
+  }
 };
 </script>
 <style lang="less">

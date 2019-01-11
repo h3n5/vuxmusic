@@ -79,6 +79,7 @@ export default {
       right: 0;
       bottom: 0;
       z-index: -1;
+      border-radius: 3px;
     }
   }
   p {

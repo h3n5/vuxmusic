@@ -33,6 +33,20 @@ export default {
 
     },
     mutations: {
+        switchType(state) {
+            const map = new Map([
+                [1, (state) => {
+                    state.playType++
+                }],
+                [2, (state) => {
+                    state.playType++
+                }],
+                [3, (state) => {
+                    state.playType = 1
+                }]
+            ])
+            map.get(state.playType)(state)
+        },
         prev(state) {
             state.currentIndex === 0 ? state.currentIndex = state.songList.length - 1 : state.currentIndex--
         },
@@ -90,8 +104,24 @@ export default {
                 state.songList.push(song);
                 state.currentIndex = state.songList.length - 1;
             }
+        },
+        _AddTolist(state, songList = []) {
+            if (songList.length === 0) {
+                return
+            }
+            state.songList = []
+            state.songList = songList.map(v => {
+                return {
+                    id: v.id,
+                    name: v.name,
+                    artists: v.ar,
+                    albumPic: v.al.picUrl,
+                    album: v.al,
+                    location: ''
+                }
+            })
+            state.currentIndex = 0;
         }
-
     },
     actions: {
         async AddAndPlay({
@@ -102,6 +132,17 @@ export default {
             await commit("_PlayAndAddTolist", song); //添加到列表
             await commit('setAudio') //添加到播放对象
             Promise.all([dispatch("getSong", song.id), dispatch("getLrc", song.id), dispatch("getAlbum", song.album.id)])
+        },
+        async AddAndPalyAll({
+            commit,
+            dispatch
+        }, songList) {
+            await commit("_AddTolist", songList); //添加到列表
+            if (songList[0]) {
+                let song = songList[0]
+                await commit('setAudio') //添加到播放对象
+                Promise.all([dispatch("getSong", song.id), dispatch("getLrc", song.id), dispatch("getAlbum", song.al.id)])
+            }
         },
         async getSong({
             commit
