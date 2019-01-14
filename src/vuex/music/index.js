@@ -16,12 +16,14 @@ export default {
         },
         playType: 3, // 歌单列表播放方式:1,歌单循环;2,歌单随机;3,单曲循环
         lyricTxt: '', //歌词
+        lyricTxtCN: '', //中文歌词
         currentIndex: 0, // 当前播放的歌曲位置
         playing: false, // 播放状态:true,播放;false,暂停
         loading: false, // 是否正在加载中
         showDetail: false, // 显示详细
         songList: [], // 播放歌单列表
         currentTime: 0,
+        isCurrentTime: true,
         tmpCurrentTime: 0,
         durationTime: 0,
         bufferedTime: 0,
@@ -73,6 +75,9 @@ export default {
         setLrc(state, value) {
             state.lyricTxt = value
         },
+        setLrcCN(state, value) {
+            state.lyricTxtCN = value
+        },
         setAudio(state) {
             state.audio = state.songList[state.currentIndex];
         },
@@ -84,6 +89,9 @@ export default {
         },
         setAlbumUrl(state, value) {
             state.audio.albumPic = value;
+        },
+        setisCurrentTime(state, value) {
+            state.isCurrentTime = value
         },
         //私有方法
         _PlayAndAddTolist(state, song) {
@@ -180,7 +188,9 @@ export default {
             } else {
                 commit('setLrc', res.data.lrc.lyric)
             }
-
+            if (res.data.tlyric) {
+                commit('setLrcCN', res.data.tlyric.lyric)
+            }
 
         },
     }

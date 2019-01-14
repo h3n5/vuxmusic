@@ -112,7 +112,6 @@ export default {
       }
     },
     pullDownRefresh: {
-      type: Object,
       default: () => {
         return {
           threshold: 50,
@@ -121,7 +120,6 @@ export default {
       }
     },
     pullUpLoad: {
-      type: Object,
       default: () => {
         return { threshold: 50 };
       }

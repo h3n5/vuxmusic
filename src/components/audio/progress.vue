@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import Drag from "./drag.js";
 export default {
   name: "indicater",
@@ -26,7 +26,6 @@ export default {
   computed: {
     ...mapState("music", [
       "audio",
-      "lyricTxt",
       "change",
       "playing",
       "loading",
@@ -45,6 +44,7 @@ export default {
   },
   filters: {
     dateFormat(value) {
+      value = Math.round(value)
       let left =
         parseInt(value / 60) < 10
           ? "0" + parseInt(value / 60)
@@ -55,11 +55,26 @@ export default {
   },
   mounted() {
     this.drag = new Drag(".indicater", ".progress");
+    let _this = this
+    this.drag.on("move", percent => {
+      _this.setisCurrentTime(false)
+      _this.setcurrentTime(Math.round(_this.durationTime * percent))
+    });
     this.drag.on("end", percent => {
-      this.currentTime = this.durationTime * percent;
+      _this.setisCurrentTime(true)
+      document.querySelector("#audioPlay").currentTime = Math.round(_this.durationTime * percent)
+    });
+    this.drag.on("click", percent => {
+      _this.setcurrentTime(Math.round(_this.durationTime * percent))
+      document.querySelector("#audioPlay").currentTime = Math.round(_this.durationTime * percent)
     });
   },
-  methods: {}
+  methods: {
+    ...mapMutations('music',['setcurrentTime','setisCurrentTime'])
+  },
+  beforeDestroy(){
+    this.drag = null
+  }
 };
 </script>
 

@@ -11,6 +11,7 @@ class Drag {
         this.target.ontouchstart = this.touchstart.bind(this)
         this.target.ontouchend = this.touchend.bind(this)
         this.target.ontouchmove = this.touchmove.bind(this)
+        this.limit.onclick = this.click.bind(this)
     }
     touchstart() {
         this.flag = true
@@ -29,7 +30,19 @@ class Drag {
             distance = distance > width - targetWidth / 2 ? width - targetWidth / 2 : distance
             distance = distance < 0 ? 0 : distance
             this.per = distance / width
+            this.event.move.call(this, this.per)
         }
+    }
+    click(e) {
+        console.log(e);
+        var left = this.limit.offsetLeft
+        var width = this.limit.offsetWidth
+        var targetWidth = this.target.offsetWidth
+        var distance = e.clientX - left - targetWidth / 2
+        distance = distance > width - targetWidth / 2 ? width - targetWidth / 2 : distance
+        distance = distance < 0 ? 0 : distance
+        this.per = distance / width
+        this.event.click.call(this, this.per)
     }
     on(event, callback) {
         this.event[event] = callback

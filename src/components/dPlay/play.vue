@@ -60,19 +60,20 @@
           </div>
           <!-- 歌词 -->
           <div class="lrc" @click="toggleStatus" v-show="showLyric">
-            <scroll class="wrapper" ref="scroll">
+            <scroll class="wrapper" ref="scroll" :pullDownRefresh="false" :pullUpLoad="false">
               <div class="lrc-content content">
                 <div class="lrc-box">
-                  <p
+                  <div
                     class="lrc-list"
                     :class="{'lrc-select':item.show}"
                     v-for="(item, index) in lycObj.lines"
                     :key="index"
-                  >{{item.txt}}</p>
+                  >
+                  <p>{{item.txt}}</p>
+                  <p>{{item.txtCN}}</p>
+                  </div>
                 </div>
               </div>
-              <div slot="pullup"></div>
-              <div slot="pulldown"></div>
             </scroll>
           </div>
         </div>
@@ -80,7 +81,7 @@
           <musicProgress></musicProgress>
           <!-- 操作区域 -->
           <div class="playitem">
-            <div class="child" >
+            <div class="child">
               <svg class="icon" aria-hidden="true" @click="switchType">
                 <use :xlink:href="playtype"></use>
               </svg>
@@ -115,13 +116,12 @@
 <script>
 import { mapMutations, mapState, mapActions } from "vuex";
 import { ViewBox, Actionsheet } from "vux";
-import Lyric from "lyric-parser";
+import Lyric from "./lyric";
 import scroll from "@/components/scroll";
 import canvasCircle from "@/components/anime/canvasCircle";
 import musicProgress from "@/components/audio/progress";
 import songlistModal from "./songlistModal";
 import Circle from "@/components/anime/circle";
-import { setInterval, clearInterval } from "timers";
 export default {
   name: "play",
   data() {
@@ -133,17 +133,13 @@ export default {
       percent: 90,
       duration: 600,
       lycObj: {},
-      scrollbarObj: false,
-      startY: 200,
-      pullDownRefreshObj: false,
-      pullUpLoadObj: false,
       //modal
       showList: false
     };
   },
   props: {
     id: {
-      default: ''
+      default: ""
     }
   },
   watch: {
@@ -163,13 +159,13 @@ export default {
         for (let [i, line] of new Map(Lyric.map((item, i) => [i, item]))) {
           line.show = false;
           if (line.time > v * 1000) {
-            line.show = true;
-            this.$refs.scroll.scrollTo(0, -i * 30 + 200);
+            this.$set(Lyric, i, Object.assign(Lyric[i], { show: true }));
+            this.$refs.scroll.scrollTo(0, -i * 60 + 220);
             break;
           }
         }
-      } catch (error) {
-        //console.log(error);
+      } catch (e){
+        console.log(e);
       }
     }
   },
@@ -185,13 +181,13 @@ export default {
     top() {
       return (417 - 375) / 2 + "px";
     },
-    playtype(){
+    playtype() {
       const obj = {
-        1:'#icon-repeatone',
-        2:'#icon-repeat',
-        3:'#icon-swaphoriz'
-      }
-      return obj[this.playType]
+        1: "#icon-repeatone",
+        2: "#icon-repeat",
+        3: "#icon-swaphoriz"
+      };
+      return obj[this.playType];
     },
     PlayOrPause() {
       return this.playing ? "#icon-playarrow" : "#icon-pause";
@@ -199,6 +195,7 @@ export default {
     ...mapState("music", [
       "audio",
       "lyricTxt",
+      "lyricTxtCN",
       "change",
       "playing",
       "loading",
@@ -213,17 +210,18 @@ export default {
     ])
   },
   created() {
-        // this.id && this.init();
+    // this.id && this.init();
   },
   mounted() {
-    this.$nextTick(()=>{
-      this.lycObj = new Lyric(this.lyricTxt, ({ lineNum, txt }) => {
-        //console.log(lineNum, txt);
-        this.txt = lineNum + txt;
-      });
+    this.$nextTick(() => {
+      this.lycObj = new Lyric(this.lyricTxt,this.lyricTxtCN);
+      this.lycObj.lines = this.lycObj.lines.map(v =>
+        Object.assign(v, { show: false })
+      );
+
       this.canvas = new Circle(".canvas");
       this.$root.$el.style.paddingBottom = 0;
-    })
+    });
   },
   beforeDestroy() {
     this.canvas = null;
@@ -236,9 +234,9 @@ export default {
       "setdurationTime",
       "prev",
       "next",
-      'switchType'
+      "switchType"
     ]),
-    ...mapActions('music',['getSong','','getAlbum','getLrc']),
+    ...mapActions("music", ["getSong", "", "getAlbum", "getLrc"]),
     toggleStatus() {
       this.showLyric = !this.showLyric;
     },
@@ -254,7 +252,7 @@ export default {
       this.$router.back();
     },
     init() {
-       Promise.all([this.getSong(this.id), this.getLrc(id)])
+      Promise.all([this.getSong(this.id), this.getLrc(this.id)]);
     }
   }
 };
@@ -439,10 +437,10 @@ export default {
     }
     .lrc {
       font-size: 14px;
-      padding-top: 40px;
+      padding: 20px 0;
       color: #fefefe;
       text-align: center;
-      height: 400px;
+      height: 480px;
       .wrapper {
         height: 100%;
         // overflow: hidden;
@@ -456,8 +454,10 @@ export default {
             color: hsla(0, 0%, 100%, 0.6);
           }
           .lrc-select {
-            font-size: 16px;
-            color: #ff2d55;
+            >p{
+              font-size: 16px;
+              color: #ff2d55;
+            }
           }
           .lrc-now {
             font-size: 16px;

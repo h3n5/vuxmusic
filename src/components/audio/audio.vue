@@ -7,13 +7,13 @@
       @canplay="canPlaySong"
       @ended="next"
       id="audioPlay"
-      :loop="playType === 3"
+      :loop="playType === 1"
     ></audio>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "",
   components: {},
@@ -23,7 +23,6 @@ export default {
   computed: {
     ...mapState("music", [
       "audio",
-      "lyricTxt",
       "change",
       "playing",
       "loading",
@@ -34,7 +33,8 @@ export default {
       "prBufferedTime",
       "tmpCurrentTime",
       "durationTime",
-      "prCurrentTime"
+      "prCurrentTime",
+      'isCurrentTime'
     ])
   },
   watch:{
@@ -48,15 +48,17 @@ export default {
       "pause",
       "setcurrentTime",
       "setdurationTime",
-      "setAudio",
-      "getListPlay"
+      "setAudio"
     ]),
+    ...mapActions("music",['getListPlay']),
     updateTime(e) {
-      this.setcurrentTime(Math.round(e.target.currentTime));
+      if(this.isCurrentTime){
+        this.setcurrentTime((e.target.currentTime));
+      }
     },
     canPlaySong(e) {
       this.play();
-      this.setdurationTime(Math.round(e.target.duration));
+      this.setdurationTime((e.target.duration));
     },
     next() {
       // 1,歌单循环;2,歌单随机;3,单曲循环
