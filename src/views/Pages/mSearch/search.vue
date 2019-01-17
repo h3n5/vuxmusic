@@ -27,6 +27,7 @@ import hotsearch from "./hot-search.vue";
 import searchlist from "./search-list.vue";
 import { searchMusic } from "@/api/api";
 import { mapState } from "vuex";
+import lodash from '@/util';
 export default {
   name: "search",
   components: {
@@ -45,9 +46,10 @@ export default {
     };
   },
   methods: {
-    updatesearch(e) {
+    updatesearch:lodash.throttle(function(e){
+      this.searchClick()
       this.$store.commit("music/updateMessage", e.target.value);
-    },
+    },1000),
     async searchClick() {
       //console.log(this.search);
       let res = await searchMusic(this.search);

@@ -75,8 +75,7 @@ export default {
   methods: {
     async getpersonalizedDate() {
       let res = await getpersonalized();
-      let random = this.sortRandom(res.data.result);
-      this.songs = random.splice(7, 6);
+      this.songs = this.sortRandom(res.data.result).slice(0,6)
     },
     async getpersonalizedDateMore() {
       let res = await getpersonalized();

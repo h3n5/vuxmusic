@@ -60,7 +60,7 @@
           </div>
           <!-- 歌词 -->
           <div class="lrc" @click="toggleStatus" v-show="showLyric">
-            <scroll class="wrapper" ref="scroll" :pullDownRefresh="false" :pullUpLoad="false">
+            <scroll class="wrapper" ref="scroll" :pullDownRefresh="false" :pullUpLoad="false" @scroll-start="lyricScroll = false" @scroll-end="lyricScroll = true">
               <div class="lrc-content content">
                 <div class="lrc-box">
                   <div
@@ -134,7 +134,8 @@ export default {
       duration: 600,
       lycObj: {},
       //modal
-      showList: false
+      showList: false,
+      lyricScroll : true
     };
   },
   props: {
@@ -160,7 +161,7 @@ export default {
           line.show = false;
           if (line.time > v * 1000) {
             this.$set(Lyric, i, Object.assign(Lyric[i], { show: true }));
-            this.$refs.scroll.scrollTo(0, -i * 60 + 220);
+            this.lyricScroll && this.$refs.scroll.scrollTo(0, -i * 60 + 220);
             break;
           }
         }
