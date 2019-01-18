@@ -55,6 +55,13 @@ let router = new Router({
         import('./views/Pages/SongListDetail')
     },
     {
+      path: '/recomment',
+      name: 'Recomment',
+      props: true,
+      component: () =>
+        import('./views/Pages/Recomment')
+    },
+    {
       path: '*',
       redirect: '/'
     }

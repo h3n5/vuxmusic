@@ -95,11 +95,11 @@ export default {
     },
     listenBeforeScroll: {
       type: Boolean,
-      default: false
+      default: true
     },
     listenScrollEnd: {
       type: Boolean,
-      default: false
+      default: true
     },
     direction: {
       type: String,

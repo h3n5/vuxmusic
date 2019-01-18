@@ -17,7 +17,7 @@ export default {
         @drawing_elem: 绘制对象
         @percent：绘制圆环百分比, 范围[0, 100]
         @forecolor: 绘制圆环的前景色，颜色代码
-        @bgcolor: 绘制圆环的背景色，颜色代码
+        @bgcolor: 绘制圆环的背景色，颜色代码#16ade6 f9ed69 f08a5d b83b5e 6a2c70
         @circleWidth:width
         */
       var drawing_elem = document.querySelector("#canvasgraph");

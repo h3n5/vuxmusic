@@ -72,10 +72,13 @@ export default {
       let res = await getSongListByOrder(data);
       this.songs = this.sortRandom(res.data.playlists).splice(0, 6);
     },
-    sortRandom(arr = []) {
-      return arr.sort(() => {
-        return Math.random() > 0.5 ? true : false;
-      });
+    sortRandom(a) {
+      let len = a.length;
+      for (let i = len - 1; i >= 0; i--) {
+        var pos = ~~(Math.random() * i);
+        [a[i], a[pos]] = [a[pos], a[i]];
+      }
+      return a;
     }
   },
   created() {

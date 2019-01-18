@@ -4,10 +4,19 @@ class Circle {
     this.element.width = this.width = width
     this.element.height = this.height = height
     this.context = this.element.getContext('2d')
+    const c = [
+      [22, 173, 230],
+      [249, 237, 105],
+      [240, 138, 93],
+      [184, 59, 94],
+      [106, 44, 112],
+      [195, 214, 0]
+    ]
+    const color = c[~~(c.length * Math.random())]
     this.config = {
       radius: 100,
       num: 8,
-      color: [195, 214, 0],
+      color: color,
       speed: 0.3,
       play: true
     }

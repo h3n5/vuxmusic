@@ -11,7 +11,7 @@
         <div class="listItem">
           <PicBlock 
           v-for="(item, index) in songs" 
-          :key="index"
+          :key="item.id"
           :picUrl="item.coverImgUrl"
           :playCount="item.playCount"
           :name="item.name"
@@ -63,7 +63,7 @@ export default {
     pullingUpFlag(v) {
       if (v) {
         if (this.tabIndex === "songList") {
-          this.getSongList();
+          this.getSongList({},true);
           this.$emit("pullupcallback");
         }
       }
@@ -78,14 +78,23 @@ export default {
     async getTag(params = {}) {
       this.action_getAllTag(params)
     },
-    async getSongList(data={}) {
+    async getSongList(data={},add = false) {
       let res = await getSongListByOrder(data);
-      this.songs = this.sortRandom(res.data.playlists).splice(0, 6);
+      if(add){
+        var r = this.sortRandom(res.data.playlists).filter(v => !this.songs.map(v => v.id).includes(v.id)).slice(0, 6)
+        this.songs = this.songs.concat(...r)
+      }else{
+        this.songs = this.sortRandom(res.data.playlists).slice(0, 6);
+      }
+      
     },
-    sortRandom(arr = []) {
-      return arr.sort(() => {
-        return Math.random() > 0.5 ? true : false;
-      });
+    sortRandom(a) {
+      let len = a.length;
+      for (let i = len - 1; i >= 0; i--) {
+        var pos = ~~(Math.random() * i);
+        [a[i], a[pos]] = [a[pos], a[i]];
+      }
+      return a;
     }
   },
   created() {

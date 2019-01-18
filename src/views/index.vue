@@ -2,7 +2,7 @@
   <div class="main">
     <m-head></m-head>
     <!-- 标签 -->
-    <tab :line-width=2 active-color='#fc378c' >
+    <tab :line-width=2 active-color='#fc378c' v-model="index">
         <tab-item 
         active-class='tabselected'
         class="vux-center"
@@ -30,7 +30,7 @@
 </template>
 <script>
 import { Tab, TabItem } from "vux";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 import mHead from "@/components/TabBar";
 import commend from "@/views/Commend";
 import songList from "@/views/SongList";
@@ -51,12 +51,25 @@ export default {
   },
   data() {
     return {
+      list: ['commend','songList','anchorRadio','ranking'],
       tabIndex: "commend",
-      loadEnd: true
+      loadEnd: true,
+      index: 1
     };
   },
+  mounted(){
+    this.$nextTick(()=>{
+      this.index = this.mainIndex
+      this.tabIndex  = this.list[this.index]
+    })
+  },
+  watch:{
+    tabIndex(v){
+      this.Set_mainIndex(this.mainTab.findIndex(item => item.type === v))
+    }
+  },
   computed: {
-    ...mapGetters("menu", ["mainTab"])
+    ...mapState("menu", ["mainTab",'mainIndex'])
   },
   methods: {
     ...mapMutations("scroll", [
@@ -64,6 +77,7 @@ export default {
       "pullingUpFlagChange",
       "tabIndexChange"
     ]),
+    ...mapMutations('menu',['Set_mainIndex']),
     pullingDown() {
       if(!this.loadEnd){
         this.loadEnd  = !this.loadEnd

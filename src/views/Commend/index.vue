@@ -2,7 +2,7 @@
   <div class="mContent">
     <Banner></Banner>
     <div class="menu">
-      <div class="menuList" v-for="(item, index) in mainContentTab" :key="index">
+      <div class="menuList" v-for="(item, index) in mainContentTab" :key="index" @click="$router.push('/recomment')">
         <div class="imgfm"></div>
         <p>{{item}}</p>
       </div>

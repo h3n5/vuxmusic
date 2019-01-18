@@ -148,7 +148,6 @@ export default {
             commit,
             dispatch
         }, song) {
-            console.log(song);
             await commit("_PlayAndAddTolist", song); //添加到列表
             await commit('setAudio') //添加到播放对象
             Promise.all([dispatch("getSong", song.id), dispatch("getLrc", song.id), dispatch("getAlbum", song.album.id)])

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mheader title="歌单"></mheader>
+    <mheader title="每日推荐"></mheader>
     <SongListInfo :creator="creator" :coverImgUrl="playlist.coverImgUrl" :name="playlist.name"></SongListInfo>
     <SongList :tracks="tracks"></SongList>
   </div>
@@ -10,7 +10,7 @@
 import mheader from "@/components/header-3";
 import SongList from "./SongList";
 import SongListInfo from "./SongListInfo";
-import { playlistDetail } from "@/api/api";
+import { recommendSongs } from "@/api/api";
 export default {
   name: "SongListDetail",
   components: {
@@ -18,31 +18,25 @@ export default {
     SongList,
     SongListInfo
   },
-  props: {
-    id: {
-      require: true
-    }
-  },
   data() {
     return {
-      playlist: {},
-      creator: {},
+      playlist: {
+        coverImgUrl:'@/assets/123.jpg',
+        name:'每日推荐'
+      },
+      creator: {
+        name:'每日推荐'
+      },
       tracks: []
     };
   },
   created() {
-    this.getplaylistDetail(this.id);
+    recommendSongs().then(res => {
+      this.tracks = res.data.recommend
+    })
   },
   methods: {
-    getplaylistDetail(id) {
-      playlistDetail({ id: id }).then(res => {
-        if (res.data.code === 200) {
-          this.playlist = res.data.playlist;
-          this.creator = res.data.playlist.creator;
-          this.tracks = res.data.playlist.tracks;
-        }
-      });
-    }
+
   },
   beforeRouteEnter(to, from, next) {
     next(() => {

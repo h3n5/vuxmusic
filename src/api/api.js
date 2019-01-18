@@ -134,3 +134,10 @@ export const playlistDetail = (params = {
         params: params
     })
 }
+export const recommendSongs = (params = {}) => {
+    return axios.request({
+        url: apiMusic.recommendSongs,
+        method: 'get',
+        params: params
+    })
+}

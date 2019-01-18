@@ -20,7 +20,8 @@ export default {
         mainContentTab: ["私人FM", "每日歌曲推荐", "云音乐热歌榜"],
         mainTag: [],
         showFoot: true,
-        alive: ['search', 'Search']
+        alive: ['search', 'Search'],
+        mainIndex: 0
     },
     getters: {
         mainTab: state => {
@@ -35,6 +36,9 @@ export default {
 
     },
     mutations: {
+        Set_mainIndex(state, value) {
+            state.mainIndex = value
+        },
         GET_TAG_SUCCESS(state, tags) {
             state.mainTag = tags
         },

@@ -43,8 +43,8 @@ export default class Lyric {
     const lines = this.lrc.split('\n')
     const linesCN = this.lrcCN.split('\n')
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i]
-      const lineCn = linesCN[i]
+      const line = lines[i] || ''
+      const lineCn = linesCN[i] || ''
       let result = timeExp.exec(line)
       if (result) {
         const txt = line.replace(timeExp, '').trim()
