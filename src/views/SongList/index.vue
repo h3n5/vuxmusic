@@ -10,7 +10,7 @@
         </div> 
         <div class="listItem">
           <PicBlock 
-          v-for="(item, index) in songs" 
+          v-for="(item) in songs" 
           :key="item.id"
           :picUrl="item.coverImgUrl"
           :playCount="item.playCount"

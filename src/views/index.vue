@@ -30,7 +30,7 @@
 </template>
 <script>
 import { Tab, TabItem } from "vux";
-import { mapGetters, mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 import mHead from "@/components/TabBar";
 import commend from "@/views/Commend";
 import songList from "@/views/SongList";
