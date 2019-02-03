@@ -60,17 +60,24 @@
           </div>
           <!-- 歌词 -->
           <div class="lrc" @click="toggleStatus" v-show="showLyric">
-            <scroll class="wrapper" ref="scroll" :pullDownRefresh="false" :pullUpLoad="false" @scroll-start="lyricScroll = false" @scroll-end="lyricScroll = true">
+            <scroll
+              class="wrapper"
+              ref="scroll"
+              :pullDownRefresh="false"
+              :pullUpLoad="false"
+              @scroll-start="lyricScroll = false"
+              @scroll-end="lyricScroll = true"
+            >
               <div class="lrc-content content">
                 <div class="lrc-box">
                   <div
                     class="lrc-list"
                     :class="{'lrc-select':item.show}"
-                    v-for="(item, index) in lycObj.lines"
+                    v-for="(item, index) in lyric.lines"
                     :key="index"
                   >
-                  <p>{{item.txt}}</p>
-                  <p>{{item.txtCN}}</p>
+                    <p>{{item.txt}}</p>
+                    <p v-if="lyric.hasCN">{{item.txtCN}}</p>
                   </div>
                 </div>
               </div>
@@ -83,20 +90,20 @@
           <div class="playitem">
             <div class="child">
               <svg class="icon" aria-hidden="true" @click="switchType">
-                <use :xlink:href="playtype"></use>
+                <use :href="playtype"></use>
               </svg>
             </div>
-            <div class="child" @click="prev">
+            <div class="child" @click="prevSong">
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-skipprevious"></use>
               </svg>
             </div>
             <div class="child" @click="togglePlay">
               <svg class="icon" aria-hidden="true">
-                <use :xlink:href="PlayOrPause"></use>
+                <use :href="PlayOrPause"></use>
               </svg>
             </div>
-            <div class="child" @click="next">
+            <div class="child" @click="nextSong">
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-skipnext"></use>
               </svg>
@@ -107,7 +114,7 @@
               </svg>
             </div>
           </div>
-          <songlistModal v-model="showList" @cb="showList = false"></songlistModal>
+          <songlistModal v-model="showList" @cb="showList = false" @callback="initLyric"></songlistModal>
         </div>
       </section>
     </view-box>
@@ -116,7 +123,6 @@
 <script>
 import { mapMutations, mapState, mapActions } from "vuex";
 import { ViewBox, Actionsheet } from "vux";
-import Lyric from "./lyric";
 import scroll from "@/components/scroll";
 import canvasCircle from "@/components/anime/canvasCircle";
 import musicProgress from "@/components/audio/progress";
@@ -132,40 +138,49 @@ export default {
       showLyric: false,
       percent: 90,
       duration: 600,
-      lycObj: {},
       //modal
       showList: false,
-      lyricScroll : true
+      lyricScroll: true,
+      lyric: {}
     };
   },
   props: {
     id: {
-      default: ""
+      type: String
     }
   },
   watch: {
+    lyricObj: {
+      handler(v) {
+        this.lyric = v
+      },
+      immediate: true
+    },
     currentTime(v) {
-      //canvas
       let currentTime = v;
       let duration = this.durationTime;
       let percent = currentTime / duration;
       if (percent == 1) {
         percent = 0; //当播放完成，进度条跳到开始
       }
-      let Lyric = this.lycObj.lines;
+      let Lyric = this.lyric.lines;
       if (Lyric === undefined) {
         return;
       }
       try {
-        for (let [i, line] of new Map(Lyric.map((item, i) => [i, item]))) {
-          line.show = false;
-          if (line.time > v * 1000) {
+        for (let i = 0; i < Lyric.length - 1; i++) {
+          Lyric[i].show = false;
+          if (v * 1000 > Lyric[i].time && v * 1000 < Lyric[i + 1].time) {
             this.$set(Lyric, i, Object.assign(Lyric[i], { show: true }));
-            this.lyricScroll && this.$refs.scroll.scrollTo(0, -i * 60 + 220);
+            this.lyricScroll &&
+              this.$refs.scroll.scrollTo(
+                0,
+                -i * (25 + this.lyric.hasCN ? 35 : 0) + 220
+              );
             break;
           }
         }
-      } catch (e){
+      } catch (e) {
         console.log(e);
       }
     }
@@ -184,9 +199,9 @@ export default {
     },
     playtype() {
       const obj = {
-        1: "#icon-repeatone",
-        2: "#icon-repeat",
-        3: "#icon-swaphoriz"
+        3: "#icon-repeatone",
+        1: "#icon-repeat",
+        2: "#icon-swaphoriz"
       };
       return obj[this.playType];
     },
@@ -197,6 +212,7 @@ export default {
       "audio",
       "lyricTxt",
       "lyricTxtCN",
+      "lyricObj",
       "change",
       "playing",
       "loading",
@@ -210,22 +226,11 @@ export default {
       "prCurrentTime"
     ])
   },
-  created() {
-    // this.id && this.init();
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.lycObj = new Lyric(this.lyricTxt,this.lyricTxtCN);
-      this.lycObj.lines = this.lycObj.lines.map(v =>
-        Object.assign(v, { show: false })
-      );
-
-      this.canvas = new Circle(".canvas");
-      this.$root.$el.style.paddingBottom = 0;
-    });
-  },
   beforeDestroy() {
     this.canvas = null;
+  },
+  mounted() {
+    this.initLyric();
   },
   methods: {
     ...mapMutations("music", [
@@ -237,7 +242,23 @@ export default {
       "next",
       "switchType"
     ]),
-    ...mapActions("music", ["getSong", "", "getAlbum", "getLrc"]),
+    ...mapActions("music", ["getListPlay"]),
+    async prevSong() {
+      await this.prev();
+      await this.getListPlay();
+      await this.initLyric();
+    },
+    async nextSong() {
+      await this.next();
+      await this.getListPlay();
+      await this.initLyric();
+    },
+    initLyric() {
+      this.$nextTick(() => {
+        this.canvas = new Circle(".canvas");
+        this.$root.$el.style.paddingBottom = 0;
+      });
+    },
     toggleStatus() {
       this.showLyric = !this.showLyric;
     },
@@ -248,12 +269,6 @@ export default {
       } else {
         this.play();
       }
-    },
-    back() {
-      this.$router.back();
-    },
-    init() {
-      Promise.all([this.getSong(this.id), this.getLrc(this.id)]);
     }
   }
 };
@@ -455,7 +470,7 @@ export default {
             color: hsla(0, 0%, 100%, 0.6);
           }
           .lrc-select {
-            >p{
+            > p {
               font-size: 16px;
               color: #ff2d55;
             }

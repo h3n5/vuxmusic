@@ -1,15 +1,14 @@
 <template>
-  <div class="songList" >
+  <div class="songList">
     <div class="imgBox">
-        <img v-lazy="song.coverImgUrl">
-        <span><svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-earPhone"></use>
-        </svg>{{countNumber(song.playCount)}}</span>
+      <img v-lazy="song.coverImgUrl">
     </div>
     <div class="wordBox">
-        <p class="top">{{song.name}}</p>
-        <p class="center">{{song.name}}</p>
-        <p class="bottom">{{song.name}}</p>
+      <p
+        class="top"
+        v-for="(item, index) in song.tracks"
+        :key="index"
+      >{{index+1}}.{{item.first}} - {{item.second}}</p>
     </div>
   </div>
 </template>
@@ -20,12 +19,12 @@ export default {
   props: {
     song: {
       type: Object,
-      default: ()=>{
+      default: () => {
         return {
           name: "",
           playCount: 0,
           picUrl: ""
-        }
+        };
       }
     }
   },
@@ -34,11 +33,15 @@ export default {
   },
 
   methods: {
-    countNumber(number){
-      if(number > 100000){
-        return parseInt(number).toString().slice(0,-4)+'万'
-      }else{
-        return ~~number
+    countNumber(number) {
+      if (number > 100000) {
+        return (
+          parseInt(number)
+            .toString()
+            .slice(0, -4) + "万"
+        );
+      } else {
+        return ~~number;
       }
     }
   }
@@ -46,20 +49,26 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.ellipsis(@num){
-  overflow:hidden;
-  text-overflow:ellipsis;
-  display:-webkit-box;
-  -webkit-box-orient:vertical;
-  -webkit-line-clamp:@num;
+.ellipsis(@num) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: @num;
+}
+.eliOne() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .songList {
-    display: flex;
-    flex-flow: row nowrap;
-    margin-bottom: 10px;
+  display: flex;
+  flex-flow: row nowrap;
+  margin-bottom: 10px;
+  width: 100%;
   .imgBox {
     position: relative;
-    flex: 3;
+    flex: 0 0 35%;
     &::before {
       content: "";
       display: inline-block;
@@ -83,21 +92,21 @@ export default {
       right: 0;
       bottom: 0;
       z-index: -1;
+      border-radius: 5px;
     }
   }
-  .wordBox{
+  .wordBox {
     height: 100%;
-    flex:7;
+    flex: 0 0 65%;
     p {
-        padding: 5px;
-        height: calc(100%/3);
-        display: flex;
-        justify-content: center;
-        text-align: center;
-        font-size: 14px;
-        .ellipsis(1);
+      padding: 5px;
+      height: calc(100% / 3);
+      display: flex;
+      margin-left: 10px;
+      font-size: 14px;
+      width: 200px;
+      .eliOne()
     }
   }
-
 }
 </style>

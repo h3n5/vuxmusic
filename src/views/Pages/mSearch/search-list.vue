@@ -31,7 +31,8 @@ export default {
             name: v.name,
             artists: v.artists,
             albumPic: '@/assets/play/player-bar.png',
-            album: v.album
+            album: v.album,
+            location:`https://music.163.com/song/media/outer/url?id=${v.id}.mp3 `
       }
       this.AddAndPlay(song);
       this.$router.push("/play/"+v.id)

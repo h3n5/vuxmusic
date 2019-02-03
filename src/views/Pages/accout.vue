@@ -2,12 +2,11 @@
   <div>
       <mHead title="账号" ></mHead>
         <div class="songList" >
-            <div class="imgBox">
-              <img :src="user.avatarUrl" alt="头像">
+            <div class="imgBox" :style="{backroundImage:user.avatarUrl}">
             </div>
             <div class="wordBox">
                 <div class="left">
-                    <p class="top">{{user.nickname}}</p>
+                    <p class="top">{{user.nickname || '未登录'}}</p>
                     <p class="level">Lv.5</p>
                 </div>
                 <div class="right">
@@ -128,6 +127,8 @@ export default {
     position: relative;
     flex-basis: 60px;
     height: 60px;
+    background: @maincolor;
+    border-radius: 100%;
     img {
       width: 100%;
       height: 100%;

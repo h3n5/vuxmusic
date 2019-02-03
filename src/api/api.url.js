@@ -24,6 +24,7 @@ const apiMusic = {
     // playlistComment: '/comment/playlist', // 获取歌单评论
     // albumComment: '/comment/album', // 获取专辑评论
     // artistMv: '/artist/mv', // 获取歌手MV
+    toplist: '/toplist/detail',
     playlistDetail: '/playlist/detail', // 获取歌单详情
     topPlaylist: '/top/playlist', //  歌单(网友精选歌单)
     album: '/album', //  获取专辑内容

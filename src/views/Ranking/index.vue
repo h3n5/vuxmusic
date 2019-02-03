@@ -7,9 +7,10 @@
                 <p class="random"></p>
             </div>
             <rankingList
+                @click.native="$router.push('/SongListDetail/'+item.id)"
                 v-for="(item, index) in songs" :key="index"
                 class="content"
-                :song=item
+                :song='item'
             ></rankingList>
         </div>
       </div>
@@ -17,10 +18,8 @@
 </template>
 <script>
 import {
-  getpersonalized,
-  getSongListByOrder
+  toplist
 } from "@/api/api";
-import { mapGetters, mapActions } from "vuex";
 import rankingList from "@/components/rankingList";
 import { ButtonTab, ButtonTabItem } from 'vux'
 import test from './test';
@@ -39,36 +38,17 @@ export default {
     test
   },
   computed: {
-    ...mapGetters("menu", ["mainContentTab", "mainTag"])
-  },
-  methods: {
-    ...mapActions("menu", ["action_getAllTag"]),
-    tagChange() {
-      //console.log(object);
-    },
-    async getTag(params = {}) {
-      this.action_getAllTag(params)
-    },
-    async getpersonalizedDate() {
-      let res = await getpersonalized();
-      this.songs = this.sortRandom(res.data.result).splice(0, 6);
-    },
-    async getSongList(data={}) {
-      let res = await getSongListByOrder(data);
-      this.songs = this.sortRandom(res.data.playlists).splice(0, 6);
-    },
-    sortRandom(a) {
-      let len = a.length;
-      for (let i = len - 1; i >= 0; i--) {
-        var pos = ~~(Math.random() * i);
-        [a[i], a[pos]] = [a[pos], a[i]];
-      }
-      return a;
-    }
+
   },
   created() {
-    this.getSongList();
-    this.getTag();
+    this.init()
+  },
+  methods: {
+    init(){
+      toplist().then(res => {
+        this.songs = res.data.list.slice(0,4)
+      })
+    }
   }
 };
 </script>
@@ -96,6 +76,7 @@ export default {
       display: flex;
       flex-flow: row wrap;
       padding: 3px;
+      padding-bottom: 10px;
       .title{
           padding-bottom: 15px;
           display: flex;

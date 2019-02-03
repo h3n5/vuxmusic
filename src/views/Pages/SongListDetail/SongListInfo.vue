@@ -1,26 +1,37 @@
 <template>
   <div class="display">
     <div class="top">
-        <div class="img"><img v-lazy="coverImgUrl" alt="coverImgUrl"></div>
-        <div class="message">
-            <p class="name">{{name}}</p>
-            <div class="avata"><img v-lazy="creator.avatarUrl" alt="avatarUrl"><span>{{creator.nickname}}</span></div>
+      <div class="img">
+        <img v-lazy="coverImgUrl" alt="coverImgUrl">
+      </div>
+      <div class="message">
+        <p class="name">{{name}}</p>
+        <div class="avata">
+          <img :src="creator.avatarUrl" alt="avatarUrl">
+          <span>{{creator.nickname}}</span>
         </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState } from "vuex";
 export default {
   name: "display",
   components: {},
   props: {
     creator: {
-      type: Object
+      type: Object,
+      default: () => {
+        return {
+          avatarUrl: require('@/assets/play/player-bar.png')
+        };
+      }
     },
     coverImgUrl: {
-      type: String
+      type: String,
+      default: require('@/assets/play/player-bar.png')
     },
     name: {
       type: String

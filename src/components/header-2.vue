@@ -12,8 +12,10 @@
     <x-dialog v-model="show" class="dialog" hide-on-blur>
       <div class="input">
         <group title="邮箱登录">
-          <x-input title="邮箱" type="text" placeholder="请输入邮箱" required v-model="form.email" is-type="email"></x-input>
-          <x-input title="密码" type="password" placeholder="请输入密码" required v-model="form.password"></x-input>
+          <form>
+            <x-input title="邮箱" type="text" placeholder="请输入邮箱" required v-model="form.email" is-type="email"></x-input>
+            <x-input title="密码" type="password" placeholder="请输入密码" required v-model="form.password"></x-input>
+          </form>
         </group>
       </div>
       <div class="btn">

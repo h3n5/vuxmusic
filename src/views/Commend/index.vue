@@ -130,6 +130,7 @@ export default {
   height: 60px;
   border-radius: 50%;
   background: url(@bgc) center no-repeat;
+  background-size: 140%;
   background-color: @maincolor;
 }
 .mContent {
@@ -154,12 +155,12 @@ export default {
         font-size: 14px;
       }
       &:nth-child(2){
-        .imgfm{.imgfm("../../assets/calendar.png")}
+        .imgfm{.imgfm("../../assets/image/r2.jpg")}
       }
       &:nth-child(3){
-        .imgfm{.imgfm("../../assets/ranking.png")}
+        .imgfm{.imgfm("../../assets/image/r4.jpg")}
       }
-      .imgfm{.imgfm("../../assets/radio.png")}
+      .imgfm{.imgfm("../../assets/image/r1.jpg")}
     }
   }
   .songList {

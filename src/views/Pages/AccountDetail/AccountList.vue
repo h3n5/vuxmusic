@@ -2,7 +2,7 @@
   <div class="page">
     <group>
       <cell-box is-link class="pr">
-        <img src="assets/music.png" alt="pic" class="icon">
+        <img :src="require('@/assets/music.png')" alt="pic" class="icon">
         <p class="itemName">最近播放</p>
         <span class="itemNum">{{this.history.length}}</span>
       </cell-box>

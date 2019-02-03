@@ -11,7 +11,7 @@
       </div>
     </div>
     <ul class="songList">
-      <li class="list-item" v-for="(item, index) in tracks" :key="item.id" @click="AddAndPlay(item)">
+      <li class="list-item" v-for="(item, index) in tracks" :key="item.id" @click="play(item)">
         <div class="left">{{index+1}}</div>
         <div class="right vux-1px-b">
           <p class="title">{{item.name}}</p>
@@ -36,8 +36,30 @@ export default {
   methods: {
     ...mapActions("music", ["AddAndPalyAll",'AddAndPlay']),
     playall(){
-      this.AddAndPalyAll(this.tracks)
-      this.$router.push('/play/'+this.tracks[0].id)
+      let songs = this.tracks.map(v => {
+        return {
+          id: v.id,
+          name: v.name,
+          artists: v.ar,
+          albumPic: '@/assets/play/player-bar.png',
+          album: v.al,
+          location:`https://music.163.com/song/media/outer/url?id=${v.id}.mp3 `
+        }
+      })
+      this.AddAndPalyAll(songs)
+      this.tracks[0] && this.$router.push('/play/'+this.tracks[0].id)
+    },
+    play(v) {
+      let song ={
+            id: v.id,
+            name: v.name,
+            artists: v.ar,
+            albumPic: '@/assets/play/player-bar.png',
+            album: v.al,
+            location:`https://music.163.com/song/media/outer/url?id=${v.id}.mp3 `
+      }
+      this.AddAndPlay(song);
+      this.$router.push("/play/"+v.id)
     }
   }
 };

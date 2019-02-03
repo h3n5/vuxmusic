@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex"
+import { mapActions, mapMutations } from "vuex"
 export default {
   name: "songlist",
   props: {
@@ -35,13 +35,30 @@ export default {
   },
   methods: {
     ...mapActions("music", ["AddAndPalyAll",'AddAndPlay']),
-    play(item){
-      this.AddAndPlay(item)
-      this.$router.push('/play/'+item.id)
+    ...mapMutations('music',['_PlayAndAddTolist','_AddTolist']),
+    play(v){
+      let song ={
+            id: v.id,
+            name: v.name,
+            artists: v.artists,
+            albumPic: '@/assets/play/player-bar.png',
+            album: v.album
+      }
+      this._PlayAndAddTolist(song);
+      this.$router.push('/play/'+v.id)
     },
     playall(){
-      this.AddAndPalyAll(this.tracks)
-      this.$router.push('/play/'+this.tracks[0].id)
+      let songs = this.tracks.map(v => {
+        return {
+          id: v.id,
+          name: v.name,
+          artists: v.artists,
+          albumPic: '@/assets/play/player-bar.png',
+          album: v.album
+        }
+      })
+      this._AddTolist(songs)
+      this.$router.push('/play/'+songs[0].id)
     }
   }
 };

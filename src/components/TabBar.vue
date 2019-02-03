@@ -37,7 +37,7 @@ export default {
     ...mapState("user", ["user"]),
     ...mapState('music',['audio','search']),
     imgurl() {
-      return this.user.avatarUrl ? this.user.avatarUrl : "@/assets/123.jpg";
+      return this.user.avatarUrl ? this.user.avatarUrl : require("@/assets/123.jpg")
     }
   },
   methods: {

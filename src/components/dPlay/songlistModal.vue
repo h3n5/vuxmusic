@@ -1,15 +1,16 @@
 <template>
   <div>
     <Actionsheet v-model="showList" :menus="{}" show-cancel cancel-text="关闭">
-      <ul slot="header">
+      <ul slot="header" class='list'>
         <li
           v-for="(item, index) in songList"
           :key="index"
           class="songlist vux-1px-b"
+          :class='{play:item.id === audio.id }'
           @click="play(item)"
         >
           {{item.name}} -
-          <span>{{item.artists[0].name}}</span>
+          <span>{{name(item)}}</span>
         </li>
       </ul>
     </Actionsheet>
@@ -43,9 +44,12 @@ export default {
     };
   },
   computed: {
-    ...mapState("music", ["songList"])
+    ...mapState("music", ["songList",'audio'])
   },
   methods: {
+      name(item){
+        return item.name
+      },
       ...mapActions("music",["AddAndPlay"]),
         play(v) {
           let song ={
@@ -53,9 +57,11 @@ export default {
                 name: v.name,
                 artists: v.artists,
                 albumPic: '@/assets/play/player-bar.png',
-                album: v.album
+                album: v.album,
+                location:`https://music.163.com/song/media/outer/url?id=${v.id}.mp3 `
           }
           this.AddAndPlay(song);
+          this.$emit('callback')
         }
       
   }
@@ -63,6 +69,10 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.list{
+  height: 600px;
+  overflow-y: scroll;
+}
 .songlist {
   font-size: 14px;
   text-align: left;
@@ -73,6 +83,13 @@ export default {
   white-space: nowrap;
   span {
     color: #888;
+    font-size: 12px;
+  }
+}
+.play{
+  color: @maincolor;
+  span {
+    color: @maincolor;
     font-size: 12px;
   }
 }

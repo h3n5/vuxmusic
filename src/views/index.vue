@@ -34,7 +34,6 @@ import { mapMutations, mapState } from "vuex";
 import mHead from "@/components/TabBar";
 import commend from "@/views/Commend";
 import songList from "@/views/SongList";
-import anchorRadio from "@/views/AnchorRadio";
 import ranking from "@/views/Ranking";
 import scroll from "@/components/scroll";
 export default {
@@ -45,13 +44,12 @@ export default {
     TabItem,
     commend,
     songList,
-    anchorRadio,
     ranking,
     scroll
   },
   data() {
     return {
-      list: ['commend','songList','anchorRadio','ranking'],
+      list: ['commend','songList','ranking'],
       tabIndex: "commend",
       loadEnd: true,
       index: 1

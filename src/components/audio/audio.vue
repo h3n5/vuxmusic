@@ -7,7 +7,7 @@
       @canplay="canPlaySong"
       @ended="next"
       id="audioPlay"
-      :loop="playType === 1"
+      :loop="playType === 3"
     ></audio>
   </div>
 </template>
@@ -15,11 +15,7 @@
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
 export default {
-  name: "",
-  components: {},
-  data() {
-    return {};
-  },
+  name: "AudioPlay",
   computed: {
     ...mapState("music", [
       "audio",
@@ -34,13 +30,8 @@ export default {
       "tmpCurrentTime",
       "durationTime",
       "prCurrentTime",
-      'isCurrentTime'
+      "isCurrentTime"
     ])
-  },
-  watch:{
-    currentIndex(){
-      this.getListPlay()
-    }
   },
   methods: {
     ...mapMutations("music", [
@@ -50,15 +41,14 @@ export default {
       "setdurationTime",
       "setAudio"
     ]),
-    ...mapActions("music",['getListPlay']),
+    ...mapActions("music", ["getListPlay"]),
     updateTime(e) {
-      if(this.isCurrentTime){
-        this.setcurrentTime((e.target.currentTime));
+      if (this.isCurrentTime) {
+        this.setcurrentTime(e.target.currentTime);
       }
     },
     canPlaySong(e) {
-      this.play();
-      this.setdurationTime((e.target.duration));
+      this.setdurationTime(e.target.duration);
     },
     next() {
       // 1,歌单循环;2,歌单随机;3,单曲循环
@@ -67,6 +57,7 @@ export default {
         this.currentIndex === this.songList.length - 1
           ? (this.currentIndex = 0)
           : this.currentIndex++;
+          this.getListPlay();
       }
       if (type === 2) {
         var randomIndex = () => {
@@ -77,9 +68,7 @@ export default {
           return r;
         };
         this.currentIndex = randomIndex();
-      }
-      if (type === 3) {
-        this.currentIndex = this.currentIndex;
+        this.getListPlay();
       }
     }
   }

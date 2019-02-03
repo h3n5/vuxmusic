@@ -11,9 +11,6 @@ export default {
             type: "songList",
             name: '歌单'
         }, {
-            type: "anchorRadio",
-            name: '主播电台'
-        }, {
             type: "ranking",
             name: '排行榜'
         }],

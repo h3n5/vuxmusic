@@ -141,3 +141,10 @@ export const recommendSongs = (params = {}) => {
         params: params
     })
 }
+export const toplist = (params = {}) => {
+    return axios.request({
+        url: apiMusic.toplist,
+        method: 'get',
+        params: params
+    })
+}
