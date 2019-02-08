@@ -8,16 +8,13 @@
             </transition>
        <!-- </v-touch> -->
     <musicplayer></musicplayer>
-    <!-- <mfoot v-if="showFoot"></mfoot> -->
   </div>
 </template>
 <script>
-import mfoot from "@/components/footer.vue";
 import musicplayer from "@/components/audio/audio.vue";
 import { mapState } from "vuex";
 export default {
   components: {
-    mfoot,
     musicplayer
   },
   computed: {
