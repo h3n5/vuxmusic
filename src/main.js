@@ -3,7 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './vuex'
 import VueLazyload from 'vue-lazyload'
-
+import toast from '@/components/toast/index.js'
+Vue.use(toast)
 Vue.use(VueLazyload, {
   lazyComponent: true,
   preLoad: 1.3,
@@ -19,17 +20,13 @@ Vue.use(VueTouch, {
 Vue.mixin({
   methods: {
     back() {
-      this.$router.back();
+      this.$router.back()
     }
   }
 })
 VueTouch.config.swipe = {
-
   threshold: 100 //手指左右滑动距离
-
 }
-
-
 
 Vue.config.productionTip = false
 new Vue({

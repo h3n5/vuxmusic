@@ -20,7 +20,6 @@
 <script>
 import { toplist } from '@/api/api'
 import rankingList from '@/components/rankingList'
-import { ButtonTab, ButtonTabItem } from 'vux'
 export default {
   name: 'mContentRanking',
   data() {
@@ -30,9 +29,7 @@ export default {
     }
   },
   components: {
-    rankingList,
-    ButtonTab,
-    ButtonTabItem
+    rankingList
   },
   computed: {},
   created() {
