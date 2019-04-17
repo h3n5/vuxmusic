@@ -1,28 +1,41 @@
 <template>
   <div class="head">
     <div class="micro">
-      <div class="avatar" @click="goto('/accout')">
-        <img :src="imgurl" alt="avatar" >
+      <div
+        class="avatar"
+        @click="goto('/accout')"
+      >
+        <img
+          :src="imgurl"
+          alt="avatar"
+        >
       </div>
     </div>
-    <div class="search" @click="goto('/search')">
-      <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-search"></use>
+    <div
+      class="search"
+      @click="goto('/search')"
+    >
+      <svg
+        class="icon"
+        aria-hidden="true"
+      >
+        <use xlink:href="#icon-search"></use>
       </svg>
       {{search}}
-      <!-- <input type="text"  > -->
     </div>
-    <div class="play" @click="$router.push(`/play/${audio.id}`)">
-        <linescroll></linescroll>
+    <div
+      class="play"
+      @click="$router.push(`/play/${audio.id}`)"
+    >
+      <linescroll></linescroll>
     </div>
   </div>
 </template>
 <script>
-import { XHeader } from "vux";
-import linescroll from "@/components/anime/linescroll";
-import { mapState } from "vuex";
+import linescroll from '@/components/anime/linescroll'
+import { mapState } from 'vuex'
 export default {
-  name: "tabbar",
+  name: 'tabbar',
   props: {
     showMicro: {
       type: Boolean,
@@ -30,22 +43,23 @@ export default {
     }
   },
   components: {
-    XHeader,
     linescroll
   },
   computed: {
-    ...mapState("user", ["user"]),
-    ...mapState('music',['audio','search']),
+    ...mapState('user', ['user']),
+    ...mapState('music', ['audio', 'search']),
     imgurl() {
-      return this.user.avatarUrl ? this.user.avatarUrl : require("@/assets/123.jpg")
+      return this.user.avatarUrl
+        ? this.user.avatarUrl
+        : require('@/assets/123.jpg')
     }
   },
   methods: {
     goto(url) {
-      this.$router.push(url);
+      this.$router.push(url)
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .head {
@@ -83,12 +97,12 @@ export default {
     flex: auto;
     height: 100%;
     align-items: center;
-    background-color:rgba(221, 221, 221, 0.37);
+    background-color: rgba(221, 221, 221, 0.37);
     border-radius: 15px;
     padding: 0 30px;
     margin: 0 10px;
     color: #ddd;
-    .icon{
+    .icon {
       margin: 0 5px;
       color: #fff;
       opacity: 0.37;

@@ -1,91 +1,102 @@
 <template>
   <div>
-      <mHead title="账号" ></mHead>
-        <div class="songList" >
-            <div class="imgBox" :style="{backroundImage:user.avatarUrl}">
-            </div>
-            <div class="wordBox">
-                <div class="left">
-                    <p class="top">{{user.nickname || '未登录'}}</p>
-                    <p class="level">Lv.5</p>
-                </div>
-                <div class="right">
-                    <x-button   :disabled="isSign" :class="{'isSign':isSign,'botton':!isSign}" :mini="true" @click.native="isSign = true" v-text="isSign?'已签到':'签到'"></x-button>
-                </div>
-            </div>
+    <mHead title="账号"></mHead>
+    <div class="songList">
+      <div
+        class="imgBox"
+        :style="{backroundImage:user.avatarUrl}"
+      >
+      </div>
+      <div class="wordBox">
+        <div class="left">
+          <p class="top">{{user.nickname || '未登录'}}</p>
+          <p class="level">Lv.5</p>
         </div>
-        <card>
-            <div slot="content" class="card-demo-flex card-demo-content01">
-                <div class="vux-1px-r">
-                    <p>动态</p>
-                    <span>1130</span>
-                </div>
-                <div class="vux-1px-r">
-                    <p>关注</p>
-                    <span>1130</span>
-                </div>
-                <div class="vux-1px-r">
-                    <p>粉丝</p>
-                    <span>1130</span>
-                </div>
-                <div class="vux-1px-r">
-                    <p class="data">我的资料</p>
-                </div>
-            </div>
-        </card>
-        <accoutList></accoutList>
+        <div class="right">
+          <vbutton
+            :disabled="false"
+            :class="{'isSign':isSign,'botton':!isSign}"
+            @click="isSign = !isSign"
+          >{{isSign?'已签到':'签到'}}</vbutton>
+        </div>
+      </div>
+    </div>
+    <card>
+      <div
+        slot="content"
+        class="card-demo-flex card-demo-content01"
+      >
+        <div class="vux-1px-r">
+          <p>动态</p>
+          <span>1130</span>
+        </div>
+        <div class="vux-1px-r">
+          <p>关注</p>
+          <span>1130</span>
+        </div>
+        <div class="vux-1px-r">
+          <p>粉丝</p>
+          <span>1130</span>
+        </div>
+        <div class="vux-1px-r">
+          <p class="data">我的资料</p>
+        </div>
+      </div>
+    </card>
+    <accoutList></accoutList>
   </div>
 </template>
 
 <script>
-import { Card, XButton } from "vux";
-import mHead from "@/components/header-2";
-import accoutList from "./AccountDetail/AccountList";
-import { mapState } from "vuex";
+import { Card } from 'vux'
+import mHead from '@/components/header-2'
+import accoutList from './AccountDetail/AccountList'
+import { mapState } from 'vuex'
+import vbutton from '@/components/vbutton'
 export default {
-  name: "accout",
-  components: { mHead, Card, accoutList, XButton },
+  name: 'accout',
+  components: { mHead, Card, accoutList, vbutton },
   data() {
     return {
       lists: [{ text: 1234, show: false }],
       isSign: false
-    };
+    }
   },
   computed: {
-    ...mapState("user", ["user"])
+    ...mapState('user', ['user'])
   },
   mounted() {
-    this.add();
-    this.add();
-    this.add();
-    this.add();
-    this.add();
+    this.add()
+    this.add()
+    this.add()
+    this.add()
+    this.add()
   },
   methods: {
     add() {
       this.lists.push({
         text: Math.floor(Math.random() * 10),
         show: false
-      });
+      })
     },
     showBtn(e) {
       this.lists.find((v, i) => {
-        return i === e;
-      }).show = true;
+        return i === e
+      }).show = true
     },
     hideBtn(e) {
       this.lists.find((v, i) => {
-        return i === e;
-      }).show = false;
+        return i === e
+      }).show = false
     },
     delList(e) {
-      this.lists.splice(e, 1);
+      this.lists.splice(e, 1)
     }
   }
-};
+}
 </script>
 <style lang='less' scoped>
-@import "~vux/src/styles/1px.less";
+@import '~vux/src/styles/1px.less';
 .card-demo-flex {
   display: flex;
 }
@@ -167,9 +178,12 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-basis: 100px;
+      flex-basis: 80px;
       .botton {
         color: #fe615c;
+        &::after {
+          border-color: #fe615c;
+        }
       }
       .sign {
         color: #999;
