@@ -1,25 +1,27 @@
 <template>
-  <button
-    :style="buttonStyle"
-    class="btn"
-    :disabled="disabled"
-    :type="actionType"
-    @click="onClick"
-  >
-    <svg
-      class="icon loading"
-      aria-hidden="true"
-      v-if="loading"
+  <throtle>
+    <button
+      :style="buttonStyle"
+      id="vbutton"
+      :disabled="disabled"
+      :type="actionType"
+      @click="onClick"
     >
-      <use xlink:href="#icon-Loading"></use>
-    </svg>
-    <slot>{{ text }}</slot>
-  </button>
+      <svg class="icon loading" aria-hidden="true" v-if="loading">
+        <use xlink:href="#icon-Loading"></use>
+      </svg>
+      <slot>{{ text }}</slot>
+    </button>
+  </throtle>
 </template>
 
 <script>
+import throtle from '../HOC/throtle.js'
 export default {
   name: 'vbutton',
+  components: {
+    throtle
+  },
   props: {
     type: {
       default: 'default'
@@ -71,20 +73,17 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.btn {
+#vbutton {
   position: relative;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 14px;
-  padding-right: 14px;
+  padding: 0 20px;
   box-sizing: border-box;
   text-align: center;
   text-decoration: none;
   color: #222;
   line-height: 2;
-  border-radius: 5px;
-  overflow: hidden;
   user-select: none;
   background-color: #ffffff;
   font-size: 14px;

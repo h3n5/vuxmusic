@@ -37,6 +37,7 @@ export default {
 <style lang='less' scoped>
 .cell {
   padding: 10px;
+  padding-left: 15px;
 }
 .arrow {
   position: relative;
@@ -53,7 +54,7 @@ export default {
     position: absolute;
     top: 50%;
     margin-top: -4px;
-    right: 2px;
+    right: 15px;
   }
 }
 </style>

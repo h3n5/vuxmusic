@@ -1,45 +1,44 @@
 <template>
-  <div id="app" ref="app"  @touchstart.self="touchstart">
-      <!-- <v-touch  v-on:swiperight="onSwipeRight"  tag="div" style="height:100%"> -->
-        <transition :name="transitionName">
-            <keep-alive :include='alive'>
-              <router-view class="router uheight" />
-            </keep-alive>
-            </transition>
-       <!-- </v-touch> -->
+  <div id="app" ref="app" @touchstart.self="touchstart">
+    <!-- <v-touch  v-on:swiperight="onSwipeRight"  tag="div" style="height:100%"> -->
+    <transition :name="transitionName">
+      <keep-alive :include="alive">
+        <router-view class="router uheight"/>
+      </keep-alive>
+    </transition>
+    <!-- </v-touch> -->
     <musicplayer></musicplayer>
   </div>
 </template>
 <script>
-import musicplayer from "@/components/audio/audio.vue";
-import { mapState } from "vuex";
+import musicplayer from '@/components/audio/audio.vue'
+import { mapState } from 'vuex'
 export default {
   components: {
     musicplayer
   },
   computed: {
-    ...mapState("menu", ["showFoot",'alive'])
+    ...mapState('menu', ['showFoot', 'alive'])
   },
   data() {
     return {
-      transitionName: "",
+      transitionName: '',
       vueTouches: {
-        x: "",
-        y: ""
+        x: '',
+        y: ''
       }
-    };
+    }
   },
   watch: {
     $route(to, from) {
-      const toDepth = to.path.split("/").length;
-      const fromDepth = from.path.split("/").length;
-      const toSort = to.meta.sort;
-      const fromSort = from.meta.sort;
+      const toDepth = to.path.split('/').length
+      const fromDepth = from.path.split('/').length
+      const toSort = to.meta.sort
+      const fromSort = from.meta.sort
       if (toSort && fromSort) {
-        this.transitionName = toSort < fromSort ? "slide-right" : "slide-left";
+        this.transitionName = toSort < fromSort ? 'slide-right' : 'slide-left'
       } else {
-        this.transitionName =
-          toDepth < fromDepth ? "slide-right" : "slide-left";
+        this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
       }
     }
   },
@@ -50,7 +49,7 @@ export default {
       this.vueTouches = {
         x: e.changedTouches[0].pageX,
         y: e.changedTouches[0].pageY
-      };
+      }
       //console.log(this.vueTouches );
       //}
     },
@@ -58,12 +57,13 @@ export default {
       //this.$router.go(-1)
     }
   }
-};
+}
 </script>
 <style lang="less">
-@import "~vux/src/styles/1px.less";
+@import '~vux/src/styles/1px.less';
 #app {
-  font-family: 'PingFang SC','STHeitiSC-Light','Helvetica-Light',arial,sans-serif;
+  font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   // color: #2c3e50;
@@ -130,4 +130,12 @@ a {
   transform: translateX(375px);
 }
 /* 页面切换 动态效果 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>
