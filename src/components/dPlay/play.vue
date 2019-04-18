@@ -1,12 +1,24 @@
 <template>
   <div class="u-height">
-    <view-box ref="viewBox" body-padding-bottom="0">
+    <view-box
+      ref="viewBox"
+      body-padding-bottom="0"
+    >
       <section class="songBg u-height">
-        <div class="bg" :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"></div>
+        <div
+          class="bg"
+          :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"
+        ></div>
         <!-- 标题 -->
         <div class="title vux-1px-b">
-          <div class="left" @click="back">
-            <svg class="icon" aria-hidden="true">
+          <div
+            class="left"
+            @click="back"
+          >
+            <svg
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-navigatebefore"></use>
             </svg>
           </div>
@@ -14,7 +26,10 @@
             <p>{{audio.name}}</p>
           </div>
           <div class="right">
-            <svg class="icon" aria-hidden="true">
+            <svg
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-fenxiang"></use>
             </svg>
           </div>
@@ -22,44 +37,77 @@
         <!-- 模糊背景 -->
         <div class="song">
           <!-- 播放 -->
-          <div class="img" v-show="!showLyric" @click="toggleStatus">
+          <div
+            class="img"
+            v-show="!showLyric"
+            @click="toggleStatus"
+          >
             <div class="circle">
               <div
                 class="pic"
                 :class="{circling:playing}"
                 :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"
               >
-                <span class="block" :class="{pause:!playing}"></span>
+                <span
+                  class="block"
+                  :class="{pause:!playing}"
+                ></span>
               </div>
-              <canvas class="canvas" :style="{'top':top}"></canvas>
+              <canvas
+                class="canvas"
+                :style="{'top':top}"
+              ></canvas>
             </div>
 
-            <canvasCircle ref="canvas" class="canvas" v-if="false"></canvasCircle>
+            <canvasCircle
+              ref="canvas"
+              class="canvas"
+              v-if="false"
+            ></canvasCircle>
           </div>
-          <div class="userdo" v-show="!showLyric">
+          <div
+            class="userdo"
+            v-show="!showLyric"
+          >
             <div class="item">
-              <svg class="icon" aria-hidden="true">
+              <svg
+                class="icon"
+                aria-hidden="true"
+              >
                 <use xlink:href="#icon-favorite"></use>
               </svg>
             </div>
             <div class="item">
-              <svg class="icon" aria-hidden="true">
+              <svg
+                class="icon"
+                aria-hidden="true"
+              >
                 <use xlink:href="#icon-filedownload"></use>
               </svg>
             </div>
             <div class="item">
-              <svg class="icon" aria-hidden="true">
+              <svg
+                class="icon"
+                aria-hidden="true"
+              >
                 <use xlink:href="#icon-modecomment"></use>
               </svg>
             </div>
             <div class="item">
-              <svg class="icon" aria-hidden="true">
+              <svg
+                class="icon"
+                aria-hidden="true"
+              >
                 <use xlink:href="#icon-unfoldmore"></use>
               </svg>
             </div>
           </div>
           <!-- 歌词 -->
-          <div class="lrc" @click="toggleStatus" v-show="showLyric">
+          <div
+            class="lrc"
+            @click="toggleStatus"
+            v-show="showLyric"
+          >
             <scroll
               class="wrapper"
               ref="scroll"
@@ -89,50 +137,80 @@
           <!-- 操作区域 -->
           <div class="playitem">
             <div class="child">
-              <svg class="icon" aria-hidden="true" @click="switchType">
+              <svg
+                class="icon"
+                aria-hidden="true"
+                @click="switchType"
+              >
                 <use :href="playtype"></use>
               </svg>
             </div>
-            <div class="child" @click="prevSong">
-              <svg class="icon" aria-hidden="true">
+            <div
+              class="child"
+              @click="prevSong"
+            >
+              <svg
+                class="icon"
+                aria-hidden="true"
+              >
                 <use xlink:href="#icon-skipprevious"></use>
               </svg>
             </div>
-            <div class="child" @click="togglePlay">
-              <svg class="icon" aria-hidden="true">
+            <div
+              class="child"
+              @click="togglePlay"
+            >
+              <svg
+                class="icon"
+                aria-hidden="true"
+              >
                 <use :href="PlayOrPause"></use>
               </svg>
             </div>
-            <div class="child" @click="nextSong">
-              <svg class="icon" aria-hidden="true">
+            <div
+              class="child"
+              @click="nextSong"
+            >
+              <svg
+                class="icon"
+                aria-hidden="true"
+              >
                 <use xlink:href="#icon-skipnext"></use>
               </svg>
             </div>
             <div class="child">
-              <svg class="icon" aria-hidden="true" @click="showList = true">
+              <svg
+                class="icon"
+                aria-hidden="true"
+                @click="showList = true"
+              >
                 <use xlink:href="#icon-formatlistbulleted"></use>
               </svg>
             </div>
           </div>
-          <songlistModal v-model="showList" @cb="showList = false" @callback="initLyric"></songlistModal>
+          <songlistModal
+            v-model="showList"
+            @cb="showList = false"
+            @callback="initLyric"
+          ></songlistModal>
         </div>
       </section>
     </view-box>
   </div>
 </template>
 <script>
-import { mapMutations, mapState, mapActions } from "vuex";
-import { ViewBox, Actionsheet } from "vux";
-import scroll from "@/components/scroll";
-import canvasCircle from "@/components/anime/canvasCircle";
-import musicProgress from "@/components/audio/progress";
-import songlistModal from "./songlistModal";
-import Circle from "@/components/anime/circle";
+import { mapMutations, mapState, mapActions } from 'vuex'
+import { ViewBox } from 'vux'
+import scroll from '@/components/scroll'
+import canvasCircle from '@/components/anime/canvasCircle'
+import musicProgress from '@/components/audio/progress'
+import songlistModal from './songlistModal'
+import Circle from '@/components/anime/circle'
 export default {
-  name: "play",
+  name: 'play',
   data() {
     return {
-      song: { description: "", tags: [] },
+      song: { description: '', tags: [] },
       creator: {},
       lrc: [],
       showLyric: false,
@@ -142,7 +220,7 @@ export default {
       showList: false,
       lyricScroll: true,
       lyric: {}
-    };
+    }
   },
   props: {
     id: {
@@ -157,31 +235,31 @@ export default {
       immediate: true
     },
     currentTime(v) {
-      let currentTime = v;
-      let duration = this.durationTime;
-      let percent = currentTime / duration;
+      let currentTime = v
+      let duration = this.durationTime
+      let percent = currentTime / duration
       if (percent == 1) {
-        percent = 0; //当播放完成，进度条跳到开始
+        percent = 0 //当播放完成，进度条跳到开始
       }
-      let Lyric = this.lyric.lines;
+      let Lyric = this.lyric.lines
       if (Lyric === undefined) {
-        return;
+        return
       }
       try {
         for (let i = 0; i < Lyric.length - 1; i++) {
-          Lyric[i].show = false;
+          Lyric[i].show = false
           if (v * 1000 > Lyric[i].time && v * 1000 < Lyric[i + 1].time) {
-            this.$set(Lyric, i, Object.assign(Lyric[i], { show: true }));
+            this.$set(Lyric, i, Object.assign(Lyric[i], { show: true }))
             this.lyricScroll &&
               this.$refs.scroll.scrollTo(
                 0,
                 -i * (25 + this.lyric.hasCN ? 35 : 0) + 220
-              );
-            break;
+              )
+            break
           }
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     }
   },
@@ -190,88 +268,87 @@ export default {
     scroll,
     canvasCircle,
     musicProgress,
-    Actionsheet,
     songlistModal
   },
   computed: {
     top() {
-      return (417 - 375) / 2 + "px";
+      return (417 - 375) / 2 + 'px'
     },
     playtype() {
       const obj = {
-        3: "#icon-repeatone",
-        1: "#icon-repeat",
-        2: "#icon-swaphoriz"
-      };
-      return obj[this.playType];
+        3: '#icon-repeatone',
+        1: '#icon-repeat',
+        2: '#icon-swaphoriz'
+      }
+      return obj[this.playType]
     },
     PlayOrPause() {
-      return this.playing ? "#icon-playarrow" : "#icon-pause";
+      return this.playing ? '#icon-playarrow' : '#icon-pause'
     },
-    ...mapState("music", [
-      "audio",
-      "lyricTxt",
-      "lyricTxtCN",
-      "lyricObj",
-      "change",
-      "playing",
-      "loading",
-      "songList",
-      "playType",
-      "currentTime",
-      "currentIndex",
-      "prBufferedTime",
-      "tmpCurrentTime",
-      "durationTime",
-      "prCurrentTime"
+    ...mapState('music', [
+      'audio',
+      'lyricTxt',
+      'lyricTxtCN',
+      'lyricObj',
+      'change',
+      'playing',
+      'loading',
+      'songList',
+      'playType',
+      'currentTime',
+      'currentIndex',
+      'prBufferedTime',
+      'tmpCurrentTime',
+      'durationTime',
+      'prCurrentTime'
     ])
   },
   beforeDestroy() {
-    this.canvas = null;
+    this.canvas = null
   },
   mounted() {
-    this.initLyric();
+    this.initLyric()
   },
   methods: {
-    ...mapMutations("music", [
-      "play",
-      "pause",
-      "setcurrentTime",
-      "setdurationTime",
-      "prev",
-      "next",
-      "switchType"
+    ...mapMutations('music', [
+      'play',
+      'pause',
+      'setcurrentTime',
+      'setdurationTime',
+      'prev',
+      'next',
+      'switchType'
     ]),
-    ...mapActions("music", ["getListPlay"]),
+    ...mapActions('music', ['getListPlay']),
     async prevSong() {
-      await this.prev();
-      await this.getListPlay();
-      await this.initLyric();
+      await this.prev()
+      await this.getListPlay()
+      await this.initLyric()
     },
     async nextSong() {
-      await this.next();
-      await this.getListPlay();
-      await this.initLyric();
+      await this.next()
+      await this.getListPlay()
+      await this.initLyric()
     },
     initLyric() {
       this.$nextTick(() => {
-        this.canvas = new Circle(".canvas");
-        this.$root.$el.style.paddingBottom = 0;
-      });
+        this.canvas = new Circle('.canvas')
+        this.$root.$el.style.paddingBottom = 0
+      })
     },
     toggleStatus() {
-      this.showLyric = !this.showLyric;
+      this.showLyric = !this.showLyric
     },
     togglePlay() {
-      this.canvas.switch(!this.playing);
+      this.canvas.switch(!this.playing)
       if (this.playing) {
-        this.pause();
+        this.pause()
       } else {
-        this.play();
+        this.play()
       }
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 #app {
@@ -339,7 +416,7 @@ export default {
     background-color: #999;
     // transform: scaleY(3);
     &:after {
-      content: "";
+      content: '';
       width: 100%;
       height: 100%;
       position: absolute;

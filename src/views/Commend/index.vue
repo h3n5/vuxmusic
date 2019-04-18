@@ -2,7 +2,12 @@
   <div class="mContent">
     <Banner></Banner>
     <div class="menu">
-      <div class="menuList" v-for="(item, index) in mainContentTab" :key="index" @click="$router.push('/recomment')">
+      <div
+        class="menuList"
+        v-for="(item, index) in mainContentTab"
+        :key="index"
+        @click="$router.push('/recomment')"
+      >
         <div class="imgfm"></div>
         <p>{{item}}</p>
       </div>
@@ -10,27 +15,26 @@
     <div class="songList">
       <p>推荐歌单</p>
       <div class="listItem">
-        <PicBlock 
-        v-for="item in songs" 
-        :key="item.id"
-        :picUrl="item.picUrl"
-        :playCount="item.playCount"
-        :name="item.name"
-        @click.native="$router.push('/SongListDetail/'+item.id)"
+        <PicBlock
+          v-for="item in songs"
+          :key="item.id"
+          :picUrl="item.picUrl"
+          :playCount="item.playCount"
+          :name="item.name"
+          @click.native="$router.push('/SongListDetail/'+item.id)"
         ></PicBlock>
       </div>
     </div>
-    <toast v-model="show" type="text" position="top">推荐已经更新</toast>
   </div>
 </template>
 <script>
-import { getpersonalized } from "@/api/api";
-import { mapGetters, mapState } from "vuex";
-import Banner from '@/components/Banner';
-import PicBlock from '@/components/PicBlock';
-import { Swiper, SwiperItem, Toast } from "vux";
+import { getpersonalized } from '@/api/api'
+import { mapGetters, mapState } from 'vuex'
+import Banner from '@/components/Banner'
+import PicBlock from '@/components/PicBlock'
+import { Swiper, SwiperItem, Toast } from 'vux'
 export default {
-  name: "mContentRecommend",
+  name: 'mContentRecommend',
   props: {
     pullingDown: Boolean,
     pullingUp: Boolean
@@ -38,9 +42,8 @@ export default {
   data() {
     return {
       imgList: [],
-      songs: [],
-      show: false
-    };
+      songs: []
+    }
   },
   components: {
     PicBlock,
@@ -50,57 +53,57 @@ export default {
     Banner
   },
   computed: {
-    ...mapGetters("menu", ["mainContentTab"]),
-    ...mapState("scroll", ["tabIndex", "pullingDownFlag", "pullingUpFlag"])
+    ...mapGetters('menu', ['mainContentTab']),
+    ...mapState('scroll', ['tabIndex', 'pullingDownFlag', 'pullingUpFlag'])
   },
   watch: {
     pullingDownFlag(v) {
       if (v) {
-        if (this.tabIndex === "commend") {
-          this.getpersonalizedDate();
-          this.show = true;
-          this.$emit("pulldowncallback");
+        if (this.tabIndex === 'commend') {
+          this.getpersonalizedDate()
+          this.$toast('推荐已经更新')
+          this.$emit('pulldowncallback')
         }
       }
     },
     pullingUpFlag(v) {
       if (v) {
-        if (this.tabIndex === "commend") {
-          this.getpersonalizedDateMore();
-          this.$emit("pullupcallback");
+        if (this.tabIndex === 'commend') {
+          this.getpersonalizedDateMore()
+          this.$emit('pullupcallback')
         }
       }
     }
   },
   methods: {
     async getpersonalizedDate() {
-      let res = await getpersonalized();
-      this.songs = this.sortRandom(res.data.result).slice(0,6)
+      let res = await getpersonalized()
+      this.songs = this.sortRandom(res.data.result).slice(0, 6)
     },
     async getpersonalizedDateMore() {
-      let res = await getpersonalized();
-      let random = this.sortRandom(res.data.result);
+      let res = await getpersonalized()
+      let random = this.sortRandom(res.data.result)
       random = random.filter(vv => {
-        return !this.songs.map(v => v.id).includes(vv.id);
-      });
+        return !this.songs.map(v => v.id).includes(vv.id)
+      })
       if (random.length === 0) {
-        this.$emit("loadEnd");
+        this.$emit('loadEnd')
       }
-      this.songs = this.songs.concat(random.splice(0, 6));
+      this.songs = this.songs.concat(random.splice(0, 6))
     },
     sortRandom(a) {
-      let len = a.length;
+      let len = a.length
       for (let i = len - 1; i >= 0; i--) {
-        var pos = ~~(Math.random() * i);
-        [a[i], a[pos]] = [a[pos], a[i]];
+        var pos = ~~(Math.random() * i)
+        ;[a[i], a[pos]] = [a[pos], a[i]]
       }
-      return a;
+      return a
     }
   },
   created() {
-    this.getpersonalizedDate();
+    this.getpersonalizedDate()
   }
-};
+}
 </script>
 
 <style lang='less' scoped>
