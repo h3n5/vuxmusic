@@ -1,14 +1,24 @@
 <template>
   <div class="page">
-    <cell is-link class="pr">
-      <img :src="require('@/assets/music.png')" alt="pic" class="icon">
+    <cell
+      is-link
+      class="pr"
+    >
+      <img
+        :src="require('@/assets/music.png')"
+        alt="pic"
+        class="icon"
+      >
       <p class="itemName">最近播放</p>
       <span class="itemNum">{{this.history.length}}</span>
     </cell>
     <songListBlock :playlist="playlist"></songListBlock>
 
     <group style="margin:10px 0;">
-      <cell-box class="pr" @click.native="showlogoutConfirm = true">
+      <cell-box
+        class="pr"
+        @click.native="showlogoutConfirm = true"
+      >
         <p class="itemName logout">退出登录</p>
       </cell-box>
       <div v-transfer-dom>

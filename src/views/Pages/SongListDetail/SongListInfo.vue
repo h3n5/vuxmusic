@@ -2,12 +2,20 @@
   <div class="display">
     <div class="top">
       <div class="img">
-        <img v-lazy="coverImgUrl" alt="coverImgUrl">
+        <img
+          v-if="coverImgUrl"
+          v-lazy="coverImgUrl"
+          alt="coverImgUrl"
+        >
       </div>
       <div class="message">
         <p class="name">{{name}}</p>
         <div class="avata">
-          <img :src="creator.avatarUrl" alt="avatarUrl">
+          <img
+            v-if="creator.avatarUrl"
+            :src="creator.avatarUrl"
+            alt="avatarUrl"
+          >
           <span>{{creator.nickname}}</span>
         </div>
       </div>
@@ -16,9 +24,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
-  name: "display",
+  name: 'display',
   components: {},
   props: {
     creator: {
@@ -26,7 +34,7 @@ export default {
       default: () => {
         return {
           avatarUrl: require('@/assets/play/player-bar.png')
-        };
+        }
       }
     },
     coverImgUrl: {
@@ -38,13 +46,12 @@ export default {
     }
   },
   data() {
-    return {};
+    return {}
   },
   computed: {
-    ...mapState("user", ["user"])
-  },
-  methods: {}
-};
+    ...mapState('user', ['user'])
+  }
+}
 </script>
 
 <style lang='less' scoped>
@@ -56,6 +63,8 @@ export default {
     padding: 15px 10px;
     .img {
       flex: 0 0 100px;
+      height: 100px;
+      background-color: #999;
       img {
         height: 100%;
         width: 100%;

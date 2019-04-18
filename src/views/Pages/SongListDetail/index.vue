@@ -1,18 +1,22 @@
 <template>
   <div>
     <mheader title="歌单"></mheader>
-    <SongListInfo :creator="creator" :coverImgUrl="playlist.coverImgUrl" :name="playlist.name"></SongListInfo>
+    <SongListInfo
+      :creator="creator"
+      :coverImgUrl="playlist.coverImgUrl"
+      :name="playlist.name"
+    ></SongListInfo>
     <SongList :tracks="tracks"></SongList>
   </div>
 </template>
 
 <script>
-import mheader from "@/components/header-3";
-import SongList from "./SongList";
-import SongListInfo from "./SongListInfo";
-import { playlistDetail } from "@/api/api";
+import mheader from '@/components/header-3'
+import SongList from './SongList'
+import SongListInfo from './SongListInfo'
+import { playlistDetail } from '@/api/api'
 export default {
-  name: "SongListDetail",
+  name: 'SongListDetail',
   components: {
     mheader,
     SongList,
@@ -25,38 +29,41 @@ export default {
   },
   data() {
     return {
-      playlist: {},
+      playlist: {
+        coverImgUrl: '',
+        name: ''
+      },
       creator: {},
       tracks: []
-    };
+    }
   },
   created() {
-    this.getplaylistDetail(this.id);
+    this.getplaylistDetail(this.id)
   },
   methods: {
     getplaylistDetail(id) {
       playlistDetail({ id: id }).then(res => {
         if (res.data.code === 200) {
-          this.playlist = res.data.playlist;
-          this.creator = res.data.playlist.creator;
-          this.tracks = res.data.playlist.tracks;
+          this.playlist = res.data.playlist
+          this.creator = res.data.playlist.creator
+          this.tracks = res.data.playlist.tracks
         }
-      });
+      })
     }
   },
   beforeRouteEnter(to, from, next) {
     next(() => {
-      document.querySelector(".uheight") &&
-        document.querySelector(".uheight").classList.remove("uheight");
-    });
+      document.querySelector('.uheight') &&
+        document.querySelector('.uheight').classList.remove('uheight')
+    })
   },
   beforeRouteLeave(to, from, next) {
     next(() => {
-      document.querySelector(".uheight") &&
-        document.querySelector(".router").classList.add("uheight");
-    });
+      document.querySelector('.uheight') &&
+        document.querySelector('.router').classList.add('uheight')
+    })
   }
-};
+}
 </script>
 
 <style lang='less' scoped>

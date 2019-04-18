@@ -1,9 +1,13 @@
 <template>
-  <div id="app" ref="app" @touchstart.self="touchstart">
+  <div
+    id="app"
+    ref="app"
+    @touchstart.self="touchstart"
+  >
     <!-- <v-touch  v-on:swiperight="onSwipeRight"  tag="div" style="height:100%"> -->
     <transition :name="transitionName">
       <keep-alive :include="alive">
-        <router-view class="router uheight"/>
+        <router-view class="router uheight" />
       </keep-alive>
     </transition>
     <!-- </v-touch> -->
@@ -60,7 +64,7 @@ export default {
 }
 </script>
 <style lang="less">
-@import '~vux/src/styles/1px.less';
+@import '../src/assets/css/1px.less';
 #app {
   font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial,
     sans-serif;

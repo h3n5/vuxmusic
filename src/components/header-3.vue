@@ -1,29 +1,30 @@
 <template>
   <div class="head">
-    <div class="micro" @click="back">
-      <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-navigatebefore"></use>
+    <div
+      class="micro"
+      @click="back"
+    >
+      <svg
+        class="icon"
+        aria-hidden="true"
+      >
+        <use xlink:href="#icon-navigatebefore"></use>
       </svg>
     </div>
     <div class="search">
       <p>{{title}}</p>
     </div>
-    <div class="play" @click="show = true"></div>
+    <div
+      class="play"
+      @click="show = true"
+    ></div>
   </div>
 </template>
 <script>
-import { XHeader, XDialog, XInput, Group, XButton, Toast } from "vux";
-import { mapMutations } from "vuex";
+import { mapMutations } from 'vuex'
 export default {
-  name: "tabbar",
-  components: {
-    XHeader,
-    XDialog,
-    XInput,
-    Group,
-    XButton,
-    Toast
-  },
+  name: 'tabbar',
+  components: {},
   props: {
     title: String,
     showMicro: {
@@ -34,15 +35,15 @@ export default {
   data() {
     return {
       show: false
-    };
+    }
   },
   methods: {
     back() {
-      this.$router.go(-1);
+      this.$router.go(-1)
     },
-    ...mapMutations("user", ["_user"])
+    ...mapMutations('user', ['_user'])
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .dialog {
@@ -94,7 +95,7 @@ export default {
   .play {
     flex: 0 0 50px;
     height: 32px;
-    background: url("../assets/lines.png") center no-repeat;
+    background: url('../assets/lines.png') center no-repeat;
   }
 }
 </style>

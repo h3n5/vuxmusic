@@ -1,41 +1,80 @@
 <template>
   <div class="page">
-    <p class="itemTitle"><x-icon type="ios-arrow-down" size="16" class="itemNum-icon"></x-icon><span class="word">我创建的歌单</span></p>
-        <group style="margin:0">
-            <cell-box  class="pr" v-for="(item) in myplaylist" :key="item.id" >
-                <img :src="item.coverImgUrl" alt="pic" class="icon">
-                <div class="mbox">
-                    <p class="itemName">{{item.name}}</p>
-                    <p class="itemNum"><x-icon type="ios-checkmark" size="14" class="itemNum-icon"></x-icon><span class="word">共{{item.trackCount}}首</span></p>
-                </div>
-            </cell-box>
-        </group>
-    <p class="itemTitle"><x-icon type="ios-arrow-down" size="16" class="itemNum-icon"></x-icon><span class="word">我收藏的歌单</span></p>
-        <group style="margin:0">
-            <cell-box  class="pr" v-for="(item) in otherplaylist" :key="item.id">
-                <img :src="item.coverImgUrl" alt="pic" class="icon">
-                <div class="mbox">
-                    <p class="itemName">{{item.name}}</p>
-                    <p class="itemNum"><x-icon type="ios-checkmark" size="14" class="itemNum-icon"></x-icon><span class="word">共{{item.trackCount}}首</span></p>
-                </div>
-            </cell-box>
-        </group>
+    <p class="itemTitle">
+      <x-icon
+        type="ios-arrow-down"
+        size="16"
+        class="itemNum-icon"
+      ></x-icon><span class="word">我创建的歌单</span>
+    </p>
+
+    <cell
+      class="pr"
+      v-for="(item) in myplaylist"
+      :key="item.id"
+    >
+      <img
+        :src="item.coverImgUrl"
+        alt="pic"
+        class="icon"
+      >
+      <div class="mbox">
+        <p class="itemName">{{item.name}}</p>
+        <p class="itemNum">
+          <x-icon
+            type="ios-checkmark"
+            size="14"
+            class="itemNum-icon"
+          ></x-icon><span class="word">共{{item.trackCount}}首</span>
+        </p>
+      </div>
+    </cell>
+
+    <p class="itemTitle">
+      <x-icon
+        type="ios-arrow-down"
+        size="16"
+        class="itemNum-icon"
+      ></x-icon><span class="word">我收藏的歌单</span>
+    </p>
+
+    <cell
+      class="pr"
+      v-for="(item) in otherplaylist"
+      :key="item.id"
+    >
+      <img
+        :src="item.coverImgUrl"
+        alt="pic"
+        class="icon"
+      >
+      <div class="mbox">
+        <p class="itemName">{{item.name}}</p>
+        <p class="itemNum">
+          <x-icon
+            type="ios-checkmark"
+            size="14"
+            class="itemNum-icon"
+          ></x-icon><span class="word">共{{item.trackCount}}首</span>
+        </p>
+      </div>
+    </cell>
+
   </div>
 </template>
 
 <script>
-import { Group, CellBox } from "vux";
+import cell from '@/components/cell'
 export default {
   components: {
-    Group,
-    CellBox
+    cell
   },
   computed: {
     myplaylist() {
-      return this.playlist.filter(v => !v.subscribed);
+      return this.playlist.filter(v => !v.subscribed)
     },
     otherplaylist() {
-      return this.playlist.filter(v => v.subscribed);
+      return this.playlist.filter(v => v.subscribed)
     }
   },
   props: {
@@ -44,9 +83,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {}
   }
-};
+}
 </script>
 <style lang="less">
 .weui-cells {
@@ -62,6 +101,9 @@ export default {
   color: #333;
   .pr {
     padding-right: 30px;
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: #fff;
   }
   .itemTitle {
     padding: 10px;
