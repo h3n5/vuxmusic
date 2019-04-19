@@ -1,7 +1,7 @@
 <template>
   <div ref="wrapper" class="list-wrapper">
     <div class="scroll-content">
-      <div ref="listWrapper">
+      <div ref="listWrapper" class="list">
         <slot>
           <ul class="list-content">
             <li
@@ -106,7 +106,6 @@ export default {
       default: DIRECTION_V
     },
     scrollbar: {
-      type: Object,
       default: () => {
         return { fade: true, interactive: true }
       }
@@ -200,6 +199,7 @@ export default {
         bounce: this.bounce,
         zoom: this.zoom
       }
+      console.log(options)
       this.scroll = new BScroll(this.$refs.wrapper, options)
       if (this.listenScroll) {
         this.scroll.on('scroll', pos => {
@@ -340,6 +340,11 @@ export default {
   .scroll-content {
     position: relative;
     z-index: 1;
+
+    .list {
+      display: flex;
+      flex-flow: row nowrap;
+    }
   }
 
   .list-content {
