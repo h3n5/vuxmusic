@@ -1,34 +1,53 @@
 <template>
-  <swiper :show-dots="false" :aspect-ratio="0.5" :auto="true">
-    <swiper-item v-for="(item) in imgList" :key="item.id">
-      <img v-lazy="item.imageUrl" alt="img" class="bannerImg">
-    </swiper-item>
+  <swiper :options="swiperOption">
+    <swiper-slide
+      v-for="(item) in imgList"
+      :key="item.id"
+      style="height:150px"
+    >
+      <img
+        v-lazy="item.imageUrl"
+        alt="img"
+        class="bannerImg"
+      >
+    </swiper-slide>
+    <div
+      class="swiper-pagination"
+      slot="pagination"
+    ></div>
   </swiper>
 </template>
 <script>
-import { Swiper, SwiperItem } from "vux";
-import { getBanner } from "@/api/api";
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+import { getBanner } from '@/api/api'
 export default {
-  name: "Banner",
+  name: 'Banner',
   components: {
-    Swiper,
-    SwiperItem
+    swiper,
+    swiperSlide
   },
   data() {
     return {
-      imgList: []
-    };
+      imgList: [],
+      swiperOption: {
+        auto: true,
+        pagination: {
+          el: '.swiper-pagination'
+        }
+      }
+    }
   },
   created() {
-    this.getBannerData();
+    this.getBannerData()
   },
   methods: {
     async getBannerData() {
-      let res = await getBanner();
-      this.imgList = res.data.banners;
+      let res = await getBanner()
+      this.imgList = res.data.banners
     }
   }
-};
+}
 </script>
 
 <style lang='less' scoped>
