@@ -1,13 +1,9 @@
 <template>
-  <div
-    id="app"
-    ref="app"
-    @touchstart.self="touchstart"
-  >
+  <div id="app" ref="app" @touchstart.self="touchstart">
     <!-- <v-touch  v-on:swiperight="onSwipeRight"  tag="div" style="height:100%"> -->
     <transition :name="transitionName">
       <keep-alive :include="alive">
-        <router-view class="router uheight" />
+        <router-view class="router uheight"/>
       </keep-alive>
     </transition>
     <!-- </v-touch> -->
@@ -136,7 +132,7 @@ a {
 /* 页面切换 动态效果 */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.3s;
 }
 .fade-enter,
 .fade-leave-to {

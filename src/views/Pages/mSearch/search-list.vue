@@ -1,44 +1,45 @@
 <template>
-  <div>
-    <ul class="music vux-1px-t">
-        <li class="item vux-1px-b" v-for="(item, index) in songs" :key="index">
-            <div class="left">
-                <p class="top">{{item.name}}</p>
-                <p class="bottom"><span v-for="(v, i) in item.artists" :key="i">{{v.name}} / </span> - <span class="blue">{{item.album.name}}</span></p>
-            </div>
-            <div class="right" @click="play(item)">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-playcircleoutline"></use>
-                </svg>
-            </div>
-        </li>
-    </ul>
-  </div>
+  <ul class="music vux-1px-t">
+    <li class="item vux-1px-b" v-for="(item, index) in songs" :key="index">
+      <div class="left">
+        <p class="top">{{item.name}}</p>
+        <p class="bottom">
+          <span v-for="(v, i) in item.artists" :key="i">{{v.name}} /</span> -
+          <span class="blue">{{item.album.name}}</span>
+        </p>
+      </div>
+      <div class="right" @click="play(item)">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-playcircleoutline"></use>
+        </svg>
+      </div>
+    </li>
+  </ul>
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import { mapActions } from 'vuex'
 export default {
-  name: "sl",
+  name: 'sl',
   props: {
     songs: Array
   },
   methods: {
-    ...mapActions("music",["AddAndPlay"]),
+    ...mapActions('music', ['AddAndPlay']),
     play(v) {
-      let song ={
-            id: v.id,
-            name: v.name,
-            artists: v.artists,
-            albumPic: '@/assets/play/player-bar.png',
-            album: v.album,
-            location:`https://music.163.com/song/media/outer/url?id=${v.id}.mp3 `
+      let song = {
+        id: v.id,
+        name: v.name,
+        artists: v.artists,
+        albumPic: '@/assets/play/player-bar.png',
+        album: v.album,
+        location: `https://music.163.com/song/media/outer/url?id=${v.id}.mp3 `
       }
-      this.AddAndPlay(song);
-      this.$router.push("/play/"+v.id)
+      this.AddAndPlay(song)
+      this.$router.push('/play/' + v.id)
     }
   }
-};
+}
 </script>
 
 <style lang='less' scoped>
@@ -54,32 +55,32 @@ export default {
   .item {
     margin-bottom: 5px;
     display: flex;
-    .left{
-        flex: 1 1 auto;
-        .top {
+    .left {
+      flex: 1 1 auto;
+      .top {
         padding: 5px 0;
         font-size: 14px;
         .ellipsis(1);
-        }
-        .bottom {
+      }
+      .bottom {
         font-size: 12px;
         margin: 5px 0;
-         color: #888;    
+        color: #888;
         .ellipsis(1);
-        .blue{
+        .blue {
           color: @mblue;
         }
-        }
+      }
     }
-    .right{
-        min-width: 60px;
-        flex-basis: 60px;
-        display: flex;
-          justify-content: center;
-          align-items: center;
-        .icon{
-          font-size: 30px;
-        }
+    .right {
+      min-width: 60px;
+      flex-basis: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .icon {
+        font-size: 30px;
+      }
     }
   }
 }
