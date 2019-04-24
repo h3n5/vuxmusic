@@ -1,26 +1,19 @@
-const vuxLoader = require("vux-loader");
+const path = require('path')
+
 module.exports = {
-    devServer: {
-        host: '0.0.0.0',
-        // disableHostCheck: true,
-    },
-    configureWebpack: config => {
-        vuxLoader.merge(config, {
-            plugins: [
-                "vux-ui",
-                {
-                    name: "less-theme",
-                    path: "src/theme.less"
-                },
-                {
-                    name: 'duplicate-style',
-                    events: {
-                        done: function () {
-                            console.log('done!')
-                        }
-                    }
-                }
-            ]
-        });
-    }
-};
+  chainWebpack: config => {
+    const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
+    types.forEach(type =>
+      addStyleResource(config.module.rule('less').oneOf(type))
+    )
+  }
+}
+
+function addStyleResource(rule) {
+  rule
+    .use('style-resource')
+    .loader('style-resources-loader')
+    .options({
+      patterns: [path.resolve(__dirname, './src/assets/css/theme.less')]
+    })
+}

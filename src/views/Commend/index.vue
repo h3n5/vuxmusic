@@ -32,7 +32,6 @@ import { getpersonalized } from '@/api/api'
 import { mapGetters, mapState } from 'vuex'
 import Banner from '@/components/Banner'
 import PicBlock from '@/components/PicBlock'
-import { Swiper, SwiperItem, Toast } from 'vux'
 export default {
   name: 'mContentRecommend',
   props: {
@@ -47,9 +46,6 @@ export default {
   },
   components: {
     PicBlock,
-    Swiper,
-    SwiperItem,
-    Toast,
     Banner
   },
   computed: {

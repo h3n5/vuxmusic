@@ -1,41 +1,30 @@
 <template>
   <div class="page">
-    <cell
-      is-link
-      class="pr"
-    >
-      <img
-        :src="require('@/assets/music.png')"
-        alt="pic"
-        class="icon"
-      >
+    <cell is-link class="pr">
+      <img :src="require('@/assets/music.png')" alt="pic" class="icon">
       <p class="itemName">最近播放</p>
       <span class="itemNum">{{this.history.length}}</span>
     </cell>
     <songListBlock :playlist="playlist"></songListBlock>
 
-    <group style="margin:10px 0;">
-      <cell-box
-        class="pr"
-        @click.native="showlogoutConfirm = true"
-      >
+    <div style="margin:10px 0;">
+      <cell class="pr" @click.native="showlogoutConfirm = true">
         <p class="itemName logout">退出登录</p>
-      </cell-box>
+      </cell>
       <div v-transfer-dom>
-        <confirm
+        <!-- <confirm
           v-model="showlogoutConfirm"
           :close-on-confirm="false"
           title="退出登录"
           @on-confirm="logoutConfirm"
-        ></confirm>
+        ></confirm>-->
       </div>
-    </group>
+    </div>
   </div>
 </template>
 
 <script>
 import TransferDom from '@/utils/directive/tranform.js'
-import { Group, CellBox, Confirm } from 'vux'
 import songListBlock from './songListBlock'
 import { userPlaylist, userRecord, logout } from '@/api/api'
 
@@ -43,9 +32,6 @@ import { mapState, mapMutations } from 'vuex'
 import cell from '@/components/cell'
 export default {
   components: {
-    Group,
-    CellBox,
-    Confirm,
     songListBlock,
     cell
   },

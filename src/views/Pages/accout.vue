@@ -2,11 +2,7 @@
   <div>
     <mHead title="账号"></mHead>
     <div class="songList">
-      <div
-        class="imgBox"
-        :style="{backroundImage:user.avatarUrl}"
-      >
-      </div>
+      <div class="imgBox" :style="{backroundImage:user.avatarUrl}"></div>
       <div class="wordBox">
         <div class="left">
           <p class="top">{{user.nickname || '未登录'}}</p>
@@ -21,41 +17,37 @@
         </div>
       </div>
     </div>
-    <card>
-      <div
-        slot="content"
-        class="card-demo-flex card-demo-content01"
-      >
-        <div class="vux-1px-r">
-          <p>动态</p>
-          <span>1130</span>
-        </div>
-        <div class="vux-1px-r">
-          <p>关注</p>
-          <span>1130</span>
-        </div>
-        <div class="vux-1px-r">
-          <p>粉丝</p>
-          <span>1130</span>
-        </div>
-        <div class="vux-1px-r">
-          <p class="data">我的资料</p>
-        </div>
+
+    <div slot="content" class="card-demo-flex card-demo-content01">
+      <div class="vux-1px-r">
+        <p>动态</p>
+        <span>1130</span>
       </div>
-    </card>
+      <div class="vux-1px-r">
+        <p>关注</p>
+        <span>1130</span>
+      </div>
+      <div class="vux-1px-r">
+        <p>粉丝</p>
+        <span>1130</span>
+      </div>
+      <div class="vux-1px-r">
+        <p class="data">我的资料</p>
+      </div>
+    </div>
+
     <accoutList></accoutList>
   </div>
 </template>
 
 <script>
-import { Card } from 'vux'
 import mHead from '@/components/header-2'
 import accoutList from './AccountDetail/AccountList'
 import { mapState } from 'vuex'
 import vbutton from '@/components/vbutton'
 export default {
   name: 'accout',
-  components: { mHead, Card, accoutList, vbutton },
+  components: { mHead, accoutList, vbutton },
   data() {
     return {
       lists: [{ text: 1234, show: false }],
@@ -96,7 +88,6 @@ export default {
 }
 </script>
 <style lang='less' scoped>
-@import '~vux/src/styles/1px.less';
 .card-demo-flex {
   display: flex;
 }

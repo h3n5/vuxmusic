@@ -21,40 +21,27 @@
     >
       <p class="itemName logout">退出登录</p>
     </cell>
-    <div v-transfer-dom>
-      <confirm
+    <div>
+      <!-- <confirm
         v-model="showlogoutConfirm"
         :close-on-confirm="false"
         title="退出登录"
         @on-confirm="logoutConfirm"
       >
-      </confirm>
+      </confirm> -->
     </div>
-    <toast
-      v-model="showtoast"
-      type="text"
-    >{{message}}</toast>
-
   </div>
 </template>
 
 <script>
-import { Group, CellBox, Confirm, TransferDom, Toast } from 'vux'
 import songListBlock from './songListBlock'
 import { userPlaylist, userRecord, logout } from '@/api/api'
 import { mapState, mapMutations } from 'vuex'
 import cell from '@/components/cell'
 export default {
   components: {
-    Group,
-    CellBox,
-    Confirm,
-    Toast,
     songListBlock,
     cell
-  },
-  directives: {
-    TransferDom
   },
   data() {
     return {
@@ -98,11 +85,8 @@ export default {
     },
     logoutConfirm() {
       logout().then(res => {
-        this.showtoast = true
-        this.message = '退出……'
         if (res.data.code === 200) {
-          this.message += '成功'
-          this.showtoast = false
+          this.$toast('退出成功')
           this._user({})
           this.showlogoutConfirm = false
         }

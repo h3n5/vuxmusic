@@ -5,6 +5,8 @@ import store from './vuex'
 import VueLazyload from 'vue-lazyload'
 import toast from '@/components/toast/index.js'
 Vue.use(toast)
+import xicon from '@/components/xicon/index.js'
+Vue.use(xicon)
 Vue.use(VueLazyload, {
   lazyComponent: true,
   preLoad: 1.3,

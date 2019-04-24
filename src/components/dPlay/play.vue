@@ -1,206 +1,125 @@
 <template>
   <div class="u-height">
-    <view-box
-      ref="viewBox"
-      body-padding-bottom="0"
-    >
-      <section class="songBg u-height">
-        <div
-          class="bg"
-          :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"
-        ></div>
-        <!-- 标题 -->
-        <div class="title vux-1px-b">
-          <div
-            class="left"
-            @click="back"
-          >
-            <svg
-              class="icon"
-              aria-hidden="true"
+    <section class="songBg u-height">
+      <div class="bg" :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"></div>
+      <!-- 标题 -->
+      <div class="title vux-1px-b">
+        <div class="left" @click="back">
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-navigatebefore"></use>
+          </svg>
+        </div>
+        <div class="middle">
+          <p>{{audio.name}}</p>
+        </div>
+        <div class="right">
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-fenxiang"></use>
+          </svg>
+        </div>
+      </div>
+      <!-- 模糊背景 -->
+      <div class="song">
+        <!-- 播放 -->
+        <div class="img" v-show="!showLyric" @click="toggleStatus">
+          <div class="circle">
+            <div
+              class="pic"
+              :class="{circling:playing}"
+              :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"
             >
-              <use xlink:href="#icon-navigatebefore"></use>
+              <span class="block" :class="{pause:!playing}"></span>
+            </div>
+            <canvas class="canvas" :style="{'top':top}"></canvas>
+          </div>
+
+          <canvasCircle ref="canvas" class="canvas" v-if="false"></canvasCircle>
+        </div>
+        <div class="userdo" v-show="!showLyric">
+          <div class="item">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-favorite"></use>
             </svg>
           </div>
-          <div class="middle">
-            <p>{{audio.name}}</p>
+          <div class="item">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-filedownload"></use>
+            </svg>
           </div>
-          <div class="right">
-            <svg
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-fenxiang"></use>
+          <div class="item">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-modecomment"></use>
+            </svg>
+          </div>
+          <div class="item">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-unfoldmore"></use>
             </svg>
           </div>
         </div>
-        <!-- 模糊背景 -->
-        <div class="song">
-          <!-- 播放 -->
-          <div
-            class="img"
-            v-show="!showLyric"
-            @click="toggleStatus"
+        <!-- 歌词 -->
+        <div class="lrc" @click="toggleStatus" v-show="showLyric">
+          <scroll
+            class="wrapper"
+            ref="scroll"
+            :pullDownRefresh="false"
+            :pullUpLoad="false"
+            @scroll-start="lyricScroll = false"
+            @scroll-end="lyricScroll = true"
           >
-            <div class="circle">
-              <div
-                class="pic"
-                :class="{circling:playing}"
-                :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"
-              >
-                <span
-                  class="block"
-                  :class="{pause:!playing}"
-                ></span>
-              </div>
-              <canvas
-                class="canvas"
-                :style="{'top':top}"
-              ></canvas>
-            </div>
-
-            <canvasCircle
-              ref="canvas"
-              class="canvas"
-              v-if="false"
-            ></canvasCircle>
-          </div>
-          <div
-            class="userdo"
-            v-show="!showLyric"
-          >
-            <div class="item">
-              <svg
-                class="icon"
-                aria-hidden="true"
-              >
-                <use xlink:href="#icon-favorite"></use>
-              </svg>
-            </div>
-            <div class="item">
-              <svg
-                class="icon"
-                aria-hidden="true"
-              >
-                <use xlink:href="#icon-filedownload"></use>
-              </svg>
-            </div>
-            <div class="item">
-              <svg
-                class="icon"
-                aria-hidden="true"
-              >
-                <use xlink:href="#icon-modecomment"></use>
-              </svg>
-            </div>
-            <div class="item">
-              <svg
-                class="icon"
-                aria-hidden="true"
-              >
-                <use xlink:href="#icon-unfoldmore"></use>
-              </svg>
-            </div>
-          </div>
-          <!-- 歌词 -->
-          <div
-            class="lrc"
-            @click="toggleStatus"
-            v-show="showLyric"
-          >
-            <scroll
-              class="wrapper"
-              ref="scroll"
-              :pullDownRefresh="false"
-              :pullUpLoad="false"
-              @scroll-start="lyricScroll = false"
-              @scroll-end="lyricScroll = true"
-            >
-              <div class="lrc-content content">
-                <div class="lrc-box">
-                  <div
-                    class="lrc-list"
-                    :class="{'lrc-select':item.show}"
-                    v-for="(item, index) in lyric.lines"
-                    :key="index"
-                  >
-                    <p>{{item.txt}}</p>
-                    <p v-if="lyric.hasCN">{{item.txtCN}}</p>
-                  </div>
+            <div class="lrc-content content">
+              <div class="lrc-box">
+                <div
+                  class="lrc-list"
+                  :class="{'lrc-select':item.show}"
+                  v-for="(item, index) in lyric.lines"
+                  :key="index"
+                >
+                  <p>{{item.txt}}</p>
+                  <p v-if="lyric.hasCN">{{item.txtCN}}</p>
                 </div>
               </div>
-            </scroll>
+            </div>
+          </scroll>
+        </div>
+      </div>
+      <div class="playBar">
+        <musicProgress></musicProgress>
+        <!-- 操作区域 -->
+        <div class="playitem">
+          <div class="child">
+            <svg class="icon" aria-hidden="true" @click="switchType">
+              <use :href="playtype"></use>
+            </svg>
+          </div>
+          <div class="child" @click="prevSong">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-skipprevious"></use>
+            </svg>
+          </div>
+          <div class="child" @click="togglePlay">
+            <svg class="icon" aria-hidden="true">
+              <use :href="PlayOrPause"></use>
+            </svg>
+          </div>
+          <div class="child" @click="nextSong">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-skipnext"></use>
+            </svg>
+          </div>
+          <div class="child">
+            <svg class="icon" aria-hidden="true" @click="showList = true">
+              <use xlink:href="#icon-formatlistbulleted"></use>
+            </svg>
           </div>
         </div>
-        <div class="playBar">
-          <musicProgress></musicProgress>
-          <!-- 操作区域 -->
-          <div class="playitem">
-            <div class="child">
-              <svg
-                class="icon"
-                aria-hidden="true"
-                @click="switchType"
-              >
-                <use :href="playtype"></use>
-              </svg>
-            </div>
-            <div
-              class="child"
-              @click="prevSong"
-            >
-              <svg
-                class="icon"
-                aria-hidden="true"
-              >
-                <use xlink:href="#icon-skipprevious"></use>
-              </svg>
-            </div>
-            <div
-              class="child"
-              @click="togglePlay"
-            >
-              <svg
-                class="icon"
-                aria-hidden="true"
-              >
-                <use :href="PlayOrPause"></use>
-              </svg>
-            </div>
-            <div
-              class="child"
-              @click="nextSong"
-            >
-              <svg
-                class="icon"
-                aria-hidden="true"
-              >
-                <use xlink:href="#icon-skipnext"></use>
-              </svg>
-            </div>
-            <div class="child">
-              <svg
-                class="icon"
-                aria-hidden="true"
-                @click="showList = true"
-              >
-                <use xlink:href="#icon-formatlistbulleted"></use>
-              </svg>
-            </div>
-          </div>
-          <songlistModal
-            v-model="showList"
-            @cb="showList = false"
-            @callback="initLyric"
-          ></songlistModal>
-        </div>
-      </section>
-    </view-box>
+        <songlistModal v-model="showList" @cb="showList = false" @callback="initLyric"></songlistModal>
+      </div>
+    </section>
   </div>
 </template>
 <script>
 import { mapMutations, mapState, mapActions } from 'vuex'
-import { ViewBox } from 'vux'
 import scroll from '@/components/scroll'
 import canvasCircle from '@/components/anime/canvasCircle'
 import musicProgress from '@/components/audio/progress'
@@ -264,7 +183,6 @@ export default {
     }
   },
   components: {
-    ViewBox,
     scroll,
     canvasCircle,
     musicProgress,

@@ -60,7 +60,7 @@ export default {
 }
 </script>
 <style lang="less">
-@import '../src/assets/css/1px.less';
+@import '~@/assets/css/1px.less';
 #app {
   font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial,
     sans-serif;

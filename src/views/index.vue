@@ -2,17 +2,7 @@
   <div class="main">
     <m-head></m-head>
     <!-- 标签 -->
-    <tab :line-width="2" active-color="#fc378c" v-model="index">
-      <tab-item
-        active-class="tabselected"
-        class="vux-center"
-        :selected="tabIndex === item.type"
-        v-for="(item, index) in mainTab"
-        @on-item-click="tabIndex = item.type"
-        :key="index"
-      >{{item.name}}</tab-item>
-    </tab>
-    <vtab v-model="index" :list="mainTab.concat(mainTab).concat(mainTab)"></vtab>
+    <vtab v-model="index" :list="mainTab" auto></vtab>
     <!-- 轮播 + 推荐 -->
     <scroll class="wrapper" ref="scroll" @pullingDown="pullingDown" @pullingUp="pullingUp">
       <component
@@ -25,7 +15,6 @@
   </div>
 </template>
 <script>
-import { Tab, TabItem } from 'vux'
 import { mapMutations, mapState } from 'vuex'
 import mHead from '@/components/TabBar'
 import commend from '@/views/Commend'
@@ -37,8 +26,6 @@ export default {
   name: 'index',
   components: {
     mHead,
-    Tab,
-    TabItem,
     commend,
     songList,
     ranking,
@@ -60,6 +47,9 @@ export default {
     })
   },
   watch: {
+    index(v){
+      this.tabIndex = this.list[v]
+    },
     tabIndex(v) {
       this.Set_mainIndex(this.mainTab.findIndex(item => item.type === v))
     }
