@@ -7,32 +7,34 @@ import toast from '@/components/toast/index.js'
 Vue.use(toast)
 import xicon from '@/components/xicon/index.js'
 Vue.use(xicon)
+import audio from './utils/audio/install'
+Vue.use(audio)
 Vue.use(VueLazyload, {
-  lazyComponent: true,
-  preLoad: 1.3,
-  error: 'img/player-bar.png',
-  loading: 'img/player-bar.png',
-  attempt: 1
+	lazyComponent: true,
+	preLoad: 1.3,
+	error: 'img/player-bar.png',
+	loading: 'img/player-bar.png',
+	attempt: 1
 })
 import VueTouch from 'vue-touch'
 
 Vue.use(VueTouch, {
-  name: 'v-touch'
+	name: 'v-touch'
 })
 Vue.mixin({
-  methods: {
-    back() {
-      this.$router.back()
-    }
-  }
+	methods: {
+		back() {
+			this.$router.back()
+		}
+	}
 })
 VueTouch.config.swipe = {
-  threshold: 100 //手指左右滑动距离
+	threshold: 100 //手指左右滑动距离
 }
 
 Vue.config.productionTip = false
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+	router,
+	store,
+	render: h => h(App)
 }).$mount('#app')

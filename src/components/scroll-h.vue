@@ -1,7 +1,13 @@
 <template>
-  <div ref="wrapper" class="list-wrapper">
+  <div
+    ref="wrapper"
+    class="list-wrapper"
+  >
     <div class="scroll-content">
-      <div ref="listWrapper" class="list">
+      <div
+        ref="listWrapper"
+        class="list"
+      >
         <slot>
           <ul class="list-content">
             <li
@@ -13,12 +19,25 @@
           </ul>
         </slot>
       </div>
-      <slot name="pullup" :pullUpLoad="pullUpLoad" :isPullUpLoad="isPullUpLoad">
-        <div class="pullup-wrapper" v-if="pullUpLoad">
-          <div class="before-trigger" v-if="!isPullUpLoad">
+      <slot
+        name="pullup"
+        :pullUpLoad="pullUpLoad"
+        :isPullUpLoad="isPullUpLoad"
+      >
+        <div
+          class="pullup-wrapper"
+          v-if="pullUpLoad"
+        >
+          <div
+            class="before-trigger"
+            v-if="!isPullUpLoad"
+          >
             <span>{{pullUpTxt}}</span>
           </div>
-          <div class="after-trigger" v-else>
+          <div
+            class="after-trigger"
+            v-else
+          >
             <loading></loading>
           </div>
         </div>
@@ -32,12 +51,26 @@
       :isPullingDown="isPullingDown"
       :bubbleY="bubbleY"
     >
-      <div ref="pulldown" class="pulldown-wrapper" :style="pullDownStyle" v-if="pullDownRefresh">
-        <div class="before-trigger" v-if="beforePullDown">
+      <div
+        ref="pulldown"
+        class="pulldown-wrapper"
+        :style="pullDownStyle"
+        v-if="pullDownRefresh"
+      >
+        <div
+          class="before-trigger"
+          v-if="beforePullDown"
+        >
           <bubble :y="bubbleY"></bubble>
         </div>
-        <div class="after-trigger" v-else>
-          <div v-if="isPullingDown" class="loading">
+        <div
+          class="after-trigger"
+          v-else
+        >
+          <div
+            v-if="isPullingDown"
+            class="loading"
+          >
             <loading></loading>
           </div>
           <div v-else>
@@ -199,7 +232,6 @@ export default {
         bounce: this.bounce,
         zoom: this.zoom
       }
-      console.log(options)
       this.scroll = new BScroll(this.$refs.wrapper, options)
       if (this.listenScroll) {
         this.scroll.on('scroll', pos => {
