@@ -1,26 +1,25 @@
 <template>
-<div class="loader">
-  <span v-for="i in 4" :key="i" :style="animation"></span>
-</div>
+  <div class="loader">
+    <span v-for="i in 4" :key="i" :style="animation"></span>
+  </div>
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import { mapState } from 'vuex'
 export default {
-  name: "",
+  name: '',
   components: {},
   data() {
-    return {
-    };
+    return {}
   },
   computed: {
-      ...mapState("music",["playing"]),
-      animation(){
-          return {"animation-play-state":this.playing?"running":"paused"}
-      }
+    ...mapState('music', ['playing']),
+    animation() {
+      return { 'animation-play-state': this.playing ? 'running' : 'paused' }
+    }
   },
   methods: {}
-};
+}
 </script>
 <style lang='less' scoped>
 .loader {
@@ -30,11 +29,11 @@ export default {
   left: 0px;
   right: 0px;
   margin: auto;
-  justify-content: center;
   height: 25px;
   display: flex;
   flex-flow: row nowrap;
   align-items: flex-end;
+  justify-content: flex-end
 }
 
 .loader span {
@@ -45,15 +44,16 @@ export default {
   border-radius: 14px;
   margin: 0 3px;
   float: left;
-  // margin-top: 25%;
 }
 .loader span:nth-child(1) {
+  height: 50%;
   animation: lineload 1s 1.4s infinite linear;
 }
 .loader span:nth-child(2) {
   animation: lineload 1s 0.8s infinite linear;
 }
 .loader span:nth-child(3) {
+  height: 50%;
   animation: lineload 1s 1.4s infinite linear;
 }
 .loader span:nth-child(4) {

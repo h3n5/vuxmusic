@@ -72,7 +72,7 @@
                 <div
                   class="lrc-list"
                   :class="{'lrc-select':item.show}"
-                  v-for="(item, index) in lyric.lines"
+                  v-for="(item, index) in lyric"
                   :key="index"
                 >
                   <p>{{item.txt}}</p>
@@ -149,7 +149,12 @@ export default {
   watch: {
     lyricObj: {
       handler(v) {
-        this.lyric = v
+        this.lyric = v.lines
+          ? v.lines.map(v => {
+              v.show = false
+              return v
+            })
+          : []
       },
       immediate: true
     },
@@ -159,26 +164,17 @@ export default {
       let percent = currentTime / duration
       if (percent == 1) {
         percent = 0 //当播放完成，进度条跳到开始
+        this.$refs.scroll.scrollTo(0,0)
       }
-      let Lyric = this.lyric.lines
-      if (Lyric === undefined) {
-        return
-      }
-      try {
-        for (let i = 0; i < Lyric.length - 1; i++) {
-          Lyric[i].show = false
-          if (v * 1000 > Lyric[i].time && v * 1000 < Lyric[i + 1].time) {
-            this.$set(Lyric, i, Object.assign(Lyric[i], { show: true }))
-            this.lyricScroll &&
-              this.$refs.scroll.scrollTo(
-                0,
-                -i * (25 + this.lyric.hasCN ? 35 : 0) + 220
-              )
-            break
+      let Lyric = this.lyric
+      for (let i = 0; i < Lyric.length - 1; i++) {
+        this.lyric[i].show = false
+        if (v * 1000 > Lyric[i].time && v * 1000 < Lyric[i + 1].time) {
+          this.lyric[i].show = true
+          if(this.lyricScroll && document.querySelector(".lrc-select")){
+            this.$refs.scroll.scrollToElement('.lrc-select', 200, true, true)
           }
         }
-      } catch (e) {
-        console.log(e)
       }
     }
   },

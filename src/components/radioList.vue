@@ -94,7 +94,6 @@ export default {
         display: flex;
         justify-content: center;
         text-align: center;
-        font-size: 14px;
         .ellipsis(1);
     }
   }

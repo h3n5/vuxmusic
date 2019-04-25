@@ -83,7 +83,6 @@ export default {
   p {
     padding: 5px;
     text-align: center;
-    font-size: 14px;
     .ellipsis(1)
   }
 }

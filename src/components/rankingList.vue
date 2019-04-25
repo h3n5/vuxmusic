@@ -103,7 +103,6 @@ export default {
       height: calc(100% / 3);
       display: flex;
       margin-left: 10px;
-      font-size: 14px;
       width: 200px;
       .eliOne()
     }

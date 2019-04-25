@@ -1,12 +1,10 @@
 <template>
-  <div id="app" ref="app" @touchstart.self="touchstart">
-    <!-- <v-touch  v-on:swiperight="onSwipeRight"  tag="div" style="height:100%"> -->
+  <div id="app" ref="app">
     <transition :name="transitionName">
       <keep-alive :include="alive">
         <router-view class="router uheight"/>
       </keep-alive>
     </transition>
-    <!-- </v-touch> -->
     <musicplayer></musicplayer>
   </div>
 </template>
@@ -18,15 +16,11 @@ export default {
     musicplayer
   },
   computed: {
-    ...mapState('menu', ['showFoot', 'alive'])
+    ...mapState('menu', ['alive'])
   },
   data() {
     return {
-      transitionName: '',
-      vueTouches: {
-        x: '',
-        y: ''
-      }
+      transitionName: ''
     }
   },
   watch: {
@@ -41,21 +35,6 @@ export default {
         this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
       }
     }
-  },
-  methods: {
-    // 开始滑动
-    touchstart(e) {
-      //if (true) {
-      this.vueTouches = {
-        x: e.changedTouches[0].pageX,
-        y: e.changedTouches[0].pageY
-      }
-      //console.log(this.vueTouches );
-      //}
-    },
-    onSwipeRight() {
-      //this.$router.go(-1)
-    }
   }
 }
 </script>
@@ -66,15 +45,14 @@ export default {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // color: #2c3e50;
+  font-size: 12px;
+  color: @blackf;
   height: 100%;
-  // padding-bottom: 53px;
 }
 html,
 body {
   height: 100%;
   width: 100%;
-  // overflow-x: hidden;
 }
 #nav {
   padding: 30px;

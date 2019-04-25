@@ -53,7 +53,6 @@
 import BScroll from 'better-scroll'
 import Loading from '@/components/scroll-loading.vue'
 import Bubble from '@/components/scroll-bubble.vue'
-const COMPONENT_NAME = 'scroll'
 const DIRECTION_H = 'horizontal'
 const DIRECTION_V = 'vertical'
 function getRect(el) {
@@ -75,7 +74,7 @@ function getRect(el) {
   }
 }
 export default {
-  name: COMPONENT_NAME,
+  name: 'scroll',
   props: {
     data: {
       type: Array,
@@ -330,10 +329,9 @@ export default {
 }
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus">
 .list-wrapper {
   position: relative;
-  // height: 500px;
   overflow: hidden;
   background: #fff;
 

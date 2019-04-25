@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from './vuex'
-
 Vue.use(Router)
 let router = new Router({
   mode: 'history',
@@ -15,15 +13,6 @@ let router = new Router({
       },
       component: () => import('./views/index.vue')
     },
-    // {
-    //   path: '/music',
-    //   name: 'music',
-    //   meta: {
-    //     sort: 2
-    //   },
-    //   component: () =>
-    //     import('./views/Pages/music.vue')
-    // },
     {
       path: '/accout',
       name: 'accout',
@@ -60,13 +49,5 @@ let router = new Router({
       redirect: '/'
     }
   ]
-})
-router.beforeEach((to, from, next) => {
-  if (to.fullPath.includes('/play')) {
-    store.commit('menu/toggleFoot', false)
-  } else {
-    store.commit('menu/toggleFoot', true)
-  }
-  next()
 })
 export default router

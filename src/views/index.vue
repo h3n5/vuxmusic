@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <m-head></m-head>
+    <v-head></v-head>
     <!-- 标签 -->
     <vtab v-model="index" :list="mainTab" auto></vtab>
     <!-- 轮播 + 推荐 -->
@@ -16,7 +16,7 @@
 </template>
 <script>
 import { mapMutations, mapState } from 'vuex'
-import mHead from '@/components/TabBar'
+import vHead from '@/components/vHead'
 import commend from '@/views/Commend'
 import songList from '@/views/SongList'
 import ranking from '@/views/Ranking'
@@ -25,7 +25,7 @@ import vtab from '@/components/vtab'
 export default {
   name: 'index',
   components: {
-    mHead,
+    vHead,
     commend,
     songList,
     ranking,

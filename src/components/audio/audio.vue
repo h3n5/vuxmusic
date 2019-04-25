@@ -1,5 +1,4 @@
 <template>
-  <div>
     <audio
       ref="audio"
       :src="audio.location"
@@ -9,7 +8,6 @@
       id="audioPlay"
       :loop="playType === 3"
     ></audio>
-  </div>
 </template>
 
 <script>

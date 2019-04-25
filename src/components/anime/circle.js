@@ -35,7 +35,7 @@ class Circle {
     this.context.clip('evenodd')
     this.drawCircle()
   }
-  switch (v = true) {
+  switch(v = true) {
     this.config.play = v
   }
   drawCircle() {
