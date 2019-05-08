@@ -10,6 +10,7 @@ class Auplayer {
   constructor(options = { preload: true, mode: 1 }) {
     this.options = options
     this.init()
+    this.initEvent()
   }
   /**
    * mode =  1,歌单循环;2,歌单随机;3,单曲循环
@@ -17,6 +18,19 @@ class Auplayer {
   init() {
     this.audio = document.createElement('audio')
     this.audio.preload = this.options.preload
+    this.on('timeupdate', e => {
+      if (this.currentTimeFlag) {
+        this.setcurrentTime(e.target.currentTime)
+      }
+    })
+    this.on('canplay', e => {
+      this.setdurationTime(e.target.duration)
+    })
+    this.on('ended', () => {
+      this.next()
+    })
+  }
+  initEvent() {
     for (let i = 0; i < this.events.audioEvents.length; i++) {
       this.audio.addEventListener(this.events.audioEvents[i], e => {
         this.events.trigger(this.events.audioEvents[i], e)
@@ -35,9 +49,7 @@ class Auplayer {
   next() {
     const mode = ~~this.options.mode
     if (mode === 1) {
-      this.currentIndex === this.songList.length - 1
-        ? (this.currentIndex = 0)
-        : this.currentIndex++
+      this.currentIndex === this.songList.length - 1 ? (this.currentIndex = 0) : this.currentIndex++
     }
     if (mode === 2) {
       var randomIndex = () => {

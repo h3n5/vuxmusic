@@ -1,22 +1,41 @@
 <template>
   <div class="action">
     <transition name="fade">
-      <div v-transfer-dom class="mask" v-if="mask" v-show="show"></div>
+      <div
+        v-transfer-dom
+        class="mask"
+        v-if="mask"
+        v-show="show"
+      ></div>
     </transition>
     <transition name="slide">
-      <div class="actionlist" :class="{transform:!show}">
+      <div
+        class="actionlist"
+        :class="{transform:!show}"
+      >
         <slot name="header">
           <div class="title">{{title}}</div>
         </slot>
         <slot>
-          <div class="listitem" v-for="(item) in list" :key="item.id">
-            <div :class="{ selected:item.selected}">
-              <p class="ellipsis">{{item.text}}</p>
+          <div class="actioncontent">
+            <div
+              class="listitem"
+              :class="{ selected: item.id == id}"
+              v-for="(item) in list"
+              :key="item.id"
+              @click="$emit('click',item)"
+            >
+              <div class="songitem vux-1px-b">
+                <p class="ellipsis">{{item.name}} - {{item.artists[0].name}}</p>
+              </div>
             </div>
           </div>
         </slot>
         <slot name="footer">
-          <div class="close" @click="show = false">{{close}}</div>
+          <div
+            class="close"
+            @click="show = false"
+          >{{close}}</div>
         </slot>
       </div>
     </transition>
@@ -33,13 +52,14 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'Actionsheet1'
+      default: '歌单'
     },
     close: {
       type: String,
       default: '关闭'
     },
     value: Boolean,
+    id: Number,
     list: Array,
     mask: {
       type: Boolean,
@@ -92,22 +112,35 @@ export default {
     bottom: 0;
     width: 100%;
     transition: all 0.5s;
-    max-height: 200px;
     transform: translateY(0);
     position: absolute;
     background-color: #fff;
+    z-index: 999;
     .title,
     .close {
       padding: 10px;
       text-align: center;
     }
-    .listitem {
-      display: flex;
-      flex-flow: column nowrap;
-      .ellipsis {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+    .actioncontent {
+      max-height: 300px;
+      overflow-y: scroll;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      .listitem {
+        display: flex;
+        flex-flow: column nowrap;
+        .songitem {
+          padding: 10px 0px;
+          margin: 0 10px;
+        }
+        .ellipsis {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+      .selected {
+        color: @maincolor;
       }
     }
   }

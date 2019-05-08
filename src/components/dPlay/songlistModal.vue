@@ -1,17 +1,10 @@
 <template>
-  <vActionsheet v-model="showList" :list="songList">
-    <!-- <ul class="list">
-      <li
-        v-for="(item, index) in songList"
-        :key="index"
-        class="songlist vux-1px-b"
-        :class="{play:item.id === audio.id }"
-        @click="play(item)"
-      >
-        {{item.name}} -
-        <span>{{name(item)}}</span>
-      </li>
-    </ul>-->
+  <vActionsheet
+    v-model="showList"
+    :list="songList"
+    :id="audio.id"
+    @click="play"
+  >
   </vActionsheet>
 </template>
 
@@ -64,30 +57,3 @@ export default {
   }
 }
 </script>
-
-<style lang='less' scoped>
-.list {
-  height: 600px;
-  overflow-y: scroll;
-}
-.songlist {
-  font-size: 14px;
-  text-align: left;
-  margin: 5px 0;
-  padding: 5px 15px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  span {
-    color: #888;
-    font-size: 12px;
-  }
-}
-.play {
-  color: @maincolor;
-  span {
-    color: @maincolor;
-    font-size: 12px;
-  }
-}
-</style>

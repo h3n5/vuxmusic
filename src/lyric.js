@@ -37,7 +37,7 @@ export default class Lyric {
   _initTag() {
     for (let tag in tagRegMap) {
       const matches = this.lrc.match(new RegExp(`\\[${tagRegMap[tag]}:([^\\]]*)]`, 'i'))
-      this.tags[tag] = matches && matches[1] || ''
+      this.tags[tag] = (matches && matches[1]) || ''
     }
   }
 

@@ -61,43 +61,7 @@
             v-if="false"
           ></canvasCircle>
         </div>
-        <div
-          class="userdo"
-          v-show="!showLyric"
-        >
-          <div class="item">
-            <svg
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-favorite"></use>
-            </svg>
-          </div>
-          <div class="item">
-            <svg
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-filedownload"></use>
-            </svg>
-          </div>
-          <div class="item">
-            <svg
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-modecomment"></use>
-            </svg>
-          </div>
-          <div class="item">
-            <svg
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-unfoldmore"></use>
-            </svg>
-          </div>
-        </div>
+        <userdo :showLyric="showLyric" />
         <!-- 歌词 -->
         <div
           class="lrc"
@@ -174,14 +138,11 @@
               <use xlink:href="#icon-skipnext"></use>
             </svg>
           </div>
-          <div class="child">
-            <svg
-              class="icon"
-              aria-hidden="true"
-              @click="showList = true"
-            >
-              <use xlink:href="#icon-formatlistbulleted"></use>
-            </svg>
+          <div
+            class="child list"
+            @click="showList = true"
+          >
+
           </div>
         </div>
         <songlistModal
@@ -200,10 +161,12 @@ import canvasCircle from '@/components/anime/canvasCircle'
 import musicProgress from '@/components/audio/progress'
 import songlistModal from './songlistModal'
 import Circle from '@/components/anime/circle'
+import userdo from './userdo'
 export default {
   name: 'play',
   data() {
     return {
+      love: false,
       song: { description: '', tags: [] },
       creator: {},
       lrc: [],
@@ -257,7 +220,8 @@ export default {
     scroll,
     canvasCircle,
     musicProgress,
-    songlistModal
+    songlistModal,
+    userdo
   },
   computed: {
     top() {
@@ -503,21 +467,7 @@ export default {
         }
       }
     }
-    .userdo {
-      display: flex;
-      flex-basis: 60px;
-      padding: 10px 0;
-      margin: 15px 30px;
-      .item {
-        flex: 1;
-        display: flex;
-        font-size: 20px;
-        justify-content: center;
-        align-items: center;
-        padding: 10px 0;
-        color: #ffffff;
-      }
-    }
+
     .lrc {
       font-size: 14px;
       padding: 20px 0;
@@ -571,6 +521,10 @@ export default {
         &:nth-child(3) {
           font-size: 50px;
         }
+      }
+      .list {
+        background: url('../../assets/icon/list.png') center / 44px 44px
+          no-repeat;
       }
     }
   }

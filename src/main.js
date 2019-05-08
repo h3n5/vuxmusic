@@ -4,8 +4,10 @@ import router from './router'
 import store from './vuex'
 import VueLazyload from 'vue-lazyload'
 import toast from '@/components/toast/index.js'
-Vue.use(toast)
 import xicon from '@/components/xicon/index.js'
+import Auplayer from './utils/audio/install'
+Vue.use(Auplayer)
+Vue.use(toast)
 Vue.use(xicon)
 Vue.use(VueLazyload, {
   lazyComponent: true,
