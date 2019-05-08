@@ -61,3 +61,15 @@ vux-1px-t {
     .setLine(#C7C7C7, 0, 1px, 0, 0);
   }
 }
+
+.ellipsisNum(@num: 1) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: @num;
+}
+
+.ellipsis {
+  .ellipsisNum(1)
+}

@@ -2,21 +2,36 @@
   <div class="head">
     <slot name="left">
       <div class="micro">
-        <div class="avatar" @click="goto('/accout')">
-          <img :src="imgurl" alt="avatar">
+        <div
+          class="avatar"
+          @click="goto('/accout')"
+        >
+          <img
+            :src="imgurl"
+            alt="avatar"
+          >
         </div>
       </div>
     </slot>
     <slot name="center">
-      <div class="search" @click="goto('/search')">
-        <svg class="icon" aria-hidden="true">
+      <div
+        class="search"
+        @click="goto('/search')"
+      >
+        <svg
+          class="icon"
+          aria-hidden="true"
+        >
           <use xlink:href="#icon-search"></use>
         </svg>
-        <span class="fz14">{{search}}</span>
+        <span class="fz14 ellipsis">{{search}}</span>
       </div>
     </slot>
     <slot name="right">
-      <div class="play" @click="$router.push(`/play/${audio.id}`)">
+      <div
+        class="play"
+        @click="$router.push(`/play/${audio.id}`)"
+      >
         <linescroll></linescroll>
       </div>
     </slot>

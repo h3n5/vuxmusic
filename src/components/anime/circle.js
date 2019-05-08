@@ -4,14 +4,7 @@ class Circle {
     this.element.width = this.width = width
     this.element.height = this.height = height
     this.context = this.element.getContext('2d')
-    const c = [
-      [22, 173, 230],
-      [249, 237, 105],
-      [240, 138, 93],
-      [184, 59, 94],
-      [106, 44, 112],
-      [195, 214, 0]
-    ]
+    const c = [[22, 173, 230], [249, 237, 105], [240, 138, 93], [184, 59, 94], [106, 44, 112], [195, 214, 0]]
     const color = c[~~(c.length * Math.random())]
     this.config = {
       radius: 100,
@@ -60,16 +53,7 @@ class Circle {
         this.circles[index].angel += this.config.speed
         var angel = (this.circles[index].angel / 360) * 2 * Math.PI
         this.paint(this.context, 0, 0, radius, this.config.color, alpha)
-        this.littleCircle(
-          this.context,
-          0,
-          0,
-          radius,
-          5,
-          angel,
-          this.config.color,
-          alpha
-        )
+        this.littleCircle(this.context, 0, 0, radius, 5, angel, this.config.color, alpha)
       }
       context.restore()
     }
@@ -83,13 +67,7 @@ class Circle {
   }
   littleCircle(ctx, x, y, radius, length, angel, color, alpha) {
     ctx.beginPath()
-    ctx.arc(
-      x + radius * Math.cos(angel),
-      y + radius * Math.sin(angel),
-      length,
-      0,
-      Math.PI * 2
-    )
+    ctx.arc(x + radius * Math.cos(angel), y + radius * Math.sin(angel), length, 0, Math.PI * 2)
     ctx.fillStyle = `rgba(${color[0]},${color[1]},${color[2]},${alpha})`
     ctx.fill()
   }

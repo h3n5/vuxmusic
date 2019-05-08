@@ -1,11 +1,20 @@
 <template>
   <div class="u-height">
     <section class="songBg u-height">
-      <div class="bg" :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"></div>
+      <div
+        class="bg"
+        :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"
+      ></div>
       <!-- 标题 -->
       <div class="title vux-1px-b">
-        <div class="left" @click="back">
-          <svg class="icon" aria-hidden="true">
+        <div
+          class="left"
+          @click="back"
+        >
+          <svg
+            class="icon"
+            aria-hidden="true"
+          >
             <use xlink:href="#icon-navigatebefore"></use>
           </svg>
         </div>
@@ -13,7 +22,10 @@
           <p>{{audio.name}}</p>
         </div>
         <div class="right">
-          <svg class="icon" aria-hidden="true">
+          <svg
+            class="icon"
+            aria-hidden="true"
+          >
             <use xlink:href="#icon-fenxiang"></use>
           </svg>
         </div>
@@ -21,44 +33,77 @@
       <!-- 模糊背景 -->
       <div class="song">
         <!-- 播放 -->
-        <div class="img" v-show="!showLyric" @click="toggleStatus">
+        <div
+          class="img"
+          v-show="!showLyric"
+          @click="toggleStatus"
+        >
           <div class="circle">
             <div
               class="pic"
               :class="{circling:playing}"
               :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"
             >
-              <span class="block" :class="{pause:!playing}"></span>
+              <span
+                class="block"
+                :class="{pause:!playing}"
+              ></span>
             </div>
-            <canvas class="canvas" :style="{'top':top}"></canvas>
+            <canvas
+              class="canvas"
+              :style="{'top':top}"
+            ></canvas>
           </div>
 
-          <canvasCircle ref="canvas" class="canvas" v-if="false"></canvasCircle>
+          <canvasCircle
+            ref="canvas"
+            class="canvas"
+            v-if="false"
+          ></canvasCircle>
         </div>
-        <div class="userdo" v-show="!showLyric">
+        <div
+          class="userdo"
+          v-show="!showLyric"
+        >
           <div class="item">
-            <svg class="icon" aria-hidden="true">
+            <svg
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-favorite"></use>
             </svg>
           </div>
           <div class="item">
-            <svg class="icon" aria-hidden="true">
+            <svg
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-filedownload"></use>
             </svg>
           </div>
           <div class="item">
-            <svg class="icon" aria-hidden="true">
+            <svg
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-modecomment"></use>
             </svg>
           </div>
           <div class="item">
-            <svg class="icon" aria-hidden="true">
+            <svg
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-unfoldmore"></use>
             </svg>
           </div>
         </div>
         <!-- 歌词 -->
-        <div class="lrc" @click="toggleStatus" v-show="showLyric">
+        <div
+          class="lrc"
+          @click="toggleStatus"
+          v-show="showLyric"
+        >
           <scroll
             class="wrapper"
             ref="scroll"
@@ -88,32 +133,62 @@
         <!-- 操作区域 -->
         <div class="playitem">
           <div class="child">
-            <svg class="icon" aria-hidden="true" @click="switchType">
+            <svg
+              class="icon"
+              aria-hidden="true"
+              @click="switchType"
+            >
               <use :href="playtype"></use>
             </svg>
           </div>
-          <div class="child" @click="prevSong">
-            <svg class="icon" aria-hidden="true">
+          <div
+            class="child"
+            @click="prevSong"
+          >
+            <svg
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-skipprevious"></use>
             </svg>
           </div>
-          <div class="child" @click="togglePlay">
-            <svg class="icon" aria-hidden="true">
+          <div
+            class="child"
+            @click="togglePlay"
+          >
+            <svg
+              class="icon"
+              aria-hidden="true"
+            >
               <use :href="PlayOrPause"></use>
             </svg>
           </div>
-          <div class="child" @click="nextSong">
-            <svg class="icon" aria-hidden="true">
+          <div
+            class="child"
+            @click="nextSong"
+          >
+            <svg
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-skipnext"></use>
             </svg>
           </div>
           <div class="child">
-            <svg class="icon" aria-hidden="true" @click="showList = true">
+            <svg
+              class="icon"
+              aria-hidden="true"
+              @click="showList = true"
+            >
               <use xlink:href="#icon-formatlistbulleted"></use>
             </svg>
           </div>
         </div>
-        <songlistModal v-model="showList" @cb="showList = false" @callback="initLyric"></songlistModal>
+        <songlistModal
+          v-model="showList"
+          @cb="showList = false"
+          @callback="initLyric"
+        ></songlistModal>
       </div>
     </section>
   </div>
@@ -164,14 +239,14 @@ export default {
       let percent = currentTime / duration
       if (percent == 1) {
         percent = 0 //当播放完成，进度条跳到开始
-        this.$refs.scroll.scrollTo(0,0)
+        this.$refs.scroll.scrollTo(0, 0)
       }
       let Lyric = this.lyric
       for (let i = 0; i < Lyric.length - 1; i++) {
         this.lyric[i].show = false
         if (v * 1000 > Lyric[i].time && v * 1000 < Lyric[i + 1].time) {
           this.lyric[i].show = true
-          if(this.lyricScroll && document.querySelector(".lrc-select")){
+          if (this.lyricScroll && document.querySelector('.lrc-select')) {
             this.$refs.scroll.scrollToElement('.lrc-select', 200, true, true)
           }
         }
@@ -272,6 +347,7 @@ export default {
   height: 100%;
 }
 .songBg {
+  overflow: hidden;
   display: flex;
   position: relative;
   width: 100%;
