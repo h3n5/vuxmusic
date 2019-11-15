@@ -1,8 +1,8 @@
 {
-  "name": "Music",
+  "name": "music",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://melt.github.io/music",
+  "homepage": "https://h3n5.github.io/NeteaseCloudMusicMobile",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
