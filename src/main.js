@@ -29,7 +29,7 @@ Vue.mixin({
   }
 })
 VueTouch.config.swipe = {
-  threshold: 100 //手指左右滑动距离
+  threshold: 100 // 手指左右滑动距离
 }
 
 Vue.config.productionTip = false
