@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  publicPath: 'NeteaseCloudMusicMobile',
+  // publicPath: 'NeteaseCloudMusicMobile',
   chainWebpack: config => {
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
     types.forEach(type =>
