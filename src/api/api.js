@@ -1,9 +1,6 @@
 import apiMusic from './api.url'
 import HttpRequest from './axios'
-const baseUrl =
-  process.env.NODE_ENV === 'development'
-    ? 'http://34.80.55.4:3000'
-    : 'https://34.80.55.4:3000'
+const baseUrl = 'https://music.m3lt.cn/'
 let axios = new HttpRequest(baseUrl)
 export const getBanner = () => {
   return axios.request({

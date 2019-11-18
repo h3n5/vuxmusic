@@ -5,7 +5,7 @@
   "homepage": "https://h3n5.github.io/NeteaseCloudMusicMobile",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --no-clean",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
