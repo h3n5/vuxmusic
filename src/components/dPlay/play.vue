@@ -156,7 +156,7 @@
 </template>
 <script>
 import { mapMutations, mapState, mapActions } from 'vuex'
-import scroll from '@/components/scroll'
+import scroll from '@/components/Scroll/index'
 import canvasCircle from '@/components/anime/canvasCircle'
 import musicProgress from '@/components/audio/progress'
 import songlistModal from './songlistModal'

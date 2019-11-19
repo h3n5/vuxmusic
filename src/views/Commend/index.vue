@@ -6,10 +6,12 @@
         class="menuList"
         v-for="(item, index) in mainContentTab"
         :key="index"
-        @click="$router.push('/recomment')"
+        @click="$router.push(item.route)"
       >
-        <div class="imgfm"></div>
-        <p>{{item}}</p>
+        <div class="svg-block">
+          <vSvg class="svg" :icon="item.icon" />
+        </div>
+        <p>{{item.name}}</p>
       </div>
     </div>
     <div class="songList">
@@ -28,12 +30,12 @@
   </div>
 </template>
 <script>
-import { getpersonalized } from '@/api/api'
-import { mapGetters, mapState } from 'vuex'
-import Banner from '@/components/Banner'
-import PicBlock from '@/components/PicBlock'
+import { getpersonalized } from "@/api/api";
+import { mapGetters, mapState } from "vuex";
+import Banner from "@/components/Banner";
+import PicBlock from "@/components/PicBlock";
 export default {
-  name: 'mContentRecommend',
+  name: "mContentRecommend",
   props: {
     pullingDown: Boolean,
     pullingUp: Boolean
@@ -42,64 +44,64 @@ export default {
     return {
       imgList: [],
       songs: []
-    }
+    };
   },
   components: {
     PicBlock,
     Banner
   },
   computed: {
-    ...mapGetters('menu', ['mainContentTab']),
-    ...mapState('scroll', ['tabIndex', 'pullingDownFlag', 'pullingUpFlag'])
+    ...mapGetters("menu", ["mainContentTab"]),
+    ...mapState("scroll", ["tabIndex", "pullingDownFlag", "pullingUpFlag"])
   },
   watch: {
     pullingDownFlag(v) {
       if (v) {
-        if (this.tabIndex === 'commend') {
-          this.getpersonalizedDate()
-          this.$toast('推荐已经更新')
-          this.$emit('pulldowncallback')
+        if (this.tabIndex === "commend") {
+          this.getpersonalizedDate();
+          this.$toast("推荐已经更新");
+          this.$emit("pulldowncallback");
         }
       }
     },
     pullingUpFlag(v) {
       if (v) {
-        if (this.tabIndex === 'commend') {
-          this.getpersonalizedDateMore()
-          this.$emit('pullupcallback')
+        if (this.tabIndex === "commend") {
+          this.getpersonalizedDateMore();
+          this.$emit("pullupcallback");
         }
       }
     }
   },
   methods: {
     async getpersonalizedDate() {
-      let res = await getpersonalized()
-      this.songs = this.sortRandom(res.data.result).slice(0, 6)
+      let res = await getpersonalized();
+      this.songs = this.sortRandom(res.data.result).slice(0, 6);
     },
     async getpersonalizedDateMore() {
-      let res = await getpersonalized()
-      let random = this.sortRandom(res.data.result)
+      let res = await getpersonalized();
+      let random = this.sortRandom(res.data.result);
       random = random.filter(vv => {
-        return !this.songs.map(v => v.id).includes(vv.id)
-      })
+        return !this.songs.map(v => v.id).includes(vv.id);
+      });
       if (random.length === 0) {
-        this.$emit('loadEnd')
+        this.$emit("loadEnd");
       }
-      this.songs = this.songs.concat(random.splice(0, 6))
+      this.songs = this.songs.concat(random.splice(0, 6));
     },
     sortRandom(a) {
-      let len = a.length
+      let len = a.length;
       for (let i = len - 1; i >= 0; i--) {
-        var pos = ~~(Math.random() * i)
-        ;[a[i], a[pos]] = [a[pos], a[i]]
+        var pos = ~~(Math.random() * i);
+        [a[i], a[pos]] = [a[pos], a[i]];
       }
-      return a
+      return a;
     }
   },
   created() {
-    this.getpersonalizedDate()
+    this.getpersonalizedDate();
   }
-}
+};
 </script>
 
 <style lang='less' scoped>
@@ -141,7 +143,7 @@ export default {
   }
   .menu {
     display: flex;
-    padding: 10px;
+    padding: 10px 0;
     .menuList {
       display: flex;
       justify-content: center;
@@ -149,17 +151,23 @@ export default {
       align-items: center;
       flex-wrap: wrap;
       flex: 1;
+      .svg-block{
+          background: @maincolor;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          .svg{
+            width: 20px;
+            height: 20px;
+          }
+      }
       p {
         padding-top: 5px;
-        font-size: 14px;
+        font-size: 12px;
       }
-      &:nth-child(2){
-        .imgfm{.imgfm("../../assets/image/r2.jpg")}
-      }
-      &:nth-child(3){
-        .imgfm{.imgfm("../../assets/image/r4.jpg")}
-      }
-      .imgfm{.imgfm("../../assets/image/r1.jpg")}
     }
   }
   .songList {

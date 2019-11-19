@@ -20,7 +20,7 @@ import vHead from '@/components/vHead'
 import commend from '@/views/Commend'
 import songList from '@/views/SongList'
 import ranking from '@/views/Ranking'
-import scroll from '@/components/scroll'
+import scroll from '@/components/Scroll/index'
 import vtab from '@/components/vtab'
 export default {
   name: 'index',

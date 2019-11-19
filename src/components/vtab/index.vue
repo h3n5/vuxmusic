@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import scroll from '../scroll-h'
+import scroll from "@/components/Scroll/scroll-h";
 export default {
-  name: 'vtab',
+  name: "vtab",
   props: {
     value: {
       type: Number,
@@ -33,40 +33,40 @@ export default {
     },
     bwidth: {
       type: String,
-      default: '30px'
+      default: "30px"
     },
     pwidth: {
       type: String,
-      default: '60px'
+      default: "60px"
     }
   },
   computed: {
     style() {
-      return this.auto ? { flex: 1 } : null //{ width: this.pwidth }
+      return this.auto ? { flex: 1 } : null; //{ width: this.pwidth }
     },
     bStyle() {
       const perWidth = this.auto
         ? document.body.offsetWidth / this.list.length
-        : parseInt(this.pwidth)
-      const borWidth = this.bwidth.includes('%')
+        : parseInt(this.pwidth);
+      const borWidth = this.bwidth.includes("%")
         ? (parseInt(this.bwidth) / 100) * document.body.offsetWidth
-        : parseInt(this.bwidth)
-      const halfdistance = (perWidth - borWidth) / 2
+        : parseInt(this.bwidth);
+      const halfdistance = (perWidth - borWidth) / 2;
       return {
         width: this.bwidth,
         transform: `translateX(${halfdistance + this.value * perWidth}px)`
-      }
+      };
     }
   },
   components: {
     scroll
   },
   data() {
-    return {}
+    return {};
   },
 
   methods: {}
-}
+};
 </script>
 
 <style lang='less' scoped>
@@ -87,15 +87,15 @@ export default {
   box-sizing: border-box;
 }
 .selected {
-  color: @activecolor;
+  color: @maincolor;
 }
 .border {
   z-index: 1;
   left: 0;
-  bottom: 0px;
+  bottom: 5px;
   height: 3px;
   position: absolute;
   border-radius: 3px;
-  background-color: @activecolor;
+  background-color: @maincolor;
 }
 </style>

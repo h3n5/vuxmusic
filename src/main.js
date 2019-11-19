@@ -6,14 +6,15 @@ import VueLazyload from 'vue-lazyload'
 import toast from '@/components/toast/index.js'
 import xicon from '@/components/xicon/index.js'
 import Auplayer from './utils/audio/install'
+import '@/components/Base/index'
 Vue.use(Auplayer)
 Vue.use(toast)
 Vue.use(xicon)
 Vue.use(VueLazyload, {
   lazyComponent: true,
   preLoad: 1.3,
-  error: 'img/player-bar.png',
-  loading: 'img/player-bar.png',
+  error: require('./assets/play/player-bar.png'),
+  loading: require('./assets/play/player-bar.png'),
   attempt: 1
 })
 import VueTouch from 'vue-touch'

@@ -2,46 +2,34 @@
   <div class="head">
     <slot name="left">
       <div class="micro">
-        <div
-          class="avatar"
-          @click="goto('/accout')"
-        >
-          <img
-            :src="imgurl"
-            alt="avatar"
-          >
+        <div class="avatar" @click="goto('/accout')">
+          <img v-if="user.avatarUrl" :src="user.avatarUrl" alt="avatar" />
+          <vSvg v-else icon="icon-accountcircle" />  
         </div>
       </div>
     </slot>
     <slot name="center">
-      <div
-        class="search"
-        @click="goto('/search')"
-      >
-        <svg
-          class="icon"
-          aria-hidden="true"
-        >
-          <use xlink:href="#icon-search"></use>
+      <div class="search" @click="goto('/search')">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-search" />
         </svg>
         <span class="fz14 ellipsis">{{search}}</span>
       </div>
     </slot>
     <slot name="right">
-      <div
-        class="play"
-        @click="$router.push(`/play/${audio.id}`)"
-      >
+      <skin class="right-skin" />
+      <div class="play" @click="$router.push(`/play/${audio.id}`)">
         <linescroll></linescroll>
       </div>
     </slot>
   </div>
 </template>
 <script>
-import linescroll from '@/components/anime/linescroll'
-import { mapState } from 'vuex'
+import linescroll from "@/components/anime/linescroll";
+import { mapState } from "vuex";
+import skin from "./skin";
 export default {
-  name: 'vhead',
+  name: "vhead",
   props: {
     showMicro: {
       type: Boolean,
@@ -49,23 +37,19 @@ export default {
     }
   },
   components: {
-    linescroll
+    linescroll,
+    skin
   },
   computed: {
-    ...mapState('user', ['user']),
-    ...mapState('music', ['audio', 'search']),
-    imgurl() {
-      return this.user.avatarUrl
-        ? this.user.avatarUrl
-        : require('@/assets/123.jpg')
-    }
+    ...mapState("user", ["user"]),
+    ...mapState("music", ["audio", "search"])
   },
   methods: {
     goto(url) {
-      this.$router.push(url)
+      this.$router.push(url);
     }
   }
-}
+};
 </script>
 <style lang="less" scoped>
 .head {
@@ -74,7 +58,7 @@ export default {
   align-items: center;
   height: 40px;
   padding: 7px 9px;
-  background: #db2523;
+  background: @maincolor;
   .micro {
     flex: 0 0 auto;
     width: 40px;
@@ -83,6 +67,9 @@ export default {
     .avatar {
       height: 30px;
       width: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       img {
         height: 100%;
         width: 100%;
@@ -126,7 +113,7 @@ export default {
     }
   }
   .play {
-    flex: 0 0 45px;
+    flex: 0 0 40px;
     height: 32px;
     position: relative;
   }

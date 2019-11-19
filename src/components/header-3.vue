@@ -64,7 +64,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 8px;
-  background: #db2523;
+  background: @maincolor;
   position: sticky;
   top: 0;
   height: 48px;

@@ -96,7 +96,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 8px;
-  background: #db2523;
+  background: @maincolor;
 
   > div {
     padding: 0 10px;

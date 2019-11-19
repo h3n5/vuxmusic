@@ -3,17 +3,14 @@
     <Banner></Banner>
     <div class="songList">
       <div class="titlte">
-        <p
-          class="left"
-          @click="tagChange({name:'全部歌单'})"
-        >全部歌单</p>
+        <p class="left" @click="tagChange({name:'全部歌单'})">全部歌单</p>
         <p class="right">
           <span
             class="tag"
             v-for="(item, index) in mainTag"
             :key="index"
             @click="tagChange(item)"
-          >{{item.name}} | </span>
+          >{{item.name}} |</span>
         </p>
       </div>
       <div class="listItem">
@@ -30,12 +27,12 @@
   </div>
 </template>
 <script>
-import { getSongListByOrder } from '@/api/api'
-import { mapGetters, mapActions, mapState } from 'vuex'
-import PicBlock from '@/components/PicBlock'
-import Banner from '@/components/Banner'
+import { getSongListByOrder } from "@/api/api";
+import { mapGetters, mapActions, mapState } from "vuex";
+import PicBlock from "@/components/PicBlock";
+import Banner from "@/components/Banner";
 export default {
-  name: 'mContentSongList',
+  name: "mContentSongList",
   props: {
     pullingDown: Boolean,
     pullingUp: Boolean
@@ -44,88 +41,88 @@ export default {
     return {
       imgList: [],
       songs: []
-    }
+    };
   },
   components: {
     Banner,
     PicBlock
   },
   computed: {
-    ...mapGetters('menu', ['mainContentTab', 'mainTag']),
-    ...mapState('scroll', ['tabIndex', 'pullingDownFlag', 'pullingUpFlag'])
+    ...mapGetters("menu", ["mainContentTab", "mainTag"]),
+    ...mapState("scroll", ["tabIndex", "pullingDownFlag", "pullingUpFlag"])
   },
   watch: {
     pullingDownFlag(v) {
       if (v) {
-        if (this.tabIndex === 'songList') {
-          this.getSongList()
-          this.$emit('pulldowncallback')
+        if (this.tabIndex === "songList") {
+          this.getSongList();
+          this.$emit("pulldowncallback");
         }
       }
     },
     pullingUpFlag(v) {
       if (v) {
-        if (this.tabIndex === 'songList') {
-          this.getSongList({}, true)
-          this.$emit('pullupcallback')
+        if (this.tabIndex === "songList") {
+          this.getSongList({}, true);
+          this.$emit("pullupcallback");
         }
       }
     }
   },
   methods: {
-    ...mapActions('menu', ['action_getAllTag']),
+    ...mapActions("menu", ["action_getAllTag"]),
     tagChange(object) {
-      let data = { cat: object.name }
-      this.getSongList(data)
+      let data = { cat: object.name };
+      this.getSongList(data);
     },
     async getTag(params = {}) {
-      this.action_getAllTag(params)
+      this.action_getAllTag(params);
     },
     async getSongList(data = {}, add = false) {
-      let res = await getSongListByOrder(data)
+      let res = await getSongListByOrder(data);
       if (add) {
         var r = this.sortRandom(res.data.playlists)
           .filter(v => !this.songs.map(v => v.id).includes(v.id))
-          .slice(0, 6)
-        this.songs = this.songs.concat(...r)
+          .slice(0, 6);
+        this.songs = this.songs.concat(...r);
       } else {
-        this.songs = this.sortRandom(res.data.playlists).slice(0, 6)
+        this.songs = this.sortRandom(res.data.playlists).slice(0, 6);
       }
     },
     sortRandom(a) {
-      let len = a.length
+      let len = a.length;
       for (let i = len - 1; i >= 0; i--) {
-        var pos = ~~(Math.random() * i)
-        ;[a[i], a[pos]] = [a[pos], a[i]]
+        var pos = ~~(Math.random() * i);
+        [a[i], a[pos]] = [a[pos], a[i]];
       }
-      return a
+      return a;
     }
   },
   created() {
-    this.getSongList()
-    this.getTag()
+    this.getSongList();
+    this.getTag();
   }
-}
+};
 </script>
 
 <style lang='less' scoped>
 .mixin() {
   &::before {
-    content: '|';
+    content: "|";
     color: @maincolor;
     display: inline-block;
     vertical-align: text-bottom;
     padding-right: 5px;
   }
   &::after {
-    content: '';
+    content: "";
     font-size: 0;
     vertical-align: baseline;
     padding-left: 5px;
     height: 10px;
     width: 10px;
     display: inline-block;
-    background: url('../../assets/ARROW.png') center no-repeat;
+    background: url("../../assets/ARROW.png") center no-repeat;
   }
 }
 .mContent {

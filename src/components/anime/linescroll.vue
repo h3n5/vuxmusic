@@ -29,7 +29,7 @@ export default {
   left: 0px;
   right: 0px;
   margin: auto;
-  height: 25px;
+  height: 20px;
   display: flex;
   flex-flow: row nowrap;
   align-items: flex-end;
