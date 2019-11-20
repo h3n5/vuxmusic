@@ -47,6 +47,6 @@ export default {
 }
 .swiper-slide {
   height: 140px;
-  padding: 0 20px;
+  padding: 0 15px;
 }
 </style>

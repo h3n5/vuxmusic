@@ -1,8 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
+import index from './views/index.vue'
+import accout from './views/Pages/accout.vue'
+import search from './views/Pages/mSearch/search.vue'
+import play from './components/dPlay/play.vue'
+import SongListDetail from './views/Pages/SongListDetail'
+import Recomment from './views/Pages/Recomment'
 let router = new Router({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes: [
     {
@@ -11,7 +17,7 @@ let router = new Router({
       meta: {
         sort: 1
       },
-      component: () => import('./views/index.vue')
+      component: index
     },
     {
       path: '/accout',
@@ -19,30 +25,30 @@ let router = new Router({
       meta: {
         sort: 3
       },
-      component: () => import('./views/Pages/accout.vue')
+      component: accout
     },
     {
       path: '/search',
       name: 'search',
-      component: () => import('./views/Pages/mSearch/search.vue')
+      component: search
     },
     {
       path: '/play/:id',
       name: 'play',
       props: true,
-      component: () => import('./components/dPlay/play.vue')
+      component: play
     },
     {
       path: '/SongListDetail/:id',
       name: 'SongListDetail',
       props: true,
-      component: () => import('./views/Pages/SongListDetail')
+      component: SongListDetail
     },
     {
       path: '/recomment',
       name: 'Recomment',
       props: true,
-      component: () => import('./views/Pages/Recomment')
+      component: Recomment
     },
     {
       path: '*',

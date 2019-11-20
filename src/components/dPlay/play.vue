@@ -1,73 +1,43 @@
 <template>
   <div class="u-height">
     <section class="songBg u-height">
-      <div
-        class="bg"
-        :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"
-      ></div>
+      <div class="bg" :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"></div>
       <!-- 标题 -->
       <div class="title vux-1px-b">
-        <div
-          class="left"
-          @click="back"
-        >
-          <svg
-            class="icon"
-            aria-hidden="true"
-          >
-            <use xlink:href="#icon-navigatebefore"></use>
+        <div class="left" @click="back">
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-navigatebefore" />
           </svg>
         </div>
         <div class="middle">
           <p>{{audio.name}}</p>
         </div>
         <div class="right">
-          <svg
-            class="icon"
-            aria-hidden="true"
-          >
-            <use xlink:href="#icon-fenxiang"></use>
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-fenxiang" />
           </svg>
         </div>
       </div>
       <!-- 模糊背景 -->
       <div class="song">
         <!-- 播放 -->
-        <div
-          class="img"
-          v-show="!showLyric"
-          @click="toggleStatus"
-        >
+        <div class="img" v-show="!showLyric" @click="toggleStatus">
           <div class="circle">
             <div
               class="pic"
               :class="{circling:playing}"
               :style="{backgroundImage: 'url(' + audio.albumPic + ')'}"
             >
-              <span
-                class="block"
-                :class="{pause:!playing}"
-              ></span>
+              <span class="block" :class="{pause:!playing}"></span>
             </div>
-            <canvas
-              class="canvas"
-              :style="{'top':top}"
-            ></canvas>
+            <canvas class="canvas" :style="{'top':top}"></canvas>
           </div>
 
-          <canvasCircle
-            ref="canvas"
-            class="canvas"
-            v-if="false"
-          ></canvasCircle>
+          <canvasCircle ref="canvas" class="canvas" v-if="false"></canvasCircle>
         </div>
         <userdo :showLyric="showLyric" />
         <!-- 歌词 -->
-        <div
-          class="lrc"
-          @click="toggleStatus"
-          v-show="showLyric"
-        >
+        <div class="lrc" @click="toggleStatus" v-show="showLyric">
           <scroll
             class="wrapper"
             ref="scroll"
@@ -97,77 +67,46 @@
         <!-- 操作区域 -->
         <div class="playitem">
           <div class="child">
-            <svg
-              class="icon"
-              aria-hidden="true"
-              @click="switchType"
-            >
-              <use :href="playtype"></use>
+            <svg class="icon" aria-hidden="true" @click="switchType">
+              <use :href="playtype" />
             </svg>
           </div>
-          <div
-            class="child"
-            @click="prevSong"
-          >
-            <svg
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-skipprevious"></use>
+          <div class="child" @click="prevSong">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-skipprevious" />
             </svg>
           </div>
-          <div
-            class="child"
-            @click="togglePlay"
-          >
-            <svg
-              class="icon"
-              aria-hidden="true"
-            >
-              <use :href="PlayOrPause"></use>
+          <div class="child" @click="togglePlay">
+            <svg class="icon" aria-hidden="true">
+              <use :href="PlayOrPause" />
             </svg>
           </div>
-          <div
-            class="child"
-            @click="nextSong"
-          >
-            <svg
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-skipnext"></use>
+          <div class="child" @click="nextSong">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-skipnext" />
             </svg>
           </div>
-          <div
-            class="child list"
-            @click="showList = true"
-          >
-
-          </div>
+          <div class="child list" @click="showList = true"></div>
         </div>
-        <songlistModal
-          v-model="showList"
-          @cb="showList = false"
-          @callback="initLyric"
-        ></songlistModal>
+        <songlistModal v-model="showList" @cb="showList = false" @callback="initLyric"></songlistModal>
       </div>
     </section>
   </div>
 </template>
 <script>
-import { mapMutations, mapState, mapActions } from 'vuex'
-import scroll from '@/components/Scroll/index'
-import canvasCircle from '@/components/anime/canvasCircle'
-import musicProgress from '@/components/audio/progress'
-import songlistModal from './songlistModal'
-import Circle from '@/components/anime/circle'
-import userdo from './userdo'
+import { mapMutations, mapState, mapActions } from "vuex";
+import scroll from "@/components/Scroll/index";
+import canvasCircle from "@/components/anime/canvasCircle";
+import musicProgress from "@/components/audio/progress";
+import songlistModal from "./songlistModal";
+import Circle from "@/components/anime/circle";
+import userdo from "./userdo";
 export default {
-  name: 'play',
+  name: "play",
   data() {
     return {
       love: false,
-      song: { description: '', tags: [] },
+      song: { description: "", tags: [] },
       creator: {},
       lrc: [],
       showLyric: false,
@@ -177,7 +116,7 @@ export default {
       showList: false,
       lyricScroll: true,
       lyric: {}
-    }
+    };
   },
   props: {
     id: {
@@ -189,28 +128,28 @@ export default {
       handler(v) {
         this.lyric = v.lines
           ? v.lines.map(v => {
-              v.show = false
-              return v
+              v.show = false;
+              return v;
             })
-          : []
+          : [];
       },
       immediate: true
     },
     currentTime(v) {
-      let currentTime = v
-      let duration = this.durationTime
-      let percent = currentTime / duration
+      let currentTime = v;
+      let duration = this.durationTime;
+      let percent = currentTime / duration;
       if (percent == 1) {
-        percent = 0 //当播放完成，进度条跳到开始
-        this.$refs.scroll.scrollTo(0, 0)
+        percent = 0; //当播放完成，进度条跳到开始
+        this.$refs.scroll.scrollTo(0, 0);
       }
-      let Lyric = this.lyric
+      let Lyric = this.lyric;
       for (let i = 0; i < Lyric.length - 1; i++) {
-        this.lyric[i].show = false
+        this.lyric[i].show = false;
         if (v * 1000 > Lyric[i].time && v * 1000 < Lyric[i + 1].time) {
-          this.lyric[i].show = true
-          if (this.lyricScroll && document.querySelector('.lrc-select')) {
-            this.$refs.scroll.scrollToElement('.lrc-select', 200, true, true)
+          this.lyric[i].show = true;
+          if (this.lyricScroll && document.querySelector(".lrc-select")) {
+            this.$refs.scroll.scrollToElement(".lrc-select", 200, true, true);
           }
         }
       }
@@ -225,83 +164,84 @@ export default {
   },
   computed: {
     top() {
-      return (417 - 375) / 2 + 'px'
+      return (417 - 375) / 2 + "px";
     },
     playtype() {
       const obj = {
-        3: '#icon-repeatone',
-        1: '#icon-repeat',
-        2: '#icon-swaphoriz'
-      }
-      return obj[this.playType]
+        3: "#icon-repeatone",
+        1: "#icon-repeat",
+        2: "#icon-swaphoriz"
+      };
+      return obj[this.playType];
     },
     PlayOrPause() {
-      return this.playing ? '#icon-playarrow' : '#icon-pause'
+      return !this.playing ? "#icon-playarrow" : "#icon-pause";
     },
-    ...mapState('music', [
-      'audio',
-      'lyricTxt',
-      'lyricTxtCN',
-      'lyricObj',
-      'change',
-      'playing',
-      'loading',
-      'songList',
-      'playType',
-      'currentTime',
-      'currentIndex',
-      'prBufferedTime',
-      'tmpCurrentTime',
-      'durationTime',
-      'prCurrentTime'
+    ...mapState("music", [
+      "audio",
+      "lyricTxt",
+      "lyricTxtCN",
+      "lyricObj",
+      "change",
+      "playing",
+      "loading",
+      "songList",
+      "playType",
+      "currentTime",
+      "currentIndex",
+      "prBufferedTime",
+      "tmpCurrentTime",
+      "durationTime",
+      "prCurrentTime"
     ])
   },
   beforeDestroy() {
-    this.canvas = null
+    this.canvas = null;
   },
   mounted() {
-    this.initLyric()
+    this.initLyric();
   },
   methods: {
-    ...mapMutations('music', [
-      'play',
-      'pause',
-      'setcurrentTime',
-      'setdurationTime',
-      'prev',
-      'next',
-      'switchType'
+    ...mapMutations("music", [
+      "play",
+      "pause",
+      "setcurrentTime",
+      "setdurationTime",
+      "prev",
+      "next",
+      "switchType"
     ]),
-    ...mapActions('music', ['getListPlay']),
+    ...mapActions("music", ["getListPlay"]),
     async prevSong() {
-      await this.prev()
-      await this.getListPlay()
-      await this.initLyric()
+      await this.prev();
+      await this.getListPlay();
+      await this.initLyric();
     },
     async nextSong() {
-      await this.next()
-      await this.getListPlay()
-      await this.initLyric()
+      await this.next();
+      await this.getListPlay();
+      await this.initLyric();
     },
     initLyric() {
       this.$nextTick(() => {
-        this.canvas = new Circle('.canvas')
-        this.$root.$el.style.paddingBottom = 0
-      })
+        this.canvas = new Circle(".canvas");
+        this.canvas.switch(this.playing);
+        this.$root.$el.style.paddingBottom = 0;
+      });
     },
     toggleStatus() {
-      this.showLyric = !this.showLyric
+      this.showLyric = !this.showLyric;
     },
     togglePlay() {
-      this.canvas.switch(!this.playing)
+      this.canvas.switch(!this.playing);
       if (this.playing) {
-        this.pause()
+        this.pause();
       } else {
-        this.play()
+        this.play();
       }
     }
   }
-}
+};
 </script>
 <style lang="less" scoped>
 #app {
@@ -370,7 +310,7 @@ export default {
     background-color: #999;
     // transform: scaleY(3);
     &:after {
-      content: '';
+      content: "";
       width: 100%;
       height: 100%;
       position: absolute;
@@ -415,35 +355,12 @@ export default {
         z-index: 999;
         transform: translateX(-50%);
       }
-      // &:after {
-      //   display: block;
-      //   position: absolute;
-      //   left: 55%;
-      //   top: 0px;
-      //   content: "";
-      //   width: 100px;
-      //   height: 120px;
-      //   background: url("../../assets/play/needle-ip6.png") center/contain
-      //     no-repeat;
-      // }
       .circle {
         height: 300px;
-        //background: url("../../assets/play/disc-ip6.png") center/contain no-repeat;
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        .circling {
-          animation: circling 20s infinite linear;
-        }
-        @keyframes circling {
-          form {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
         .pic {
           flex: 0 0 60%;
           height: 60%;
@@ -453,6 +370,8 @@ export default {
           background-size: cover;
           border-radius: 100%;
           z-index: -1;
+          animation: circling 20s infinite linear;
+          animation-play-state: paused;
           .block {
             position: absolute;
             top: 50%;
@@ -462,7 +381,18 @@ export default {
             height: 60px;
           }
           .pause {
-            background: url(/img/play/play2.png) center/contain no-repeat;
+            // background: url('../../assets/play/play2.png') center/contain no-repeat;
+          }
+        }
+        .circling {
+          animation-play-state: running;
+        }
+        @keyframes circling {
+          form {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
           }
         }
       }
@@ -523,7 +453,7 @@ export default {
         }
       }
       .list {
-        background: url('../../assets/icon/list.png') center / 44px 44px
+        background: url("../../assets/icon/list.png") center / 44px 44px
           no-repeat;
       }
     }

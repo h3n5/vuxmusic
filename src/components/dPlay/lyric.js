@@ -12,7 +12,9 @@ const tagRegMap = {
 }
 
 function noop() {}
-
+function isEmpty(e) {
+  return e === '' || e === null || e === undefined
+}
 export default class Lyric {
   constructor(lrc, lrcCN, hanlder = noop) {
     this.lrc = lrc
@@ -28,16 +30,19 @@ export default class Lyric {
 
   _init() {
     this._initTag()
-    if (this.lrcCN === '') {
+    if (isEmpty(this.lrcCN)) {
       this.hasCN = false
+      this.lrcCN = ''
     }
     this._initLines()
   }
 
   _initTag() {
     for (let tag in tagRegMap) {
-      const matches = this.lrc.match(new RegExp(`\\[${tagRegMap[tag]}:([^\\]]*)]`, 'i'))
-      this.tags[tag] = matches && matches[1] || ''
+      const matches = this.lrc.match(
+        new RegExp(`\\[${tagRegMap[tag]}:([^\\]]*)]`, 'i')
+      )
+      this.tags[tag] = (matches && matches[1]) || ''
     }
   }
 

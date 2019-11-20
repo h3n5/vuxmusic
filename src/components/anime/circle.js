@@ -11,7 +11,7 @@ class Circle {
       num: 8,
       color: color,
       speed: 0.3,
-      play: true
+      play: false
     }
     this.circles = Array(this.config.num)
       .fill({})

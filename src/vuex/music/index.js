@@ -64,12 +64,10 @@ export default {
     },
     play(state) {
       state.playing = true
-      console.log('播放')
       document.querySelector('#audioPlay').play()
     },
     pause(state) {
       state.playing = false
-      console.log('暂停')
       document.querySelector('#audioPlay').pause()
     },
     togglePlay(state) {
